@@ -45,31 +45,28 @@ class JsonConvertibleParamConverter implements ParamConverterInterface
     public function apply(Request $request, ParamConverter $configuration)
     {
         $name = $configuration->getName();
-        $snakeCasedName = $this->camelCaseToSnakeCase($name);
         $class = $configuration->getClass();
 
         $json = $request->getContent();
-        $object = json_decode($json, true);
+        $object = $this->camelCaseObjectPropertyNames(json_decode($json, false));
 
-        if (!isset($object[$snakeCasedName]) || !is_array($object[$snakeCasedName])) {
+        if (!isset($object->$name) || !is_object($object->$name)) {
             throw new BadJsonRequestException([sprintf("Missing parameter '%s'", $name)]);
         }
 
-        $object = $object[$snakeCasedName];
+        $object = $object->$name;
         $convertedObject = new $class;
 
         $errors = [];
 
         foreach ($object as $key => $value) {
-            $properlyCasedKey = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $key))));
-
-            if (!property_exists($convertedObject, $properlyCasedKey)) {
-                $errors[] = sprintf("Unknown property '%s.%s'", $snakeCasedName, $key);
+            if (!property_exists($convertedObject, $key)) {
+                $errors[] = sprintf("Unknown property '%s.%s'", $name, $key);
 
                 continue;
             }
 
-            $convertedObject->$properlyCasedKey = $value;
+            $convertedObject->$key = $value;
         }
 
         $violations = $this->validator->validate($convertedObject);
@@ -93,23 +90,27 @@ class JsonConvertibleParamConverter implements ParamConverterInterface
     }
 
     /**
-     * @param string $camelCase
-     * @return string
-     * @see \Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
+     * Deeply converts an object's property names to camel case. Doesn't support circular references!
+     *
+     * @param object $object
+     * @return object
      */
-    private function camelCaseToSnakeCase($camelCase)
+    private function camelCaseObjectPropertyNames($object)
     {
-        $snakeCase = '';
+        $camelCasedObject = (object) [];
 
-        $len = strlen($camelCase);
-        for ($i = 0; $i < $len; $i++) {
-            if (ctype_upper($camelCase[$i])) {
-                $snakeCase .= '_'.strtolower($camelCase[$i]);
-            } else {
-                $snakeCase .= strtolower($camelCase[$i]);
+        foreach ($object as $property => $value) {
+            $camelCasedKey = is_string($property)
+                ? lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $property))))
+                : $property;
+
+            if (is_object($value)) {
+                $value = $this->camelCaseObjectPropertyNames($value);
             }
+
+            $camelCasedObject->$camelCasedKey = $value;
         }
 
-        return $snakeCase;
+        return $camelCasedObject;
     }
 }

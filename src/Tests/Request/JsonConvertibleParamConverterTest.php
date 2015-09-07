@@ -104,6 +104,24 @@ class JsonConvertibleParamConverterTest extends \PHPUnit_Framework_TestCase
         $paramConverter->apply($request, $configuration);
     }
 
+    public function testItConvertsDeepObjectParameter()
+    {
+        $validator = $this->createValidatorMockThatValidates();
+        $paramConverter = new JsonConvertibleParamConverter($validator);
+
+        $foo = new Foo();
+        $foo->bar = (object) [];
+        $foo->bar->serpentumInHortumEst = 'verum';
+
+        $request = $this->createJsonRequest((object) ['foo' => ['bar' => ['serpentum_in_hortum_est' => 'verum']]]);
+        $request->attributes = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
+            ->shouldReceive('set')->once()->with('foo', m::anyOf($foo))
+            ->getMock();
+
+        $configuration = new ParamConverter(['name' => 'foo', 'class' => 'Surfnet\StepupBundle\Tests\Request\Foo']);
+        $paramConverter->apply($request, $configuration);
+    }
+
     /**
      * @param mixed $object
      * @return \Symfony\Component\HttpFoundation\Request

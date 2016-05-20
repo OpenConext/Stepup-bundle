@@ -103,10 +103,22 @@ class SurfnetStepupExtension extends Extension
     {
         $loaService = $container->getDefinition('surfnet_stepup.service.loa_resolution');
 
-        $loa1 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_1, $loaDefinitions['loa1']]);
-        $loa2 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_2, $loaDefinitions['loa2']]);
-        $loa3 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_3, $loaDefinitions['loa3']]);
+        $definitionKeyToLevelMap = [
+            'loa1' => LOA::LOA_1,
+            'loa2' => LOA::LOA_2,
+            'loa3' => LOA::LOA_3,
+        ];
 
-        $loaService->addArgument([$loa1, $loa2, $loa3]);
+        $argument = [];
+        foreach ($definitionKeyToLevelMap as $definitionKey => $level) {
+            foreach ($loaDefinitions[$definitionKey] as $definition) {
+                $argument[] = new Definition(
+                  'Surfnet\StepupBundle\Value\Loa',
+                  [ $level, $definition ]
+                );
+            }
+        }
+
+        $loaService->addArgument($argument);
     }
 }

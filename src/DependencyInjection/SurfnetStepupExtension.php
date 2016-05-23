@@ -18,6 +18,7 @@
 
 namespace Surfnet\StepupBundle\DependencyInjection;
 
+use Surfnet\StepupBundle\Value\AuthnContextClass;
 use Surfnet\StepupBundle\Value\Loa;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
@@ -103,22 +104,49 @@ class SurfnetStepupExtension extends Extension
     {
         $loaService = $container->getDefinition('surfnet_stepup.service.loa_resolution');
 
-        $definitionKeyToLevelMap = [
-            'loa1' => LOA::LOA_1,
-            'loa2' => LOA::LOA_2,
-            'loa3' => LOA::LOA_3,
-        ];
-
-        $argument = [];
-        foreach ($definitionKeyToLevelMap as $definitionKey => $level) {
-            foreach ($loaDefinitions[$definitionKey] as $definition) {
-                $argument[] = new Definition(
-                  'Surfnet\StepupBundle\Value\Loa',
-                  [ $level, $definition ]
+        $arguments = [];
+        foreach ($loaDefinitions as $level => $authnContextClassDefinitions) {
+            if (!is_numeric($level)) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        'Config.yml: "%s" is not a valid level',
+                        $level
+                    )
                 );
             }
+
+            $level = (int) $level;
+
+            if (!in_array($level, Loa::getLevels())) {
+               throw new \InvalidArgumentException(
+                 sprintf(
+                   'Config.yml: "%s" is not a valid loa level',
+                   $level
+                 )
+               );
+            }
+
+            $authnContextClasses = [];
+            foreach ($authnContextClassDefinitions as $definition) {
+                if (!in_array($definition['type'], AuthnContextClass::getTypes())) {
+                    throw new \InvalidArgumentException(
+                      sprintf(
+                        'Config.yml: "%s" is not a valid AuthnContextClass type',
+                        $definition['type']
+                      )
+                    );
+                }
+                $authnContextClasses[] = new Definition(
+                    'Surfnet\StepupBundle\Value\AuthnContextClass',
+                    [ $definition['id'], $definition['type'] ]
+                );
+            }
+            $arguments[] = new Definition(
+                'Surfnet\StepupBundle\Value\Loa',
+                [ $level, $authnContextClasses ]
+            );
         }
 
-        $loaService->addArgument($argument);
+        $loaService->addArgument($arguments);
     }
 }

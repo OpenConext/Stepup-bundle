@@ -18,6 +18,7 @@
 
 namespace Surfnet\StepupBundle\DependencyInjection;
 
+use Surfnet\StepupBundle\Value\AuthnContextClass;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -53,39 +54,24 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->arrayNode('loa_definition')
                     ->children()
-                        ->arrayNode('loa1')
-                            ->prototype('scalar')
-                                ->example('https://gateway.tld/authentication/loa1')
-                                ->isRequired()
-                                ->validate()
-                                ->ifTrue(function ($value) {
-                                    return !is_string($value);
-                                })
-                                    ->thenInvalid('Loa definition for "loa1" must be a string')
+                        ->prototype('array')
+                            ->children()
+                                ->scalarNode('id')
+                                    ->example('https://gateway.tld/authentication/loa1')
+                                    ->isRequired()
+                                    ->validate()
+                                    ->ifTrue(function ($value) {
+                                        return !is_string($value);
+                                    })
+                                        ->thenInvalid('Loa definition for "loa1" must be a string')
+                                    ->end()
                                 ->end()
-                            ->end()
-                        ->end()
-                        ->arrayNode('loa2')
-                            ->prototype('scalar')
-                                ->example('https://gateway.tld/authentication/loa2')
-                                ->isRequired()
-                                ->validate()
-                                ->ifTrue(function ($value) {
-                                    return !is_string($value);
-                                })
-                                    ->thenInvalid('Loa definition for "loa2" must be a string')
-                                ->end()
-                            ->end()
-                        ->end()
-                        ->arrayNode('loa3')
-                            ->prototype('scalar')
-                                ->example('https://gateway.tld/authentication/loa3')
-                                ->isRequired()
-                                ->validate()
-                                ->ifTrue(function ($value) {
-                                    return !is_string($value);
-                                })
-                                    ->thenInvalid('Loa definition for "loa3" must be a string')
+                                ->scalarNode('type')
+                                    ->example('gateway')
+                                    ->defaultValue('gateway')
+                                    ->validate()
+                                    ->ifNotInArray(AuthnContextClass::getTypes())
+                                        ->thenInvalid('Invalid AuthnContextClass type "%s"')
                                 ->end()
                             ->end()
                         ->end()

@@ -41,15 +41,21 @@ class Loa
     /**
      * @var string
      */
-    private $identifier;
+    private $authnContextClasses;
+
+    public static function getLevels()
+    {
+        return [self::LOA_1, self::LOA_2, self::LOA_3];
+    }
 
     /**
-     * @param int    $level
-     * @param string $identifier
+     * Loa constructor.
+     * @param $level
+     * @param AuthnContextClass[] $authnContextClasses
      */
-    public function __construct($level, $identifier)
+    public function __construct($level, array $authnContextClasses)
     {
-        $possibleLevels = [self::LOA_1, self::LOA_2, self::LOA_3];
+        $possibleLevels = static::getLevels();
         if (!in_array($level, $possibleLevels, true)) {
             throw new DomainException(sprintf(
                 'Unknown loa level "%s", known levels: "%s"',
@@ -58,21 +64,49 @@ class Loa
             ));
         }
 
-        if (!is_string($identifier)) {
-            throw InvalidArgumentException::invalidType('string', 'identifier', $identifier);
+        foreach ($authnContextClasses as $authnContextClass) {
+            if (!$authnContextClass instanceof AuthnContextClass) {
+                throw InvalidArgumentException::invalidType(
+                  '\Surfnet\StepupBundle\Value',
+                  'authnContextClassRefs',
+                  $authnContextClass
+                );
+            }
         }
 
         $this->level = $level;
-        $this->identifier = $identifier;
+        $this->authnContextClasses = $authnContextClasses;
     }
 
     /**
      * @param string $identifier
      * @return bool
      */
-    public function isIdentifiedBy($identifier)
+    public function isIdentifiedBy($authnContextClassRef)
     {
-        return $this->identifier === $identifier;
+        foreach ($this->authnContextClasses as $authnContextClass) {
+            if ($authnContextClass->isIdentifiedBy($authnContextClassRef)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param string $type
+     * @return AuthnContextClass
+     */
+    public function fetchAuthnContextClassOfType($type)
+    {
+        foreach ($this->authnContextClasses as $authnContextClass) {
+            if ($authnContextClass->isOfType($type)) {
+                return $authnContextClass;
+            }
+        }
+
+        throw new \RuntimeException(
+          sprintf('No AuthnContextClass of type "%s"', $type)
+        );
     }
 
     /**
@@ -108,8 +142,17 @@ class Loa
      */
     public function equals(Loa $loa)
     {
+        $myClassRefs = [];
+        foreach ($this->authnContextClasses as $class) {
+            $myClassRefs[] = (string) $class;
+        }
+        $theirClassRefs = [];
+        foreach ($loa->authnContextClasses as $class) {
+            $theirClassRefs[] = (string) $class;
+        }
         return $this->level === $loa->level
-            && $this->identifier === $loa->identifier;
+            && empty(array_diff($myClassRefs, $theirClassRefs))
+            && empty(array_diff($theirClassRefs, $myClassRefs));
     }
 
     /**
@@ -123,6 +166,6 @@ class Loa
 
     public function __toString()
     {
-        return  $this->identifier;
+        return (string) $this->level;
     }
 }

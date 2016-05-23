@@ -19,6 +19,7 @@
 namespace Surfnet\StepupBundle\DependencyInjection;
 
 use Surfnet\StepupBundle\Value\AuthnContextClass;
+use Surfnet\StepupBundle\Value\Loa;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -53,7 +54,8 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('loa_definition')
-                    ->children()
+                    ->useAttributeAsKey('level')
+                    ->prototype('array')
                         ->prototype('array')
                             ->children()
                                 ->scalarNode('id')
@@ -72,6 +74,14 @@ class Configuration implements ConfigurationInterface
                                     ->validate()
                                     ->ifNotInArray(AuthnContextClass::getTypes())
                                         ->thenInvalid('Invalid AuthnContextClass type "%s"')
+                                    ->end()
+                                ->end()
+                                ->scalarNode('level')
+                                  ->example('1')
+                                  ->validate()
+                                  ->ifNotInArray(Loa::getLevels())
+                                    ->thenInvalid('Invalid level "%s"')
+                                  ->end()
                                 ->end()
                             ->end()
                         ->end()

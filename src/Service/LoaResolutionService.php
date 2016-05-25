@@ -51,13 +51,13 @@ class LoaResolutionService
     }
 
     /**
-     * @param string $loaIdentifier
+     * @param string $authnContextClassRef
      * @return null|Loa
      */
-    public function getLoa($loaIdentifier)
+    public function getLoa($authnContextClassRef)
     {
         foreach ($this->loas as $loa) {
-            if ($loa->isIdentifiedBy($loaIdentifier)) {
+            if ($loa->isIdentifiedBy($authnContextClassRef)) {
                 return $loa;
             }
         }

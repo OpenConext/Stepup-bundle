@@ -2,7 +2,7 @@
 
 namespace Surfnet\StepupBundle\Value;
 
-use Surfnet\SamlBundle\Exception\InvalidArgumentException;
+use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
 final class AuthnContextClass
 {

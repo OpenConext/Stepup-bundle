@@ -7,7 +7,7 @@ use Surfnet\SamlBundle\Exception\InvalidArgumentException;
 final class AuthnContextClass
 {
     const TYPE_GATEWAY='gateway';
-    const TYPE_SECOND_FACTOR_ONLY='2nd-factor-only';
+    const TYPE_SECOND_FACTOR_ONLY='second-factor-only';
 
     /**
      * @var string

@@ -26,6 +26,10 @@ final class AuthnContextClass
      */
     public function __construct($identifier, $type)
     {
+        if (!is_string($identifier)) {
+            throw InvalidArgumentException::invalidType('string', 'identifier', $identifier);
+        }
+
         $this->identifier = $identifier;
 
         if (!in_array($type, [self::TYPE_GATEWAY, self::TYPE_SECOND_FACTOR_ONLY])) {

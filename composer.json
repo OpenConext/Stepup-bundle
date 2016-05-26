@@ -14,7 +14,7 @@
         }
     },
     "require": {
-        "php": ">=5.4,<8.0-dev",
+        "php": "~5.6.0,~7.0.0",
         "ext-gmp": "*",
         "ext-openssl": "*",
         "graylog2/gelf-php": "~1.1",

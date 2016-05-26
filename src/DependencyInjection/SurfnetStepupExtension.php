@@ -18,6 +18,7 @@
 
 namespace Surfnet\StepupBundle\DependencyInjection;
 
+use Surfnet\StepupBundle\Value\AuthnContextClass;
 use Surfnet\StepupBundle\Value\Loa;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
@@ -103,10 +104,23 @@ class SurfnetStepupExtension extends Extension
     {
         $loaService = $container->getDefinition('surfnet_stepup.service.loa_resolution');
 
-        $loa1 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_1, $loaDefinitions['loa1']]);
-        $loa2 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_2, $loaDefinitions['loa2']]);
-        $loa3 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_3, $loaDefinitions['loa3']]);
+        $arguments = [];
+        foreach ($loaDefinitions as $level => $authnContextClassDefinitions) {
+            $level = (int) $level;
 
-        $loaService->addArgument([$loa1, $loa2, $loa3]);
+            $authnContextClasses = [];
+            foreach ($authnContextClassDefinitions as $definition) {
+                $authnContextClasses[] = new Definition(
+                    'Surfnet\StepupBundle\Value\AuthnContextClass',
+                    [ $definition['id'], $definition['type'] ]
+                );
+            }
+            $arguments[] = new Definition(
+                'Surfnet\StepupBundle\Value\Loa',
+                [ $level, $authnContextClasses ]
+            );
+        }
+
+        $loaService->addArgument($arguments);
     }
 }

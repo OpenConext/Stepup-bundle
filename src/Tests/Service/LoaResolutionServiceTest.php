@@ -20,6 +20,7 @@ namespace Surfnet\StepupBundle\Tests\Service;
 
 use PHPUnit_Framework_TestCase as UnitTest;
 use Surfnet\StepupBundle\Service\LoaResolutionService;
+use Surfnet\StepupBundle\Value\AuthnContextClass;
 use Surfnet\StepupBundle\Value\Loa;
 
 class LoaResolutionServiceTest extends UnitTest
@@ -33,8 +34,8 @@ class LoaResolutionServiceTest extends UnitTest
     {
         $providedLoas = $this->loaProvider();
         foreach ($providedLoas as $definition) {
-            list($level, $identifier) = $definition;
-            $this->loas[] = new Loa($level, $identifier);
+            list($level, $authnContextClasses) = $definition;
+            $this->loas[] = new Loa($level, $authnContextClasses);
         }
     }
 
@@ -44,14 +45,18 @@ class LoaResolutionServiceTest extends UnitTest
      * @dataProvider loaProvider
      *
      * @param int    $level
-     * @param string $identifier
+     * @param array $authnContextClasses
      */
-    public function it_allows_to_get_the_correct_loa_by_identifier($level, $identifier)
-    {
-        $expectedLoa = new Loa($level, $identifier);
+    public function it_allows_to_get_the_correct_loa_by_authnContextClass(
+      $level,
+      array $authnContextClasses
+    ) {
+        $expectedLoa = new Loa($level, $authnContextClasses);
         $loaResolutionService = new LoaResolutionService($this->loas);
 
-        $this->assertEquals($expectedLoa, $loaResolutionService->getLoa($identifier));
+        $this->assertEquals($expectedLoa, $loaResolutionService->getLoa(
+          (string) $authnContextClasses[0])
+        );
     }
 
     /**
@@ -62,7 +67,7 @@ class LoaResolutionServiceTest extends UnitTest
     {
         $loaResolutionService = new LoaResolutionService($this->loas);
 
-        $this->assertNull($loaResolutionService->getLoa('An unknown identifier'));
+        $this->assertNull($loaResolutionService->getLoa('An unknown authnContextClass'));
     }
 
     /**
@@ -71,11 +76,13 @@ class LoaResolutionServiceTest extends UnitTest
      * @dataProvider loaProvider
      *
      * @param int    $level
-     * @param string $identifier
+     * @param array $authnContextClasses
      */
-    public function it_allows_to_get_the_correct_loa_by_the_loa_level($level, $identifier)
-    {
-        $expectedLoa = new Loa($level, $identifier);
+    public function it_allows_to_get_the_correct_loa_by_the_loa_level(
+      $level,
+      array $authnContextClasses
+    ) {
+        $expectedLoa = new Loa($level, $authnContextClasses);
         $loaResoltionService = new LoaResolutionService($this->loas);
 
         $this->assertEquals($expectedLoa, $loaResoltionService->getLoaByLevel($level));
@@ -95,9 +102,33 @@ class LoaResolutionServiceTest extends UnitTest
     public function loaProvider()
     {
         return [
-            'Loa of Level 1' => [Loa::LOA_1, 'http://some.url.tld/authentication/loa1'],
-            'Loa of Level 2' => [Loa::LOA_2, 'http://some.url.tld/authentication/loa2'],
-            'Loa of Level 3' => [Loa::LOA_3, 'http://some.url.tld/authentication/loa3'],
+            'Loa of Level 1' => [
+              Loa::LOA_1,
+              [
+                new AuthnContextClass(
+                  'http://some.url.tld/authentication/loa1',
+                  AuthnContextClass::TYPE_GATEWAY
+                ),
+              ]
+            ],
+            'Loa of Level 2' => [
+              Loa::LOA_2,
+              [
+                new AuthnContextClass(
+                  'http://some.url.tld/authentication/loa2',
+                  AuthnContextClass::TYPE_GATEWAY
+                )
+              ]
+            ],
+            'Loa of Level 3' => [
+              Loa::LOA_3,
+              [
+                new AuthnContextClass(
+                  'http://some.url.tld/authentication/loa3',
+                  AuthnContextClass::TYPE_GATEWAY
+                ),
+              ]
+            ],
         ];
     }
 }

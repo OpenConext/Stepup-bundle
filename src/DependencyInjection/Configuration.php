@@ -18,6 +18,8 @@
 
 namespace Surfnet\StepupBundle\DependencyInjection;
 
+use Surfnet\StepupBundle\Value\AuthnContextClass;
+use Surfnet\StepupBundle\Value\Loa;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -52,44 +54,45 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('loa_definition')
-                    ->children()
-                        ->scalarNode('loa1')
-                            ->example('https://gateway.tld/authentication/loa1')
-                            ->isRequired()
-                            ->validate()
-                            ->ifTrue(function ($value) {
-                                return !is_string($value);
-                            })
-                                ->thenInvalid('Loa definition for "loa1" must be a string')
-                            ->end()
-                        ->end()
-                        ->scalarNode('loa2')
-                            ->example('https://gateway.tld/authentication/loa2')
-                            ->isRequired()
-                            ->validate()
-                            ->ifTrue(function ($value) {
-                                return !is_string($value);
-                            })
-                                ->thenInvalid('Loa definition for "loa2" must be a string')
-                            ->end()
-                        ->end()
-                        ->scalarNode('loa3')
-                            ->example('https://gateway.tld/authentication/loa3')
-                            ->isRequired()
-                            ->validate()
-                            ->ifTrue(function ($value) {
-                                return !is_string($value);
-                            })
-                                ->thenInvalid('Loa definition for "loa3" must be a string')
+                    ->useAttributeAsKey('level')
+                    ->prototype('array')
+                        ->prototype('array')
+                            ->children()
+                                ->scalarNode('id')
+                                    ->example('https://gateway.tld/authentication/loa1')
+                                    ->isRequired()
+                                    ->validate()
+                                    ->ifTrue(function ($value) {
+                                        return !is_string($value);
+                                    })
+                                        ->thenInvalid('Loa definition for "loa1" must be a string')
+                                    ->end()
+                                ->end()
+                                ->scalarNode('type')
+                                    ->example('gateway')
+                                    ->defaultValue('gateway')
+                                    ->validate()
+                                    ->ifNotInArray(AuthnContextClass::getTypes())
+                                        ->thenInvalid('Invalid AuthnContextClass type "%s"')
+                                    ->end()
+                                ->end()
+                                ->scalarNode('level')
+                                  ->example('1')
+                                  ->validate()
+                                  ->ifNotInArray(Loa::getLevels())
+                                    ->thenInvalid('Invalid level "%s"')
+                                  ->end()
+                                ->end()
                             ->end()
                         ->end()
                     ->end()
                 ->end()
                 ->arrayNode('attach_request_id_injector_to')
                     ->prototype('scalar')
-                    ->validate()
-                        ->ifTrue(function ($serviceId) { return !is_string($serviceId); })
-                        ->thenInvalid('surfnet_bundle.attach_request_id_injector_to must be array of strings')
+                        ->validate()
+                            ->ifTrue(function ($serviceId) { return !is_string($serviceId); })
+                            ->thenInvalid('surfnet_bundle.attach_request_id_injector_to must be array of strings')
+                        ->end()
                     ->end()
                 ->end()
             ->end();

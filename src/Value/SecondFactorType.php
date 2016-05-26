@@ -24,6 +24,7 @@ use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods) All methods are relevant and simple.
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods) All methods are relevant and simple.
  */
 final class SecondFactorType implements JsonSerializable
 {

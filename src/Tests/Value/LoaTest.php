@@ -20,6 +20,7 @@ namespace Surfnet\StepupBundle\Tests\Value;
 
 use PHPUnit_Framework_TestCase as UnitTest;
 use stdClass;
+use Surfnet\StepupBundle\Value\AuthnContextClass;
 use Surfnet\StepupBundle\Value\Loa;
 
 class LoaTest extends UnitTest
@@ -35,7 +36,12 @@ class LoaTest extends UnitTest
      */
     public function it_cannot_be_created_with_a_non_existant_level($invalidLevel)
     {
-        new Loa($invalidLevel, 'identifier');
+        new Loa(
+          $invalidLevel,
+          [
+            new AuthnContextClass('identifier', AuthnContextClass::TYPE_GATEWAY)
+          ]
+        );
     }
 
     /**
@@ -49,7 +55,9 @@ class LoaTest extends UnitTest
      */
     public function it_cannot_be_created_when_the_identifier_is_not_a_string($invalidIdentifier)
     {
-        new Loa(Loa::LOA_1, $invalidIdentifier);
+        new Loa(Loa::LOA_1, [
+          new AuthnContextClass($invalidIdentifier, AuthnContextClass::TYPE_GATEWAY)
+        ]);
     }
 
     /**
@@ -61,7 +69,9 @@ class LoaTest extends UnitTest
         $correctIdentifier = 'correct identifier';
         $otherIdentifier = 'Not the correct identifier';
 
-        $loa = new Loa(Loa::LOA_1, $correctIdentifier);
+        $loa = new Loa(Loa::LOA_1, [
+          new AuthnContextClass($correctIdentifier, AuthnContextClass::TYPE_GATEWAY)
+        ]);
 
         $this->assertTrue($loa->isIdentifiedBy($correctIdentifier));
         $this->assertFalse($loa->isIdentifiedBy($otherIdentifier));
@@ -73,7 +83,9 @@ class LoaTest extends UnitTest
      */
     public function it_correctly_compares_lower_or_equal_to_level()
     {
-        $loa = new Loa(Loa::LOA_2, 'a');
+        $loa = new Loa(Loa::LOA_2, [
+          new AuthnContextClass('a', AuthnContextClass::TYPE_GATEWAY)
+        ]);
 
         $this->assertTrue($loa->levelIsLowerOrEqualTo(Loa::LOA_3), 'Loa 2 <= Loa 3');
         $this->assertTrue($loa->levelIsLowerOrEqualTo(Loa::LOA_2), 'Loa 2 <= Loa 2');
@@ -86,7 +98,9 @@ class LoaTest extends UnitTest
      */
     public function it_correctly_compares_higher_or_equal_to_level()
     {
-        $loa = new Loa(Loa::LOA_2, 'a');
+        $loa = new Loa(Loa::LOA_2, [
+          new AuthnContextClass('a', AuthnContextClass::TYPE_GATEWAY)
+        ]);
 
         $this->assertFalse($loa->levelIsHigherOrEqualTo(Loa::LOA_3), 'Loa 2 !>= Loa 3');
         $this->assertTrue($loa->levelIsHigherOrEqualTo(Loa::LOA_2), 'Loa 2 >= Loa 2');
@@ -99,9 +113,15 @@ class LoaTest extends UnitTest
      */
     public function in_order_to_be_able_to_satisfy_a_loa_the_loa_must_have_a_level_higher_or_equal_to_the_other_level()
     {
-        $loa1 = new Loa(Loa::LOA_1, '1');
-        $loa2 = new Loa(Loa::LOA_2, '2');
-        $loa3 = new Loa(Loa::LOA_3, '3');
+        $loa1 = new Loa(Loa::LOA_1, [
+          new AuthnContextClass('1', AuthnContextClass::TYPE_GATEWAY)
+        ]);
+        $loa2 = new Loa(Loa::LOA_2, [
+          new AuthnContextClass('2', AuthnContextClass::TYPE_GATEWAY)
+        ]);
+        $loa3 = new Loa(Loa::LOA_3, [
+          new AuthnContextClass('3', AuthnContextClass::TYPE_GATEWAY)
+        ]);
 
         $this->assertFalse($loa2->canSatisfyLoa($loa3), 'Loa 2 cannot satisfy Loa 3');
         $this->assertTrue($loa2->canSatisfyLoa($loa2), 'Loa 2 can satisfy Loa 2');
@@ -114,7 +134,9 @@ class LoaTest extends UnitTest
      */
     public function it_can_check_whether_or_not_it_is_of_a_particuler_level()
     {
-        $loa = new Loa(Loa::LOA_2, '2');
+        $loa = new Loa(Loa::LOA_2, [
+          new AuthnContextClass('2', AuthnContextClass::TYPE_GATEWAY)
+        ]);
 
         $this->assertFalse($loa->isOfLevel(Loa::LOA_1), 'Loa 2 is not of level 1');
         $this->assertTrue($loa->isOfLevel(Loa::LOA_2), 'Loa 2 is of level 2');

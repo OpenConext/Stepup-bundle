@@ -129,3 +129,11 @@ services:
         class: Surfnet\StepupBundle\EventListener\CacheControlHeaderResponseListener
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
+    surfnet_stepup.locale_cookie:
+        class: Surfnet\StepupBundle\Service\LocaleCookieService
+        arguments:
+            - 'stepup_locale'
+            - 'stepup.coin.surf.net'
+            - true
+            - false

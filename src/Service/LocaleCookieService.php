@@ -18,6 +18,7 @@
 
 namespace Surfnet\StepupBundle\Service;
 
+use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -44,7 +45,6 @@ final class LocaleCookieService
     private $httpOnly;
 
     /**
-     * LanguageCookieService constructor.
      * @param string $name
      * @param string $domain
      * @param bool $secure
@@ -52,9 +52,34 @@ final class LocaleCookieService
      */
     public function __construct($name, $domain, $secure, $httpOnly)
     {
+        if (!is_string($name)) {
+            throw InvalidArgumentException::invalidType('string', 'name', $name);
+        }
+        if (empty($name)) {
+            throw new InvalidArgumentException('Empty name provided to ' . __CLASS__);
+        }
+
         $this->name = $name;
+
+        if (!is_string($domain)) {
+            throw InvalidArgumentException::invalidType('string', 'domain', $domain);
+        }
+        if (empty($domain)) {
+            throw new InvalidArgumentException(sprintf('Empty domain provided to ' . __CLASS__));
+        }
+
         $this->domain = $domain;
+
+        if (!is_bool($secure)) {
+            throw InvalidArgumentException::invalidType('bool', 'secure', $secure);
+        }
+
         $this->secure = $secure;
+
+        if (!is_bool($httpOnly)) {
+            throw InvalidArgumentException::invalidType('bool', 'httpOnly', $httpOnly);
+        }
+
         $this->httpOnly = $httpOnly;
     }
 
@@ -71,10 +96,6 @@ final class LocaleCookieService
      */
     public function set($locale, Response $response)
     {
-        if (empty($this->name)) {
-            return $response;
-        }
-
         $response->headers->setCookie(new Cookie($this->name, $locale, 0, '/', $this->domain, $this->secure, $this->httpOnly));
 
         return $response;

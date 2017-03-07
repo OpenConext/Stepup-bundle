@@ -40,10 +40,7 @@ class JsonConvertibleParamConverterTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Surfnet\StepupBundle\Exception\BadJsonRequestException');
 
-        $validator = m::mock('Symfony\Component\Validator\Validator\ValidatorInterface')
-            ->shouldReceive('validate')->andReturn(new ConstraintViolationList([]))
-            ->getMock();
-
+        $validator = $this->createValidatorMockThatValidates();
         $request = $this->createJsonRequest((object) ['foo' => ['unknown' => 'prop']]);
         $configuration = new ParamConverter(['name' => 'foo', 'class' => 'Surfnet\StepupBundle\Tests\Request\Foo']);
 
@@ -64,7 +61,6 @@ class JsonConvertibleParamConverterTest extends \PHPUnit_Framework_TestCase
             )
             ->getMock();
 
-
         $request = $this->createJsonRequest((object) ['foo' => ['bar' => '']]);
         $configuration = new ParamConverter(['name' => 'foo', 'class' => 'Surfnet\StepupBundle\Tests\Request\Foo']);
 
@@ -74,10 +70,7 @@ class JsonConvertibleParamConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testItConvertsAParameter()
     {
-        $validator = m::mock('Symfony\Component\Validator\Validator\ValidatorInterface')
-            ->shouldReceive('validate')->andReturn(new ConstraintViolationList([]))
-            ->getMock();
-
+        $validator = $this->createValidatorMockThatValidates();
         $paramConverter = new JsonConvertibleParamConverter($validator);
 
         $foo = new Foo();
@@ -95,10 +88,7 @@ class JsonConvertibleParamConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testItConvertsASnakeCasedParameter()
     {
-        $validator = m::mock('Symfony\Component\Validator\Validator\ValidatorInterface')
-            ->shouldReceive('validate')->andReturn(new ConstraintViolationList([]))
-            ->getMock();
-
+        $validator = $this->createValidatorMockThatValidates();
         $paramConverter = new JsonConvertibleParamConverter($validator);
 
         $foo = new Foo();
@@ -114,6 +104,24 @@ class JsonConvertibleParamConverterTest extends \PHPUnit_Framework_TestCase
         $paramConverter->apply($request, $configuration);
     }
 
+    public function testItConvertsDeepObjectParameter()
+    {
+        $validator = $this->createValidatorMockThatValidates();
+        $paramConverter = new JsonConvertibleParamConverter($validator);
+
+        $foo = new Foo();
+        $foo->bar = (object) [];
+        $foo->bar->serpentumInHortumEst = 'verum';
+
+        $request = $this->createJsonRequest((object) ['foo' => ['bar' => ['serpentum_in_hortum_est' => 'verum']]]);
+        $request->attributes = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
+            ->shouldReceive('set')->once()->with('foo', m::anyOf($foo))
+            ->getMock();
+
+        $configuration = new ParamConverter(['name' => 'foo', 'class' => 'Surfnet\StepupBundle\Tests\Request\Foo']);
+        $paramConverter->apply($request, $configuration);
+    }
+
     /**
      * @param mixed $object
      * @return \Symfony\Component\HttpFoundation\Request
@@ -125,5 +133,15 @@ class JsonConvertibleParamConverterTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         return $request;
+    }
+
+    /**
+     * @return m\MockInterface
+     */
+    private function createValidatorMockThatValidates()
+    {
+        return m::mock('Symfony\Component\Validator\Validator\ValidatorInterface')
+            ->shouldReceive('validate')->andReturn(new ConstraintViolationList([]))
+            ->getMock();
     }
 }

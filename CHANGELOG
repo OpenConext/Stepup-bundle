@@ -1,3 +1,9 @@
+# 2.1.0
+In this release error reporting is improved.
+
+## Improvements
+ * Implement error page redesign #47
+ * Improve art-code algorithm #48
 
 VERSION 2  DYNAMIC CONFIGURATION OF SECOND FACTOR TYPES
 =======================================================

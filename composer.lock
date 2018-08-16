@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9a5f00e550566b548479eaccc2018f7",
+    "content-hash": "d31647f3b02df23d4f16f0777e5f23e5",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1008,16 +1008,16 @@
         },
         {
             "name": "surfnet/stepup-saml-bundle",
-            "version": "4.0.0",
+            "version": "dev-feature/add-saml-logger-interface",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenConext/Stepup-saml-bundle.git",
-                "reference": "9bb7098248c7b60c8b2cbc74d996b027de69e68a"
+                "reference": "a2d268f7c207c5bd71f81688206ba99aae38af7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenConext/Stepup-saml-bundle/zipball/9bb7098248c7b60c8b2cbc74d996b027de69e68a",
-                "reference": "9bb7098248c7b60c8b2cbc74d996b027de69e68a",
+                "url": "https://api.github.com/repos/OpenConext/Stepup-saml-bundle/zipball/a2d268f7c207c5bd71f81688206ba99aae38af7a",
+                "reference": "a2d268f7c207c5bd71f81688206ba99aae38af7a",
                 "shasum": ""
             },
             "require": {
@@ -1040,19 +1040,22 @@
                     "Surfnet\\SamlBundle\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
             "description": "A Symfony2 bundle that integrates the simplesamlphp\\saml2 library with Symfony",
             "keywords": [
+                "SAML",
                 "SAML2",
-                "saml",
+                "StepUp",
                 "simplesamlphp",
-                "stepup",
                 "surfnet"
             ],
-            "time": "2018-03-21T09:35:58+00:00"
+            "support": {
+                "source": "https://github.com/OpenConext/Stepup-saml-bundle/tree/feature/add-saml-logger-interface",
+                "issues": "https://github.com/OpenConext/Stepup-saml-bundle/issues"
+            },
+            "time": "2018-08-14T14:11:58+00:00"
         },
         {
             "name": "symfony/asset",
@@ -4663,8 +4666,10 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "surfnet/stepup-saml-bundle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

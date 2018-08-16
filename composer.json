@@ -7,7 +7,7 @@
         "surfnet"
     ],
     "license": "Apache-2.0",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "Surfnet\\StepupBundle\\": "src"
@@ -20,7 +20,7 @@
         "guzzlehttp/guzzle": "^6.0",
         "monolog/monolog": "~1.11",
         "sensio/framework-extra-bundle": "~3",
-        "surfnet/stepup-saml-bundle": "^4.0",
+        "surfnet/stepup-saml-bundle": "dev-feature/add-saml-logger-interface",
         "symfony/config": ">=2.7,<4",
         "symfony/dependency-injection": ">=2.7,<4",
         "symfony/form": ">=2.7,<4",
@@ -36,5 +36,11 @@
         "sensiolabs/security-checker": "^2.0",
         "sebastian/phpcpd": "^2.0",
         "squizlabs/php_codesniffer": "^1.0"
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/OpenConext/Stepup-saml-bundle"
+        }
+    ]
 }

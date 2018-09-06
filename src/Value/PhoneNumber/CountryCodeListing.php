@@ -18,9 +18,6 @@
 
 namespace Surfnet\StepupBundle\Value\PhoneNumber;
 
-use Symfony\Component\Form\ChoiceList\ArrayChoiceList;
-use Symfony\Component\Form\ChoiceList\ChoiceListInterface;
-
 class CountryCodeListing
 {
     /**
@@ -284,10 +281,7 @@ class CountryCodeListing
         'Zimbabwe (+263)'                                     => '263',
     ];
 
-    /**
-     * @return ChoiceListInterface
-     */
-    public static function asChoiceList()
+    public static function asArray()
     {
         $countries = [];
 
@@ -297,9 +291,8 @@ class CountryCodeListing
 
         $countryNames = array_keys(self::$countries);
 
-        return new ArrayChoiceList(array_combine($countryNames, $countries));
+        return array_combine($countryNames, $countries);
     }
-
     /**
      * @param Country $country
      * @return bool

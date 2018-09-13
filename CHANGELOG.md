@@ -1,3 +1,6 @@
+# 4.0.2
+Provide a test double for the SmsSecondFactorService
+
 # 4.0.1
 Remove the choice list feature from the CountryCodeListing value object as this interferes with the Symfony 3.4 way
 of working with choice types.

@@ -25,7 +25,7 @@ use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Service\SmsSecondFactor\OtpVerification;
 use Surfnet\StepupBundle\Service\SmsSecondFactor\SmsVerificationStateHandler;
 
-class SmsSecondFactorService
+class SmsSecondFactorService implements SmsSecondFactorServiceInterface
 {
     /**
      * @var \Surfnet\StepupBundle\Service\SmsService

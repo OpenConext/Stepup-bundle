@@ -23,7 +23,7 @@
         "surfnet/stepup-saml-bundle": "^4.0",
         "symfony/config": ">=2.7,<4",
         "symfony/dependency-injection": ">=2.7,<4",
-        "symfony/form": ">=2.7,<4",
+        "symfony/form": "~2.7|~2.8|~3,4",
         "symfony/framework-bundle": ">=2.7,<4",
         "symfony/http-kernel": ">=2.7,<4",
         "symfony/twig-bridge": ">=2.7,<4",
@@ -33,7 +33,7 @@
         "mockery/mockery": "0.9.*",
         "phpmd/phpmd": "^2.0",
         "phpunit/phpunit": "^4.0",
-        "sensiolabs/security-checker": "^2.0",
+        "sensiolabs/security-checker": "^5.0",
         "sebastian/phpcpd": "^2.0",
         "squizlabs/php_codesniffer": "^1.0"
     }

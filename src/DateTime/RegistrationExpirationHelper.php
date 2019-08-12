@@ -19,7 +19,7 @@
 namespace Surfnet\StepupBundle\DateTime;
 
 use DateInterval;
-use DateTime;
+use DateTime as CoreDateTime;
 use Exception;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
@@ -39,7 +39,7 @@ class RegistrationExpirationHelper
      */
     private $expirationWindow;
 
-    public function __construct(DateTime $now = null, $expirationWindow = 'P14D')
+    public function __construct(CoreDateTime $now = null, $expirationWindow = 'P14D')
     {
         $this->now = $now;
 
@@ -55,13 +55,13 @@ class RegistrationExpirationHelper
         }
     }
 
-    public function expiresAt(DateTime $registeredAt)
+    public function expiresAt(CoreDateTime $registeredAt)
     {
         $registrationDate = clone $registeredAt;
         return $registrationDate->add($this->expirationWindow);
     }
 
-    public function hasExpired(DateTime $registeredAt)
+    public function hasExpired(CoreDateTime $registeredAt)
     {
         $now = $this->getNow();
         return $this->expiresAt($registeredAt) <= $now;
@@ -70,7 +70,7 @@ class RegistrationExpirationHelper
     private function getNow()
     {
         if (is_null($this->now)) {
-            $this->now = new DateTime();
+            $this->now = new CoreDateTime();
         }
         return $this->now;
     }

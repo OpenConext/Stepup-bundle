@@ -1,3 +1,7 @@
+# 4.1.0
+Update Symfony From version restraints to support sf 4. 
+Add service aliases for auto wiring services.
+
 # 4.0.3
 Update Symfony From version restraints
 

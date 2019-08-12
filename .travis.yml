@@ -7,9 +7,12 @@
 
 language: php
 
-php:
-  - 5.6
-  - 7.0
+matrix:
+  include:
+    - php: 5.6
+      env: SYMFONY_VERSION="3.4.*"
+    - php: 7.2
+      env: SYMFONY_VERSION="4.3.*"
 
 cache:
   directories:
@@ -18,7 +21,10 @@ cache:
 before_script:
   - phpenv config-add .travis.php.ini
   - composer self-update
-  - composer install --prefer-dist
+  - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/symfony:${SYMFONY_VERSION}" --no-update; fi;
+  - COMPOSER_MEMORY_LIMIT=-1 composer install --prefer-dist
+  - sudo apt-get -qq update
+  - sudo apt-get install ant
 
 script:
   - ant

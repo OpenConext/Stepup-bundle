@@ -13,21 +13,29 @@ services:
             - "@validator"
         tags:
             - { name: request.param_converter, priority: -1, converter: surfnet_stepup.json_convertible }
+    Surfnet\StepupBundle\Request\JsonConvertibleParamConverter:
+        alias: surfnet_stepup.json_convertible_param_converter
 
     surfnet_stepup.listener.bad_json_request_exception_listener:
         class: Surfnet\StepupBundle\EventListener\BadJsonRequestExceptionListener
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+    Surfnet\StepupBundle\EventListener\BadJsonRequestExceptionListener:
+        alias: surfnet_stepup.listener.bad_json_request_exception_listener
 
     surfnet_stepup.request.request_id:
         public: true
         class: Surfnet\StepupBundle\Request\RequestId
         arguments:
             - "@surfnet_stepup.request.request_id_generator"
+    Surfnet\StepupBundle\Request\RequestId:
+        alias: surfnet_stepup.request.request_id
 
     surfnet_stepup.request.request_id_generator:
         public: false
         class: Surfnet\StepupBundle\Request\RandomRequestIdGenerator
+    Surfnet\StepupBundle\Request\RandomRequestIdGenerator:
+        alias: surfnet_stepup.request.request_id_generator
 
     surfnet_stepup.listener.request_id_request_response_listener:
         class: Surfnet\StepupBundle\EventListener\RequestIdRequestResponseListener
@@ -36,11 +44,15 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+    Surfnet\StepupBundle\EventListener\RequestIdRequestResponseListener:
+        alias: surfnet_stepup.listener.request_id_request_response_listener
 
     surfnet_stepup.guzzle.request_id_injector:
         class: Surfnet\StepupBundle\Guzzle\Middleware\GuzzleRequestIdInjector
         arguments:
             - "@surfnet_stepup.request.request_id"
+    Surfnet\StepupBundle\Guzzle\Middleware\GuzzleRequestIdInjector:
+        alias: surfnet_stepup.guzzle.request_id_injector
 
     surfnet_stepup.monolog.request_id_processor:
         class: Surfnet\StepupBundle\Monolog\Processor\RequestIdProcessor
@@ -75,6 +87,8 @@ services:
 
     surfnet_stepup.service.loa_resolution:
         class: Surfnet\StepupBundle\Service\LoaResolutionService
+    Surfnet\StepupBundle\Service\LoaResolutionService:
+        alias: surfnet_stepup.service.loa_resolution
 
     surfnet_stepup.service.gateway_api_sms:
         public: false
@@ -89,6 +103,8 @@ services:
             - '' # SMS service set in extension
             - "@surfnet_stepup.service.challenge_handler"
             - '' # Originator set in extension
+    Surfnet\StepupBundle\Service\SmsSecondFactorService:
+        alias: surfnet_stepup.service.sms_second_factor
 
     surfnet_stepup.service.challenge_handler:
         public: false
@@ -103,12 +119,16 @@ services:
         class: Surfnet\StepupBundle\Service\SecondFactorTypeService
         arguments:
             - "%enabled_generic_second_factors%"
+    Surfnet\StepupBundle\Service\SecondFactorTypeService:
+        alias: surfnet_stepup.service.second_factor_type
 
     surfnet_stepup.service.second_factor_type_translator:
         class: Surfnet\StepupBundle\Service\SecondFactorTypeTranslationService
         arguments:
             - "@surfnet_stepup.provider.collection"
             - "@translator"
+    Surfnet\StepupBundle\Service\SecondFactorTypeTranslationService:
+        alias: surfnet_stepup.service.second_factor_type_translator
 
     surfnet_stepup.guzzle.gateway_api:
         public: false
@@ -121,6 +141,8 @@ services:
         arguments:
             - [] # See Extension
             - "@request_stack"
+    Surfnet\StepupBundle\Form\ChoiceList\LocaleChoiceList:
+        alias: surfnet_stepup.form.choice_list.locales
 
     surfnet_stepup.form.switch_locale:
         class: Surfnet\StepupBundle\Form\Type\SwitchLocaleType
@@ -155,6 +177,8 @@ services:
         class: Surfnet\StepupBundle\Http\CookieHelper
         arguments:
           - "@surfnet_stepup.locale_cookie_settings"
+    Surfnet\StepupBundle\Http\CookieHelper:
+        alias: surfnet_stepup.locale_cookie_helper
 
     surfnet_stepup.locale_cookie_settings:
         public: false
@@ -165,13 +189,21 @@ services:
         class: Surfnet\StepupBundle\DependencyInjection\Configurator\GuzzleClientRequestIdConfigurator
         arguments:
             - "@surfnet_stepup.guzzle.request_id_injector"
+    Surfnet\StepupBundle\DependencyInjection\Configurator\GuzzleClientRequestIdConfigurator:
+        alias: surfnet_stepup.configurator.guzzle_request_id_configurator
 
     surfnet_stepup.guzzle.handler_stack:
         class: GuzzleHttp\HandlerStack
         factory: ['GuzzleHttp\HandlerStack', create]
+    GuzzleHttp\HandlerStack:
+        alias: surfnet_stepup.guzzle.handler_stack
 
     surfnet_stepup.provider.collection:
         class: Surfnet\StepupBundle\Value\Provider\ViewConfigCollection
+    Surfnet\StepupBundle\Value\Provider\ViewConfigCollection:
+        alias: surfnet_stepup.provider.collection
 
     surfnet_stepup.registration_expiration_helper:
         class: Surfnet\StepupBundle\DateTime\RegistrationExpirationHelper
+    Surfnet\StepupBundle\DateTime\RegistrationExpirationHelper:
+        alias: surfnet_stepup.registration_expiration_helper

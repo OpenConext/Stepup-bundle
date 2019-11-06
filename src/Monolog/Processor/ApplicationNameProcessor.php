@@ -18,6 +18,8 @@
 
 namespace Surfnet\StepupBundle\Monolog\Processor;
 
+use InvalidArgumentException;
+
 class ApplicationNameProcessor
 {
     /**
@@ -31,7 +33,7 @@ class ApplicationNameProcessor
     public function __construct($applicationName)
     {
         if (!is_string($applicationName)) {
-            throw new \InvalidArgumentException('Application name must be string');
+            throw new InvalidArgumentException('Application name must be string');
         }
 
         $this->applicationName = $applicationName;

@@ -42,6 +42,9 @@ class JsonConvertibleParamConverter implements ParamConverterInterface
         $this->validator = $validator;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.MissingImport) - Unable to import the dynamic class creation at line 63
+     */
     public function apply(Request $request, ParamConverter $configuration)
     {
         $name = $configuration->getName();

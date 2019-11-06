@@ -18,6 +18,8 @@
 
 namespace Surfnet\StepupBundle\Request;
 
+use LogicException;
+
 /**
  * Exposes the current request ID. The request ID identifies all request/response cycles involved in a single
  * user/client interaction.
@@ -70,7 +72,7 @@ class RequestId
     public function set($requestId, $allowOverwrite = false)
     {
         if ($this->requestId !== null && !$allowOverwrite) {
-            throw new \LogicException('May not overwrite request ID.');
+            throw new LogicException('May not overwrite request ID.');
         }
 
         $this->requestId = $requestId;

@@ -1,3 +1,6 @@
+# 4.1.0
+Update version restraints to support Symfony 4.3 #56
+
 # 4.0.4
 This is a security release that will harden the application using this bundle against CVE 2019-3465
  * Upgrade Stepup-saml-bundle to version 4.1.8 #57

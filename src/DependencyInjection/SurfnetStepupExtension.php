@@ -20,6 +20,11 @@ namespace Surfnet\StepupBundle\DependencyInjection;
 
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
+use Surfnet\StepupBundle\Form\ChoiceList\LocaleChoiceList;
+use Surfnet\StepupBundle\Http\CookieHelper;
+use Surfnet\StepupBundle\Service\LoaResolutionService;
+use Surfnet\StepupBundle\Service\SecondFactorTypeService;
+use Surfnet\StepupBundle\Service\SmsSecondFactorService;
 use Surfnet\StepupBundle\Value\Loa;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
@@ -30,6 +35,11 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
+/**
+ * Class SurfnetStepupExtension
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class SurfnetStepupExtension extends Extension
 {
     public function load(array $config, ContainerBuilder $container)
@@ -49,15 +59,15 @@ class SurfnetStepupExtension extends Extension
             $this->defineLoas($config['loa_definition'], $container);
         } else {
             $container->removeDefinition('surfnet_stepup.service.loa_resolution');
+            $container->removeAlias(LoaResolutionService::class);
         }
 
         if ($config['sms']['enabled'] === false) {
             $container->removeDefinition('surfnet_stepup.service.sms_second_factor');
+            $container->removeAlias(SmsSecondFactorService::class);
             $container->removeDefinition('surfnet_stepup.service.challenge_handler');
-            $container->removeDefinition('surfnet_stepup.service.sms_second_factor');
         } else {
             $this->configureSmsSecondFactorServices($config, $container);
-
             if (!$config['gateway_api']['enabled'] && $config['sms']['service'] === Configuration::DEFAULT_SMS_SERVICE) {
                 throw new RuntimeException(
                     'The gateway API is not enabled and no replacement SMS service is configured'
@@ -77,6 +87,7 @@ class SurfnetStepupExtension extends Extension
             $this->configureLocaleCookieSettings($config, $container);
         } else {
             $container->removeDefinition('surfnet_stepup.locale_cookie_helper');
+            $container->removeAlias(CookieHelper::class);
             $container->removeDefinition('surfnet_stepup.locale_cookie_settings');
         }
 
@@ -168,6 +179,7 @@ class SurfnetStepupExtension extends Extension
                 ->replaceArgument(0, $container->getParameter('locales'));
         } else {
             $container->removeDefinition('surfnet_stepup.form.choice_list.locales');
+            $container->removeAlias(LocaleChoiceList::class);
             $container->removeDefinition('surfnet_stepup.form.switch_locale');
         }
     }
@@ -176,6 +188,7 @@ class SurfnetStepupExtension extends Extension
     {
         if (!$container->hasParameter('enabled_generic_second_factors')) {
             $container->removeDefinition('surfnet_stepup.service.second_factor_type');
+            $container->removeAlias(SecondFactorTypeService::class);
         }
     }
 }

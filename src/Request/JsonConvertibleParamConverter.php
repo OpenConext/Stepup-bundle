@@ -28,6 +28,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * ParamConverter that converts JSON objects with underscore notation mapped to snake-cased, public properties of
  * classes that implement JsonConvertible.
  *
+ * @SuppressWarnings(PHPMD.MissingImport)
  * @see JsonConvertible
  */
 class JsonConvertibleParamConverter implements ParamConverterInterface
@@ -42,6 +43,9 @@ class JsonConvertibleParamConverter implements ParamConverterInterface
         $this->validator = $validator;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.MissingImport) - Unable to import the dynamic class creation at line 63
+     */
     public function apply(Request $request, ParamConverter $configuration)
     {
         $name = $configuration->getName();

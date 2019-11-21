@@ -1,6 +1,6 @@
 {
     "name": "surfnet/stepup-bundle",
-    "description": "A Symfony2 bundle that holds shared code and framework integration for all Step-up applications.",
+    "description": "A Symfony 3 bundle (with Symfony 4.3 support) that holds shared code and framework integration for all Step-up applications.",
     "keywords": [
         "stepup",
         "suaas",
@@ -19,22 +19,23 @@
         "ext-openssl": "*",
         "guzzlehttp/guzzle": "^6.0",
         "monolog/monolog": "~1.11",
-        "sensio/framework-extra-bundle": "~3",
+        "sensio/framework-extra-bundle": "~3||^5.4",
         "surfnet/stepup-saml-bundle": "^4.1.8",
-        "symfony/config": ">=2.7,<4",
-        "symfony/dependency-injection": ">=2.7,<4",
-        "symfony/form": "~2.7|~2.8|~3,4",
-        "symfony/framework-bundle": ">=2.7,<4",
-        "symfony/http-kernel": ">=2.7,<4",
-        "symfony/twig-bridge": ">=2.7,<4",
-        "symfony/validator": ">=2.7,<4"
+        "symfony/config": "^3.4||^4.3",
+        "symfony/dependency-injection": "^3.4||^4.3",
+        "symfony/form": "^3.4||^4.3",
+        "symfony/framework-bundle": "^3.4||^4.3",
+        "symfony/http-kernel": "^3.4||^4.3",
+        "symfony/twig-bridge": "^3.4||^4.3",
+        "symfony/validator": "^3.4||^4.3"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
         "phpmd/phpmd": "^2.0",
-        "phpunit/phpunit": "^4.0",
+        "phpunit/phpunit": "^5.0",
         "sensiolabs/security-checker": "^5.0",
         "sebastian/phpcpd": "^2.0",
-        "squizlabs/php_codesniffer": "^1.0"
+        "squizlabs/php_codesniffer": "^1.0",
+        "symfony/phpunit-bridge": "^4.3"
     }
 }

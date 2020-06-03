@@ -50,6 +50,7 @@ class YubikeyOtp
             throw new InvalidArgumentException('Given OTP is not a string.');
         }
 
+        $matches = [];
         if (preg_match(self::OTP_REGEXP_QWERTY, $string, $matches)) {
             $otp->otp = strtolower($matches[3]);
             $otp->password = $matches[2];
@@ -73,6 +74,7 @@ class YubikeyOtp
      */
     public static function isValid($string)
     {
+        $matches = [];
         return preg_match(self::OTP_REGEXP_QWERTY, $string, $matches)
             || preg_match(self::OTP_REGEXP_DVORAK, $string, $matches);
     }

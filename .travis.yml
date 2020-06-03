@@ -24,6 +24,9 @@ branches:
   only:
     - master
     - develop
+    - /^feature\/(.*)$/
+    - /^hotfix\/(.*)$/
+    - /^bugfix\/(.*)$/
 
 addons:
   apt:

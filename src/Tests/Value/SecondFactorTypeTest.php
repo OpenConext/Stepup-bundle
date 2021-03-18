@@ -18,7 +18,8 @@
 
 namespace Surfnet\StepupBundle\Tests\Value;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase ;
+use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\SecondFactorType;
 
 final class SecondFactorTypeTest extends TestCase
@@ -43,17 +44,19 @@ final class SecondFactorTypeTest extends TestCase
      */
     public function it_can_be_constructed($type)
     {
-        new SecondFactorType($type);
+        $secondFactorType = new SecondFactorType($type);
+
+        $this->assertInstanceOf(SecondFactorType::class, $secondFactorType);
     }
 
     /**
      * @test
      * @group value
-     *
-     * @expectedException \Surfnet\StepupBundle\Exception\InvalidArgumentException
      */
     public function it_doesnt_accept_integers()
     {
+        $this->expectException(InvalidArgumentException::class);
+
         new SecondFactorType(9);
     }
 

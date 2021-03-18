@@ -18,7 +18,8 @@
 
 namespace Surfnet\StepupBundle\Security;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase ;
+use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
 final class OtpGeneratorTest extends TestCase
 {
@@ -30,7 +31,7 @@ final class OtpGeneratorTest extends TestCase
     {
         $otp = OtpGenerator::generate(8);
 
-        $this->assertInternalType('string', $otp);
+        $this->assertIsString($otp);
         $this->assertSame(8, strlen($otp), 'OTP is not eight characters long');
     }
 
@@ -52,12 +53,13 @@ final class OtpGeneratorTest extends TestCase
      * @test
      * @group security
      * @dataProvider nonPositiveIntegers
-     * @expectedException \Surfnet\StepupBundle\Exception\InvalidArgumentException
      *
      * @param mixed $length
      */
     public function it_cannot_generate_otp_strings_of_negative_or_non_integer_length($length)
     {
+        $this->expectException(InvalidArgumentException::class);
+
         OtpGenerator::generate($length);
     }
 }

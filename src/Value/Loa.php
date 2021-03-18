@@ -121,6 +121,11 @@ class Loa
         return $this->level === $loaLevel;
     }
 
+    public function getLevel(): int
+    {
+        return $this->level;
+    }
+
     public function __toString()
     {
         return  $this->identifier;

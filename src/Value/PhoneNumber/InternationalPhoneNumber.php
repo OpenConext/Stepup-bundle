@@ -49,6 +49,7 @@ class InternationalPhoneNumber
             throw InvalidArgumentException::invalidType('string', 'string', $string);
         }
 
+        $matches = [];
         if (!preg_match('~^\+([^\(]+)\(0\)\s{1}([\d]+)$~', $string, $matches)) {
             throw new InvalidPhoneNumberFormatException(
                 'In order to create the phone number from string, it must have the format "+31 (0) 614696076", formal: '

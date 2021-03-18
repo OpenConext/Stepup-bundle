@@ -25,7 +25,7 @@ use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mockery as m;
-use PHPUnit_Framework_TestCase as UnitTest;
+use PHPUnit\Framework\TestCase as UnitTest;
 use Surfnet\StepupBundle\EventListener\RequestIdRequestResponseListener;
 use Surfnet\StepupBundle\Guzzle\Middleware\GuzzleRequestIdInjector;
 use Surfnet\StepupBundle\Request\RequestId;
@@ -33,6 +33,8 @@ use Surfnet\StepupBundle\Request\RequestIdGenerator;
 
 class GuzzleRequestIdInjectorTest extends UnitTest
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     /**
      * @group Guzzle
      */

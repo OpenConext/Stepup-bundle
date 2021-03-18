@@ -52,10 +52,8 @@ final class SwitchLocaleType extends AbstractType
         $builder->add('locale', ChoiceType::class, [
             'label' => /** @Ignore */ false,
             'required' => true,
-            'widget_addon_prepend' => [
-                'icon' => 'language'
-            ],
             'choices' => $this->localeChoiceList->create(),
+            'attr' => [ 'class' => 'fa-language' ],
         ]);
         $builder->add('switch', SubmitType::class, [
             'label' => 'stepup_middleware_client.form.switch_locale.switch',

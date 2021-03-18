@@ -19,7 +19,7 @@
 namespace Surfnet\StepupBundle\Tests\Exception;
 
 use Exception;
-use PHPUnit_Framework_TestCase as UnitTest;
+use PHPUnit\Framework\TestCase as UnitTest;
 use RuntimeException;
 use Surfnet\StepupBundle\Exception\Art;
 

@@ -18,8 +18,10 @@
 
 namespace Surfnet\StepupBundle\Tests\Value\PhoneNumber;
 
-use PHPUnit_Framework_TestCase as UnitTest;
+use PHPUnit\Framework\TestCase as UnitTest;
 use stdClass;
+use Surfnet\StepupBundle\Exception\InvalidArgumentException;
+use Surfnet\StepupBundle\Value\Exception\UnknownCountryCodeException;
 use Surfnet\StepupBundle\Value\PhoneNumber\CountryCode;
 
 class CountryCodeTest extends UnitTest
@@ -29,12 +31,12 @@ class CountryCodeTest extends UnitTest
      * @group value
      * @dataProvider invalidConstructorArgumentProvider
      *
-     * @expectedException \Surfnet\StepupBundle\Exception\InvalidArgumentException
-     *
      * @param mixed $invalidArgument
      */
     public function a_country_code_cannot_be_constructed_with_anything_but_a_string($invalidArgument)
     {
+        $this->expectException(InvalidArgumentException::class);
+
         new CountryCode($invalidArgument);
     }
 
@@ -43,23 +45,23 @@ class CountryCodeTest extends UnitTest
      * @group        value
      * @dataProvider invalidStringArgumentProvider
      *
-     * @expectedException \Surfnet\StepupBundle\Exception\InvalidArgumentException
-     *
      * @param string $invalidArgument
      */
     public function a_phone_number_can_only_be_created_if_the_string_contains_digits_only($invalidArgument)
     {
+        $this->expectException(InvalidArgumentException::class);
+
         new CountryCode($invalidArgument);
     }
 
     /**
      * @test
      * @group value
-     *
-     * @expectedException \Surfnet\StepupBundle\Value\Exception\UnknownCountryCodeException
      */
     public function a_country_code_cannot_be_created_with_a_country_code_that_does_not_exist()
     {
+        $this->expectException(UnknownCountryCodeException::class);
+
         new CountryCode('99999');
     }
 

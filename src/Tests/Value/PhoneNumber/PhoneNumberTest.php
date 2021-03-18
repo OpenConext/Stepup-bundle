@@ -18,8 +18,10 @@
 
 namespace Surfnet\StepupBundle\Tests\Value\PhoneNumber;
 
-use PHPUnit_Framework_TestCase as UnitTest;
+use PHPUnit\Framework\TestCase as UnitTest;
 use stdClass;
+use Surfnet\StepupBundle\Exception\InvalidArgumentException;
+use Surfnet\StepupBundle\Value\Exception\InvalidPhoneNumberFormatException;
 use Surfnet\StepupBundle\Value\PhoneNumber\PhoneNumber;
 
 class PhoneNumberTest extends UnitTest
@@ -29,12 +31,12 @@ class PhoneNumberTest extends UnitTest
      * @group value
      * @dataProvider invalidConstructorArgumentProvider
      *
-     * @expectedException \Surfnet\StepupBundle\Exception\InvalidArgumentException
-     *
      * @param mixed $invalidArgument
      */
     public function a_phone_number_cannot_be_created_with_anything_but_a_string($invalidArgument)
     {
+        $this->expectException(InvalidArgumentException::class);
+
         new PhoneNumber($invalidArgument);
     }
 
@@ -43,12 +45,12 @@ class PhoneNumberTest extends UnitTest
      * @group value
      * @dataProvider invalidStringArgumentProvider
      *
-     * @expectedException \Surfnet\StepupBundle\Value\Exception\InvalidPhoneNumberFormatException
-     *
      * @param string $invalidArgument
      */
     public function a_phone_number_can_only_be_created_if_the_string_contains_digits_only($invalidArgument)
     {
+        $this->expectException(InvalidPhoneNumberFormatException::class);
+
         new PhoneNumber($invalidArgument);
     }
 

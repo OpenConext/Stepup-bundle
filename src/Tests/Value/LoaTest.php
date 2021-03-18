@@ -18,8 +18,9 @@
 
 namespace Surfnet\StepupBundle\Tests\Value;
 
-use PHPUnit_Framework_TestCase as UnitTest;
+use PHPUnit\Framework\TestCase as UnitTest;
 use stdClass;
+use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\Loa;
 
 class LoaTest extends UnitTest
@@ -29,12 +30,12 @@ class LoaTest extends UnitTest
      * @group        value
      * @dataProvider invalidLevelProvider
      *
-     * @expectedException \Surfnet\StepupBundle\Exception\DomainException
-     *
      * @param mixed $invalidLevel
      */
     public function it_cannot_be_created_with_a_non_existant_level($invalidLevel)
     {
+        $this->expectException(\Surfnet\StepupBundle\Exception\DomainException::class);
+
         new Loa($invalidLevel, 'identifier');
     }
 
@@ -43,12 +44,12 @@ class LoaTest extends UnitTest
      * @group value
      * @dataProvider invalidIdentifierProvider
      *
-     * @expectedException \Surfnet\StepupBundle\Exception\InvalidArgumentException
-     *
      * @param mixed $invalidIdentifier
      */
     public function it_cannot_be_created_when_the_identifier_is_not_a_string($invalidIdentifier)
     {
+        $this->expectException(InvalidArgumentException::class);
+
         new Loa(Loa::LOA_1, $invalidIdentifier);
     }
 

@@ -1,3 +1,6 @@
+# 4.1.1
+Add accessor to Loa for the level field
+
 # 4.1.0
 Update version restraints to support Symfony 4.3 #56
 

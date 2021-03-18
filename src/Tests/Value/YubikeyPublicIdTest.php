@@ -18,7 +18,8 @@
 
 namespace Surfnet\StepupBundle\Tests\Value;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase ;
+use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\YubikeyOtp;
 use Surfnet\StepupBundle\Value\YubikeyPublicId;
 
@@ -40,13 +41,13 @@ final class YubikeyPublicIdTest extends TestCase
      * @test
      * @group value
      * @dataProvider invalidTypeProvider
-     * @expectedException Surfnet\StepupBundle\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Invalid Argument, parameter "value" should be of type "string"
      *
      * @param mixed $nonString
      */
     public function it_cannot_be_constructed_with_anything_but_a_string($nonString)
     {
+        $this->expectExceptionMessage("Invalid Argument, parameter \"value\" should be of type \"string\"");
+        $this->expectException(InvalidArgumentException::class);
         new YubikeyPublicId($nonString);
     }
 
@@ -68,12 +69,12 @@ final class YubikeyPublicIdTest extends TestCase
      * @test
      * @group value
      * @dataProvider invalidFormatProvider
-     * @expectedException Surfnet\StepupBundle\Exception\InvalidArgumentException
      *
      * @param mixed $invalidFormat
      */
     public function it_cannot_be_constructed_with_an_invalid_format($invalidFormat)
     {
+        $this->expectException(InvalidArgumentException::class);
         new YubikeyPublicId($invalidFormat);
     }
 

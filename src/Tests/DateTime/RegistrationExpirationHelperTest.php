@@ -19,7 +19,7 @@
 namespace Surfnet\StepupBundle\Tests\DateTime;
 
 use DateTime;
-use PHPUnit_Framework_TestCase as UnitTest;
+use PHPUnit\Framework\TestCase as UnitTest;
 use Surfnet\StepupBundle\DateTime\RegistrationExpirationHelper;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
@@ -81,10 +81,8 @@ class RegistrationExpirationHelperTest extends UnitTest
 
     public function test_invalid_interval_is_rejected()
     {
-        $this->setExpectedException(
-            InvalidArgumentException::class,
-            'The provided DateInterval interval specification ("D41P") is invalid'
-        );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The provided DateInterval interval specification ("D41P") is invalid');
 
         $this->buildHelper(null, 'D41P');
     }

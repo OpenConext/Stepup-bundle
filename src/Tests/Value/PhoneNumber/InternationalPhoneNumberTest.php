@@ -18,7 +18,9 @@
 
 namespace Surfnet\StepupBundle\Tests\Value\PhoneNumber;
 
-use PHPUnit_Framework_TestCase as UnitTest;
+use PHPUnit\Framework\TestCase as UnitTest;
+use Surfnet\StepupBundle\Exception\InvalidArgumentException;
+use Surfnet\StepupBundle\Value\Exception\InvalidPhoneNumberFormatException;
 use Surfnet\StepupBundle\Value\PhoneNumber\CountryCode;
 use Surfnet\StepupBundle\Value\PhoneNumber\InternationalPhoneNumber;
 use Surfnet\StepupBundle\Value\PhoneNumber\PhoneNumber;
@@ -87,13 +89,14 @@ class InternationalPhoneNumberTest extends UnitTest
     /**
      * @test
      * @dataProvider invalid_types
-     * @expectedException \Surfnet\StepupBundle\Exception\InvalidArgumentException
      * @group value
      *
      * @param mixed $invalidType
      */
     public function it_rejects_invalid_types($invalidType)
     {
+        $this->expectException(InvalidArgumentException::class);
+
         InternationalPhoneNumber::fromStringFormat($invalidType);
     }
 
@@ -110,13 +113,14 @@ class InternationalPhoneNumberTest extends UnitTest
     /**
      * @test
      * @dataProvider invalid_phone_numbers
-     * @expectedException \Surfnet\StepupBundle\Value\Exception\InvalidPhoneNumberFormatException
      * @group value
      *
      * @param mixed $invalidPhoneNumber
      */
     public function it_rejects_invalid_phone_numbers($invalidPhoneNumber)
     {
+        $this->expectException(InvalidPhoneNumberFormatException::class);
+
         InternationalPhoneNumber::fromStringFormat($invalidPhoneNumber);
     }
 }

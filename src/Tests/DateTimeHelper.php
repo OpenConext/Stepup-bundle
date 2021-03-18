@@ -19,6 +19,7 @@
 namespace Surfnet\StepupBundle\Tests;
 
 use DateTime;
+use Surfnet\StepupBundle\DateTime\DateTime as StepupDateTime;
 use ReflectionProperty;
 
 class DateTimeHelper
@@ -30,7 +31,7 @@ class DateTimeHelper
      */
     public static function setCurrentTime(DateTime $now = null)
     {
-        $nowProperty = new ReflectionProperty('Surfnet\StepupBundle\DateTime\DateTime', 'now');
+        $nowProperty = new ReflectionProperty(StepupDateTime::class, 'now');
         $nowProperty->setAccessible(true);
         $nowProperty->setValue($now);
     }

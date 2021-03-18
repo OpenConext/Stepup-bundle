@@ -19,7 +19,8 @@
 namespace Surfnet\StepupBundle\Tests\Service\SmsSecondFactor;
 
 use DateInterval;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase ;
+use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Service\SmsSecondFactor\Otp;
 
 class OtpTest extends TestCase
@@ -55,7 +56,9 @@ class OtpTest extends TestCase
      */
     public function can_be_created()
     {
-        Otp::create('ABCDEFG', '123', new DateInterval('PT5M'));
+        $otp = Otp::create('ABCDEFG', '123', new DateInterval('PT5M'));
+
+        $this->assertInstanceOf(Otp::class, $otp);
     }
 
     /**
@@ -66,10 +69,9 @@ class OtpTest extends TestCase
      */
     public function only_accepts_string_otps($nonString)
     {
-        $this->setExpectedException(
-            'Surfnet\StepupBundle\Exception\InvalidArgumentException',
-            'otpString'
-        );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('otpString');
+
         Otp::create($nonString, '123', new DateInterval('PT5M'));
     }
 
@@ -81,10 +83,9 @@ class OtpTest extends TestCase
      */
     public function only_accepts_string_phone_numbers($nonString)
     {
-        $this->setExpectedException(
-            'Surfnet\StepupBundle\Exception\InvalidArgumentException',
-            'phoneNumber'
-        );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('phoneNumber');
+
         Otp::create('ABCDEFG', $nonString, new DateInterval('PT5M'));
     }
 
@@ -96,10 +97,9 @@ class OtpTest extends TestCase
      */
     public function it_verifies_only_string_otps($nonString)
     {
-        $this->setExpectedException(
-            'Surfnet\StepupBundle\Exception\InvalidArgumentException',
-            'otpString'
-        );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('otpString');
+
         $otp = Otp::create($nonString, '123', new DateInterval('PT5M'));
         $otp->verify($nonString);
     }

@@ -20,7 +20,9 @@ namespace Surfnet\StepupBundle\Tests\Service\SmsSecondFactor;
 
 use DateInterval;
 use DateTime;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase ;
+use Surfnet\StepupBundle\Exception\InvalidArgumentException;
+use Surfnet\StepupBundle\Service\Exception\TooManyChallengesRequestedException;
 use Surfnet\StepupBundle\Service\SmsSecondFactor\SmsVerificationState;
 use Surfnet\StepupBundle\Tests\DateTimeHelper;
 
@@ -74,10 +76,9 @@ class SmsVerificationStateTest extends TestCase
      */
     public function it_accepts_only_string_phone_numbers($nonString)
     {
-        $this->setExpectedException(
-            'Surfnet\StepupBundle\Exception\InvalidArgumentException',
-            'phoneNumber'
-        );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('phoneNumber');
+
         $state = new SmsVerificationState(new DateInterval('PT15M'), 3);
         $state->requestNewOtp($nonString);
     }
@@ -90,10 +91,9 @@ class SmsVerificationStateTest extends TestCase
      */
     public function it_verifies_only_string_otps($nonString)
     {
-        $this->setExpectedException(
-            'Surfnet\StepupBundle\Exception\InvalidArgumentException',
-            'userOtp'
-        );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('userOtp');
+
         $state = new SmsVerificationState(new DateInterval('PT15M'), 3);
         $state->requestNewOtp('123');
         $state->verify($nonString);
@@ -159,9 +159,8 @@ class SmsVerificationStateTest extends TestCase
         $this->assertSame(0, $state->getOtpRequestsRemainingCount());
         $this->assertSame(0, $state->getOtpRequestsRemainingCount());
 
-        $this->setExpectedException(
-            'Surfnet\StepupBundle\Service\Exception\TooManyChallengesRequestedException'
-        );
+        $this->expectException(TooManyChallengesRequestedException::class);
+
         $state->requestNewOtp('123');
         $this->assertSame(0, $state->getOtpRequestsRemainingCount());
     }
@@ -179,10 +178,8 @@ class SmsVerificationStateTest extends TestCase
      */
     public function maximum_challenges_must_be_gte_1($maximumTries)
     {
-        $this->setExpectedException(
-            'Surfnet\StepupBundle\Exception\InvalidArgumentException',
-            'maximum OTP requests'
-        );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('maximum OTP requests');
 
         new SmsVerificationState(new DateInterval('PT15M'), $maximumTries);
     }

@@ -18,24 +18,32 @@
 
 namespace Surfnet\StepupBundle\Tests\Request;
 
+use LogicException;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 use Surfnet\StepupBundle\Request\RequestId;
+use Surfnet\StepupBundle\Request\RequestIdGenerator;
 
-class RequestIdTest extends \PHPUnit_Framework_TestCase
+class RequestIdTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     public function testItCanSetARequestId()
     {
-        $generator = m::mock('Surfnet\StepupBundle\Request\RequestIdGenerator');
+        $generator = m::mock(RequestIdGenerator::class);
 
         $requestId = new RequestId($generator);
         $requestId->set('abcdef');
+
+        $this->assertInstanceOf(RequestId::class, $requestId);
     }
 
     public function testItDoesNotAllowOverwritingTheRequestIdByDefault()
     {
-        $this->setExpectedException('LogicException', 'not overwrite');
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('not overwrite');
 
-        $generator = m::mock('Surfnet\StepupBundle\Request\RequestIdGenerator');
+        $generator = m::mock(RequestIdGenerator::class);
 
         $requestId = new RequestId($generator);
         $requestId->set('abcdef');
@@ -44,7 +52,7 @@ class RequestIdTest extends \PHPUnit_Framework_TestCase
 
     public function testOverwritingTheRequestIdAfterSettingItIsAllowedIfForced()
     {
-        $generator = m::mock('Surfnet\StepupBundle\Request\RequestIdGenerator');
+        $generator = m::mock(RequestIdGenerator::class);
 
         $requestId = new RequestId($generator);
 
@@ -56,7 +64,7 @@ class RequestIdTest extends \PHPUnit_Framework_TestCase
 
     public function testOverwritingTheRequestIdAfterHavingItGeneratedIsAllowedIfForced()
     {
-        $generator = m::mock('Surfnet\StepupBundle\Request\RequestIdGenerator')
+        $generator = m::mock(RequestIdGenerator::class)
             ->shouldReceive('generateRequestId')->once()->andReturn('12345')
             ->getMock();
 
@@ -70,7 +78,7 @@ class RequestIdTest extends \PHPUnit_Framework_TestCase
 
     public function testItGeneratesARequestIdIfItIsNotSet()
     {
-        $generator = m::mock('Surfnet\StepupBundle\Request\RequestIdGenerator')
+        $generator = m::mock(RequestIdGenerator::class)
             ->shouldReceive('generateRequestId')->once()->andReturn('abcdef')
             ->getMock();
 

@@ -18,7 +18,7 @@
 
 namespace Surfnet\StepupBundle\Tests\Service;
 
-use PHPUnit_Framework_TestCase as UnitTest;
+use PHPUnit\Framework\TestCase as UnitTest;
 use Surfnet\StepupBundle\Service\LoaResolutionService;
 use Surfnet\StepupBundle\Value\Loa;
 
@@ -29,7 +29,7 @@ class LoaResolutionServiceTest extends UnitTest
      */
     private $loas;
 
-    public function setUp()
+    public function setUp(): void
     {
         $providedLoas = $this->loaProvider();
         foreach ($providedLoas as $definition) {

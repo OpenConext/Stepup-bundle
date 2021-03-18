@@ -2,10 +2,18 @@ language: php
 
 matrix:
   include:
-    - php: 5.6
-      env: SYMFONY_VERSION="3.4.*"
     - php: 7.2
-      env: SYMFONY_VERSION="4.3.*"
+      env: SYMFONY_VERSION="4.4.*"
+    - php: 7.4
+      env: SYMFONY_VERSION="4.4.*"
+    - php: 7.2
+      env: SYMFONY_VERSION="5.1.*"
+    - php: 7.4
+      env: SYMFONY_VERSION="5.1.*"
+
+  allow_failures:
+    - env: SYMFONY_VERSION="5.1.*"
+
 
 cache:
   directories:

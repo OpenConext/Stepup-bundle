@@ -18,7 +18,7 @@
 
 namespace Surfnet\StepupBundle\Tests\Service;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase ;
 use Surfnet\StepupBundle\Service\SecondFactorTypeService;
 use Surfnet\StepupBundle\Value\Loa;
 use Surfnet\StepupBundle\Value\SecondFactorType;
@@ -41,7 +41,7 @@ class SecondFactorTypeServiceTest extends TestCase
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
         $types = $service->getAvailableSecondFactorTypes();
-        $this->assertInternalType('array', $types);
+        $this->assertIsArray($types);
         $this->assertContains('tiqr', $types);
         $this->assertContains('biometric', $types);
         $this->assertContains('sms', $types);
@@ -61,11 +61,12 @@ class SecondFactorTypeServiceTest extends TestCase
 
     /**
      * @group service
-     * @expectedException \Surfnet\StepupBundle\Exception\DomainException
-     * @expectedExceptionMessage The Loa level of this type: u3f can't be retrieved.
      */
     public function testGetLevelCannotGetLevelOfNonExistingSecondFactorType()
     {
+        $this->expectExceptionMessage("The Loa level of this type: u3f can't be retrieved.");
+        $this->expectException(\Surfnet\StepupBundle\Exception\DomainException::class);
+
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
         $service->getLevel(new SecondFactorType('u3f'));
     }
@@ -77,7 +78,8 @@ class SecondFactorTypeServiceTest extends TestCase
     {
         $service = new SecondFactorTypeService([]);
         $types = $service->getAvailableSecondFactorTypes();
-        $this->assertInternalType('array', $types);
+
+        $this->assertIsArray($types);
         $this->assertContains('sms', $types);
         $this->assertContains('yubikey', $types);
         $this->assertContains('u2f', $types);

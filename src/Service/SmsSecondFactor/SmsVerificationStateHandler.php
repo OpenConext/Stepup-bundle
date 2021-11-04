@@ -22,41 +22,23 @@ use Surfnet\StepupBundle\Service\Exception\TooManyChallengesRequestedException;
 
 interface SmsVerificationStateHandler
 {
-    /**
-     * @return bool
-     */
-    public function hasState();
+    public function hasState(string $secondFactorId): bool;
 
-    /**
-     * @return void
-     */
-    public function clearState();
+    public function clearState(string $secondFactorId);
 
     /**
      * Generates a new OTP and returns it.
-     *
-     * @param string $phoneNumber
-     * @return string
      * @throws TooManyChallengesRequestedException
      */
-    public function requestNewOtp($phoneNumber);
+    public function requestNewOtp(string $phoneNumber, string $secondFactorId): string;
 
-    /**
-     * @return int
-     */
-    public function getOtpRequestsRemainingCount();
+    public function getOtpRequestsRemainingCount(string $secondFactorId): int;
 
-    /**
-     * @return int
-     */
-    public function getMaximumOtpRequestsCount();
+    public function getMaximumOtpRequestsCount(): int;
 
     /**
      * Matches the given OTP with the currently stored SmsVerificationState. If it matches, the SmsVerificationState is
      * removed from storage. In all cases, the SmsVerificationState is returned if it was present.
-     *
-     * @param string $otp
-     * @return OtpVerification
      */
-    public function verify($otp);
+    public function verify(string $otp, string $secondFactorId): OtpVerification;
 }

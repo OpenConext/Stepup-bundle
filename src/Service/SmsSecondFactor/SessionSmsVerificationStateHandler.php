@@ -43,17 +43,11 @@ final class SessionSmsVerificationStateHandler implements SmsVerificationStateHa
      */
     private $otpRequestMaximum;
 
-    /**
-     * @param SessionInterface $session
-     * @param string $sessionKey
-     * @param int $otpExpiryInterval OTP's expiry interval in seconds
-     * @param int $otpRequestMaximum
-     */
     public function __construct(
         SessionInterface $session,
-        $sessionKey,
-        $otpExpiryInterval,
-        $otpRequestMaximum
+        string $sessionKey,
+        int $otpExpiryInterval,
+        int $otpRequestMaximum
     ) {
         $this->session = $session;
         $this->sessionKey = $sessionKey;
@@ -61,46 +55,51 @@ final class SessionSmsVerificationStateHandler implements SmsVerificationStateHa
         $this->otpRequestMaximum = $otpRequestMaximum;
     }
 
-    public function hasState()
+    private function sessionKeyFrom(string $secondFactorId)
     {
-        return $this->session->has($this->sessionKey);
+        return sprintf("%s_%s", $this->sessionKey, $secondFactorId);
     }
 
-    public function clearState()
+    public function hasState(string $secondFactorId): bool
     {
-        $this->session->remove($this->sessionKey);
+        return $this->session->has($this->sessionKeyFrom($secondFactorId));
     }
 
-    public function requestNewOtp($phoneNumber)
+    public function clearState(string $secondFactorId)
+    {
+        $this->session->remove($this->sessionKeyFrom($secondFactorId));
+    }
+
+    public function requestNewOtp(string $phoneNumber, string $secondFactorId): string
     {
         /** @var SmsVerificationState|null $state */
-        $state = $this->session->get($this->sessionKey);
+        $state = $this->session->get($this->sessionKeyFrom($secondFactorId));
 
         if (!$state) {
             $state = new SmsVerificationState($this->otpExpiryInterval, $this->otpRequestMaximum);
-            $this->session->set($this->sessionKey, $state);
+            $this->session->set($this->sessionKeyFrom($secondFactorId), $state);
         }
 
         return $state->requestNewOtp($phoneNumber);
     }
 
-    public function getOtpRequestsRemainingCount()
+    public function getOtpRequestsRemainingCount(string $secondFactorId): int
     {
         /** @var SmsVerificationState|null $state */
-        $state = $this->session->get($this->sessionKey);
+        $state = $this->session->get($this->sessionKeyFrom($secondFactorId));
 
         return $state ? $state->getOtpRequestsRemainingCount() : $this->otpRequestMaximum;
     }
 
-    public function getMaximumOtpRequestsCount()
+    public function getMaximumOtpRequestsCount(): int
     {
         return $this->otpRequestMaximum;
     }
 
-    public function verify($otp)
+    public function verify(string $otp, string $secondFactorId): OtpVerification
     {
         /** @var SmsVerificationState|null $state */
-        $state = $this->session->get($this->sessionKey);
+        $state = $this->session->get($this->sessionKeyFrom($secondFactorId));
 
         if (!$state) {
             return OtpVerification::matchExpired();

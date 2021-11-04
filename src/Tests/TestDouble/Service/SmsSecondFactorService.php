@@ -31,57 +31,37 @@ class SmsSecondFactorService implements SmsSecondFactorServiceInterface
      */
     private $smsVerificationStateHandler;
 
-    /**
-     * @param SmsVerificationStateHandler $smsVerificationStateHandler
-     */
     public function __construct(SmsVerificationStateHandler $smsVerificationStateHandler)
     {
         $this->smsVerificationStateHandler = $smsVerificationStateHandler;
     }
 
-    /**
-     * @return int
-     */
-    public function getOtpRequestsRemainingCount()
+    public function getOtpRequestsRemainingCount(string $secondFactorId): int
     {
         return 3;
     }
 
-    /**
-     * @return int
-     */
-    public function getMaximumOtpRequestsCount()
+    public function getMaximumOtpRequestsCount(): int
     {
         return 3;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasSmsVerificationState()
+    public function hasSmsVerificationState(string $secondFactorId): bool
     {
         return false;
     }
 
-    public function clearSmsVerificationState()
+    public function clearSmsVerificationState(string $secondFactorId)
     {
         // NOOP
     }
 
-    /**
-     * @param SendSmsChallengeCommand $command
-     * @return bool
-     */
-    public function sendChallenge(SendSmsChallengeCommand $command)
+    public function sendChallenge(SendSmsChallengeCommand $command): bool
     {
         return true;
     }
 
-    /**
-     * @param VerifyPossessionOfPhoneCommand $command
-     * @return OtpVerification
-     */
-    public function verifyPossession(VerifyPossessionOfPhoneCommand $command)
+    public function verifyPossession(VerifyPossessionOfPhoneCommand $command): OtpVerification
     {
         return OtpVerification::foundMatch('+31 (0) 612345678');
     }

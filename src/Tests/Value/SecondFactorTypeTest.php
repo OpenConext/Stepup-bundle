@@ -30,7 +30,6 @@ final class SecondFactorTypeTest extends TestCase
             'sms' => ['sms'],
             'tiqr' => ['tiqr'],
             'yubikey' => ['yubikey'],
-            'u2f' => ['u2f'],
             'biometric' => ['biometric'],
         ];
     }
@@ -75,6 +74,5 @@ final class SecondFactorTypeTest extends TestCase
     {
         $this->assertTrue((new SecondFactorType('sms'))->isSms());
         $this->assertTrue((new SecondFactorType('yubikey'))->isYubikey());
-        $this->assertTrue((new SecondFactorType('u2f'))->isU2f());
     }
 }

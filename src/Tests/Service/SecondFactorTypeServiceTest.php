@@ -46,7 +46,6 @@ class SecondFactorTypeServiceTest extends TestCase
         $this->assertContains('biometric', $types);
         $this->assertContains('sms', $types);
         $this->assertContains('yubikey', $types);
-        $this->assertContains('u2f', $types);
     }
 
     /**
@@ -55,7 +54,6 @@ class SecondFactorTypeServiceTest extends TestCase
     public function testGetLevel()
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
-        $this->assertEquals(3, $service->getLevel(new SecondFactorType('u2f')));
         $this->assertEquals(2, $service->getLevel(new SecondFactorType('sms')));
     }
 
@@ -82,7 +80,6 @@ class SecondFactorTypeServiceTest extends TestCase
         $this->assertIsArray($types);
         $this->assertContains('sms', $types);
         $this->assertContains('yubikey', $types);
-        $this->assertContains('u2f', $types);
     }
 
     /**

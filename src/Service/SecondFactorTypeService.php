@@ -32,7 +32,6 @@ class SecondFactorTypeService
     private $loaLevelTypeMap = [
         'sms' => Loa::LOA_2,
         'yubikey' => Loa::LOA_3,
-        'u2f' => Loa::LOA_3,
     ];
 
     /**

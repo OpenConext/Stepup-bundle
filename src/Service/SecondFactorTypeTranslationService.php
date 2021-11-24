@@ -22,10 +22,10 @@ use Surfnet\StepupBundle\Value\Provider\ViewConfigCollection;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
- * Provide translations for second factor types like yubikey, tiqr, sms, u2f, ..
+ * Provide translations for second factor types like yubikey, tiqr, sms,..
  *
- * Generic tokens (gssp) are translated from the YAML configuration provided for them. Where the hard coded types (sms,
- * yubikey and u2f) are translated using the Symfony translator.
+ * Generic tokens (gssp) are translated from the YAML configuration provided for them. Where the hard coded types (sms
+ * and yubikey) are translated using the Symfony translator.
  *
  * Translations should be provided in the translations file for this project and should follow the format specified in
  * the 'translationIdFormat' field.

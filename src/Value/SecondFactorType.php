@@ -66,6 +66,7 @@ final class SecondFactorType implements JsonSerializable
 
     /**
      * @return bool
+     * @deprecated u2f support is removed from StepUp in favour of the WebAuthn GSSP
      */
     public function isU2f()
     {

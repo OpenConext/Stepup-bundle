@@ -1,3 +1,9 @@
+# 4.1.7
+* Deprecate and remove U2F support #62
+
+# 4.1.2 .. 4.1.6
+No formal changelog entries for these versions. See PR's 57 through 61 for an overview of the changes.
+
 # 4.1.1
 Add accessor to Loa for the level field
 

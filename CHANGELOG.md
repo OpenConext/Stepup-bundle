@@ -1,4 +1,7 @@
-# 4.1.7
+# 4.2.2
+* Index SMS state on SecondFactorId
+
+# 4.2.1
 * Deprecate and remove U2F support #62
 
 # 4.1.2 .. 4.1.6

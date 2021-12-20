@@ -31,9 +31,9 @@ class Configuration implements ConfigurationInterface
 
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder;
+        $treeBuilder = new TreeBuilder('surfnet_bundle');
 
-        $rootNode = $treeBuilder->root('surfnet_bundle');
+        $rootNode = $treeBuilder->getRootNode();
         $rootNode
             ->children()
                 ->arrayNode('logging')

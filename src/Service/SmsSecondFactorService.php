@@ -67,42 +67,32 @@ class SmsSecondFactorService implements SmsSecondFactorServiceInterface
         $this->originator = $originator;
     }
 
-    /**
-     * @return int
-     */
-    public function getOtpRequestsRemainingCount()
+    public function getOtpRequestsRemainingCount(string $secondFactorId): int
     {
-        return $this->smsVerificationStateHandler->getOtpRequestsRemainingCount();
+        return $this->smsVerificationStateHandler->getOtpRequestsRemainingCount($secondFactorId);
     }
 
-    /**
-     * @return int
-     */
-    public function getMaximumOtpRequestsCount()
+    public function getMaximumOtpRequestsCount(): int
     {
         return $this->smsVerificationStateHandler->getMaximumOtpRequestsCount();
     }
 
-    /**
-     * @return bool
-     */
-    public function hasSmsVerificationState()
+    public function hasSmsVerificationState(string $secondFactorId): bool
     {
-        return $this->smsVerificationStateHandler->hasState();
+        return $this->smsVerificationStateHandler->hasState($secondFactorId);
     }
 
-    public function clearSmsVerificationState()
+    public function clearSmsVerificationState(string $secondFactorId)
     {
-        $this->smsVerificationStateHandler->clearState();
+        $this->smsVerificationStateHandler->clearState($secondFactorId);
     }
 
-    /**
-     * @param SendSmsChallengeCommand $command
-     * @return bool
-     */
-    public function sendChallenge(SendSmsChallengeCommand $command)
+    public function sendChallenge(SendSmsChallengeCommand $command): bool
     {
-        $challenge = $this->smsVerificationStateHandler->requestNewOtp((string) $command->phoneNumber);
+        $challenge = $this->smsVerificationStateHandler->requestNewOtp(
+            (string) $command->phoneNumber,
+            $command->secondFactorId)
+        ;
 
         $smsCommand = new SendSmsCommand();
         $smsCommand->recipient = $command->phoneNumber->toMSISDN();
@@ -114,12 +104,8 @@ class SmsSecondFactorService implements SmsSecondFactorServiceInterface
         return $this->smsService->sendSms($smsCommand);
     }
 
-    /**
-     * @param VerifyPossessionOfPhoneCommand $command
-     * @return OtpVerification
-     */
-    public function verifyPossession(VerifyPossessionOfPhoneCommand $command)
+    public function verifyPossession(VerifyPossessionOfPhoneCommand $command): OtpVerification
     {
-        return $this->smsVerificationStateHandler->verify($command->challenge);
+        return $this->smsVerificationStateHandler->verify($command->challenge, $command->secondFactorId);
     }
 }

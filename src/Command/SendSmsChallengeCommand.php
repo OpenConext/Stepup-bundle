@@ -28,6 +28,9 @@ class SendSmsChallengeCommand
      */
     public $phoneNumber;
 
+    /** @var string */
+    public $secondFactorId;
+
     /**
      * @var string The SMS contents. '%challenge%' will be replaced with the generated OTP.
      */

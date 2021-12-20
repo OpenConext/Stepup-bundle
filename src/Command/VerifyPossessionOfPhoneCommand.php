@@ -29,4 +29,10 @@ class VerifyPossessionOfPhoneCommand
      * @var string
      */
     public $challenge;
+
+    /**
+     * @Assert\Type(type="string", message="stepup.verify_possession_of_phone_command.second_factor_id.must_be_string")
+     * @var string
+     */
+    public $secondFactorId;
 }

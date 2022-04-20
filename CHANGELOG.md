@@ -1,3 +1,6 @@
+# 4.2.3
+Inform the user that a missing attribute is their problem #65
+
 # 4.2.2
 * Index SMS state on SecondFactorId
 

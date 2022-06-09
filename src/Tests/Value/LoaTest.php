@@ -20,6 +20,7 @@ namespace Surfnet\StepupBundle\Tests\Value;
 
 use PHPUnit\Framework\TestCase as UnitTest;
 use stdClass;
+use Surfnet\StepupBundle\Exception\DomainException;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\Loa;
 
@@ -28,13 +29,27 @@ class LoaTest extends UnitTest
     /**
      * @test
      * @group        value
+     * @dataProvider wrongTypeLevelProvider
+     *
+     * @param mixed $invalidLevel
+     */
+    public function it_cannot_be_created_with_a_wrong_loa_data_type($invalidLevel)
+    {
+        $this->expectError();
+
+        new Loa($invalidLevel, 'identifier');
+    }
+
+    /**
+     * @test
+     * @group        value
      * @dataProvider invalidLevelProvider
      *
      * @param mixed $invalidLevel
      */
-    public function it_cannot_be_created_with_a_non_existant_level($invalidLevel)
+    public function it_cannot_be_created_with_an_invalid_loa_type($invalidLevel)
     {
-        $this->expectException(\Surfnet\StepupBundle\Exception\DomainException::class);
+        $this->expectException(DomainException::class);
 
         new Loa($invalidLevel, 'identifier');
     }
@@ -42,15 +57,21 @@ class LoaTest extends UnitTest
     /**
      * @test
      * @group value
-     * @dataProvider invalidIdentifierProvider
-     *
-     * @param mixed $invalidIdentifier
      */
-    public function it_cannot_be_created_when_the_identifier_is_not_a_string($invalidIdentifier)
+    public function it_cannot_be_created_when_the_identifier_is_not_a_string()
     {
-        $this->expectException(InvalidArgumentException::class);
-
-        new Loa(Loa::LOA_1, $invalidIdentifier);
+        // Using a data provider causes PHP to type cast certain values. Resulting in false test results
+        // For example. False was converted to 0.
+        $this->expectError();
+        new Loa(Loa::LOA_1, 1);
+        $this->expectError();
+        new Loa(Loa::LOA_1, 1.1);
+        $this->expectError();
+        new Loa(Loa::LOA_1, false);
+        $this->expectError();
+        new Loa(Loa::LOA_1, []);
+        $this->expectError();
+        new Loa(Loa::LOA_1, new stdClass());
     }
 
     /**
@@ -126,21 +147,15 @@ class LoaTest extends UnitTest
     {
         return [
             'unknown level' => [4],
-            'string'        => ['a'],
-            'object'        => [new stdClass()],
-            'float'         => [1.1],
-            'boolean'       => [false]
+            'unknown level float' => [1.1],
         ];
     }
 
-    public function invalidIdentifierProvider()
+    public function wrongTypeLevelProvider()
     {
         return [
-            'integer' => [1],
-            'float'   => [1.1],
-            'boolean' => [false],
-            'array'   => [[]],
-            'object'  => [new stdClass()]
+            'string' => ['a'],
+            'object' => [new stdClass()],
         ];
     }
 }

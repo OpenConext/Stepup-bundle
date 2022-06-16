@@ -106,6 +106,12 @@ services:
     Surfnet\StepupBundle\Service\SmsSecondFactorService:
         alias: surfnet_stepup.service.sms_second_factor
 
+    Surfnet\StepupBundle\Service\SmsRecoveryTokenService:
+        arguments:
+            - '' # SMS service set in extension
+            - "@surfnet_stepup.service.challenge_handler"
+            - '' # Originator set in extension
+
     surfnet_stepup.service.challenge_handler:
         public: false
         class: Surfnet\StepupBundle\Service\SmsSecondFactor\SessionSmsVerificationStateHandler

@@ -22,6 +22,7 @@ use Surfnet\StepupBundle\Command\SendRecoveryTokenSmsChallengeCommand;
 use Surfnet\StepupBundle\Command\SendSmsChallengeCommand;
 use Surfnet\StepupBundle\Command\SendSmsCommand;
 use Surfnet\StepupBundle\Command\VerifyPossessionOfPhoneCommand;
+use Surfnet\StepupBundle\Command\VerifyPossessionOfPhoneForRecoveryTokenCommand;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Service\SmsSecondFactor\OtpVerification;
 use Surfnet\StepupBundle\Service\SmsSecondFactor\SmsVerificationStateHandler;
@@ -105,8 +106,8 @@ class SmsRecoveryTokenService
         return $this->smsService->sendSms($smsCommand);
     }
 
-    public function verifyPossession(VerifyPossessionOfPhoneCommand $command): OtpVerification
+    public function verifyPossession(VerifyPossessionOfPhoneForRecoveryTokenCommand $command): OtpVerification
     {
-        return $this->smsVerificationStateHandler->verify($command->challenge, $command->secondFactorId);
+        return $this->smsVerificationStateHandler->verify($command->challenge, $command->recoveryTokenId);
     }
 }

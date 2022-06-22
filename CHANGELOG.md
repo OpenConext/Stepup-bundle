@@ -1,3 +1,8 @@
+# 4.2.4
+* LoA 1.5 (self-asserted) was introduced. Used to mark tokens that are registered using the self-asserted tokens feature #66
+* Recovery token SMS challenge and proof of possession commands where added #67
+* An SMS recovery token service was created #67
+
 # 4.2.3
 Inform the user that a missing attribute is their problem #65
 

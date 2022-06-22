@@ -29,12 +29,13 @@ class Loa
     /**
      * The different levels
      */
-    const LOA_1 = 1;
-    const LOA_2 = 2;
-    const LOA_3 = 3;
+    const LOA_1 = 1.0;
+    const LOA_SELF_VETTED = 1.5;
+    const LOA_2 = 2.0;
+    const LOA_3 = 3.0;
 
     /**
-     * @var int
+     * @var float
      */
     private $level;
 
@@ -43,17 +44,13 @@ class Loa
      */
     private $identifier;
 
-    /**
-     * @param int    $level
-     * @param string $identifier
-     */
-    public function __construct($level, $identifier)
+    public function __construct(float $level, string $identifier)
     {
-        $possibleLevels = [self::LOA_1, self::LOA_2, self::LOA_3];
+        $possibleLevels = [self::LOA_1, self::LOA_SELF_VETTED, self::LOA_2, self::LOA_3];
         if (!in_array($level, $possibleLevels, true)) {
             throw new DomainException(sprintf(
-                'Unknown loa level "%s", known levels: "%s"',
-                is_object($level) ? get_class($level) : $level,
+                'Unknown loa level "%d", known levels: "%s"',
+                $level,
                 implode('", "', $possibleLevels)
             ));
         }
@@ -66,68 +63,44 @@ class Loa
         $this->identifier = $identifier;
     }
 
-    /**
-     * @param string $identifier
-     * @return bool
-     */
-    public function isIdentifiedBy($identifier)
+    public function isIdentifiedBy(string $identifier): bool
     {
         return $this->identifier === $identifier;
     }
 
-    /**
-     * @param int $level
-     * @return bool
-     */
-    public function levelIsLowerOrEqualTo($level)
+    public function levelIsLowerOrEqualTo(float $level): bool
     {
         return $this->level <= $level;
     }
 
-    /**
-     * @param int $level
-     * @return bool
-     */
-    public function levelIsHigherOrEqualTo($level)
+    public function levelIsHigherOrEqualTo(float $level): bool
     {
         return $this->level >= $level;
     }
 
-    /**
-     * @param Loa $loa
-     * @return bool
-     */
-    public function canSatisfyLoa(Loa $loa)
+    public function canSatisfyLoa(Loa $loa): bool
     {
         return $loa->levelIsLowerOrEqualTo($this->level);
     }
 
-    /**
-     * @param Loa $loa
-     * @return bool
-     */
-    public function equals(Loa $loa)
+    public function equals(Loa $loa): bool
     {
         return $this->level === $loa->level
             && $this->identifier === $loa->identifier;
     }
 
-    /**
-     * @param int $loaLevel
-     * @return bool
-     */
-    public function isOfLevel($loaLevel)
+    public function isOfLevel(float $loaLevel): bool
     {
         return $this->level === $loaLevel;
     }
 
-    public function getLevel(): int
+    public function getLevel(): float
     {
         return $this->level;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return  $this->identifier;
+        return $this->identifier;
     }
 }

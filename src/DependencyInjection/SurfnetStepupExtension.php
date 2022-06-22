@@ -24,6 +24,7 @@ use Surfnet\StepupBundle\Form\ChoiceList\LocaleChoiceList;
 use Surfnet\StepupBundle\Http\CookieHelper;
 use Surfnet\StepupBundle\Service\LoaResolutionService;
 use Surfnet\StepupBundle\Service\SecondFactorTypeService;
+use Surfnet\StepupBundle\Service\SmsRecoveryTokenService;
 use Surfnet\StepupBundle\Service\SmsSecondFactorService;
 use Surfnet\StepupBundle\Value\Loa;
 use Symfony\Component\Config\Definition\Processor;
@@ -160,16 +161,18 @@ class SurfnetStepupExtension extends Extension
     private function configureSmsSecondFactorServices(array $config, ContainerBuilder $container)
     {
         $smsSecondFactorService = $container->getDefinition('surfnet_stepup.service.sms_second_factor');
+        $smsSecondFactorService->replaceArgument(0, new Reference($config['sms']['service']));
         $smsSecondFactorService->replaceArgument(2, $config['sms']['originator']);
+
+        $recoveryTokenService = $container->getDefinition(SmsRecoveryTokenService::class);
+        $recoveryTokenService->replaceArgument(0, new Reference($config['sms']['service']));
+        $recoveryTokenService->replaceArgument(2, $config['sms']['originator']);
 
         $container
             ->getDefinition('surfnet_stepup.service.challenge_handler')
             ->replaceArgument(2, $config['sms']['otp_expiry_interval'])
             ->replaceArgument(3, $config['sms']['maximum_otp_requests']);
 
-        $container
-            ->getDefinition('surfnet_stepup.service.sms_second_factor')
-            ->replaceArgument(0, new Reference($config['sms']['service']));
     }
 
     private function configureLocaleSelectionWidget(array $loaDefinitions, ContainerBuilder $container)

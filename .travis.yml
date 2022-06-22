@@ -36,6 +36,8 @@ branches:
     - /^hotfix\/(.*)$/
     - /^bugfix\/(.*)$/
 
+dist: bionic
+
 addons:
   apt:
     packages:

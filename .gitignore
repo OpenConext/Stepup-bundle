@@ -2,3 +2,4 @@
 /cache.properties
 composer.lock
 .idea
+/.phpunit.result.cache

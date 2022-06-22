@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2014 SURFnet bv
+ * Copyright 2022 SURFnet bv
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ namespace Surfnet\StepupBundle\Command;
 
 use Surfnet\StepupBundle\Value\PhoneNumber\InternationalPhoneNumber;
 
-class SendSmsChallengeCommand
+class SendRecoveryTokenSmsChallengeCommand
 {
     /**
      * @var InternationalPhoneNumber
@@ -30,7 +30,7 @@ class SendSmsChallengeCommand
     /**
      * @var string
      */
-    public $secondFactorId;
+    public $recoveryTokenId;
 
     /**
      * @var string The SMS contents. '%challenge%' will be replaced with the generated OTP.

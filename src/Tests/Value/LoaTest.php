@@ -20,6 +20,7 @@ namespace Surfnet\StepupBundle\Tests\Value;
 
 use PHPUnit\Framework\TestCase as UnitTest;
 use stdClass;
+use Surfnet\StepupBundle\Exception\DomainException;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\Loa;
 
@@ -28,13 +29,27 @@ class LoaTest extends UnitTest
     /**
      * @test
      * @group        value
+     * @dataProvider wrongTypeLevelProvider
+     *
+     * @param mixed $invalidLevel
+     */
+    public function it_cannot_be_created_with_a_wrong_loa_data_type($invalidLevel)
+    {
+        $this->expectError();
+
+        new Loa($invalidLevel, 'identifier');
+    }
+
+    /**
+     * @test
+     * @group        value
      * @dataProvider invalidLevelProvider
      *
      * @param mixed $invalidLevel
      */
-    public function it_cannot_be_created_with_a_non_existant_level($invalidLevel)
+    public function it_cannot_be_created_with_an_invalid_loa_type($invalidLevel)
     {
-        $this->expectException(\Surfnet\StepupBundle\Exception\DomainException::class);
+        $this->expectException(DomainException::class);
 
         new Loa($invalidLevel, 'identifier');
     }
@@ -42,15 +57,21 @@ class LoaTest extends UnitTest
     /**
      * @test
      * @group value
-     * @dataProvider invalidIdentifierProvider
-     *
-     * @param mixed $invalidIdentifier
      */
-    public function it_cannot_be_created_when_the_identifier_is_not_a_string($invalidIdentifier)
+    public function it_cannot_be_created_when_the_identifier_is_not_a_string()
     {
-        $this->expectException(InvalidArgumentException::class);
-
-        new Loa(Loa::LOA_1, $invalidIdentifier);
+        // Using a data provider causes PHP to type cast certain values. Resulting in false test results
+        // For example. False was converted to 0.
+        $this->expectError();
+        new Loa(Loa::LOA_1, 1);
+        $this->expectError();
+        new Loa(Loa::LOA_1, 1.1);
+        $this->expectError();
+        new Loa(Loa::LOA_1, false);
+        $this->expectError();
+        new Loa(Loa::LOA_1, []);
+        $this->expectError();
+        new Loa(Loa::LOA_1, new stdClass());
     }
 
     /**
@@ -79,6 +100,7 @@ class LoaTest extends UnitTest
         $this->assertTrue($loa->levelIsLowerOrEqualTo(Loa::LOA_3), 'Loa 2 <= Loa 3');
         $this->assertTrue($loa->levelIsLowerOrEqualTo(Loa::LOA_2), 'Loa 2 <= Loa 2');
         $this->assertFalse($loa->levelIsLowerOrEqualTo(Loa::LOA_1), 'Loa 2 !<= Loa 1');
+        $this->assertFalse($loa->levelIsLowerOrEqualTo(Loa::LOA_SELF_VETTED), 'Loa 2 !<= Loa 1.5');
     }
 
     /**
@@ -91,6 +113,7 @@ class LoaTest extends UnitTest
 
         $this->assertFalse($loa->levelIsHigherOrEqualTo(Loa::LOA_3), 'Loa 2 !>= Loa 3');
         $this->assertTrue($loa->levelIsHigherOrEqualTo(Loa::LOA_2), 'Loa 2 >= Loa 2');
+        $this->assertTrue($loa->levelIsHigherOrEqualTo(Loa::LOA_SELF_VETTED), 'Loa 2 >= Loa 1.5');
         $this->assertTrue($loa->levelIsHigherOrEqualTo(Loa::LOA_1), 'Loa 2 >= Loa 1');
     }
 
@@ -101,11 +124,13 @@ class LoaTest extends UnitTest
     public function in_order_to_be_able_to_satisfy_a_loa_the_loa_must_have_a_level_higher_or_equal_to_the_other_level()
     {
         $loa1 = new Loa(Loa::LOA_1, '1');
+        $loaSelfAsserted = new Loa(Loa::LOA_SELF_VETTED, 'loa_self_asserted');
         $loa2 = new Loa(Loa::LOA_2, '2');
         $loa3 = new Loa(Loa::LOA_3, '3');
 
         $this->assertFalse($loa2->canSatisfyLoa($loa3), 'Loa 2 cannot satisfy Loa 3');
         $this->assertTrue($loa2->canSatisfyLoa($loa2), 'Loa 2 can satisfy Loa 2');
+        $this->assertTrue($loa2->canSatisfyLoa($loaSelfAsserted), 'Loa 2 can satisfy Loa 1.5');
         $this->assertTrue($loa2->canSatisfyLoa($loa1), 'Loa 2 can satisfy Loa 1');
     }
 
@@ -118,6 +143,7 @@ class LoaTest extends UnitTest
         $loa = new Loa(Loa::LOA_2, '2');
 
         $this->assertFalse($loa->isOfLevel(Loa::LOA_1), 'Loa 2 is not of level 1');
+        $this->assertFalse($loa->isOfLevel(Loa::LOA_SELF_VETTED), 'Loa 2 is not of level 1.5');
         $this->assertTrue($loa->isOfLevel(Loa::LOA_2), 'Loa 2 is of level 2');
         $this->assertFalse($loa->isOfLevel(Loa::LOA_3), 'Loa 2 is not of level 3');
     }
@@ -126,21 +152,15 @@ class LoaTest extends UnitTest
     {
         return [
             'unknown level' => [4],
-            'string'        => ['a'],
-            'object'        => [new stdClass()],
-            'float'         => [1.1],
-            'boolean'       => [false]
+            'unknown level float' => [1.1],
         ];
     }
 
-    public function invalidIdentifierProvider()
+    public function wrongTypeLevelProvider()
     {
         return [
-            'integer' => [1],
-            'float'   => [1.1],
-            'boolean' => [false],
-            'array'   => [[]],
-            'object'  => [new stdClass()]
+            'string' => ['a'],
+            'object' => [new stdClass()],
         ];
     }
 }

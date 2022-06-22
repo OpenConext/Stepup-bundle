@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2014 SURFnet bv
+ * Copyright 2022 SURFnet bv
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,36 +18,21 @@
 
 namespace Surfnet\StepupBundle\Command;
 
-use Surfnet\StepupBundle\Value\PhoneNumber\InternationalPhoneNumber;
+use Symfony\Component\Validator\Constraints as Assert;
 
-class SendSmsChallengeCommand
+class VerifyPossessionOfPhoneForRecoveryTokenCommand
 {
     /**
-     * @var InternationalPhoneNumber
-     */
-    public $phoneNumber;
-
-    /**
-     * @var string
-     */
-    public $secondFactorId;
-
-    /**
-     * @var string The SMS contents. '%challenge%' will be replaced with the generated OTP.
-     */
-    public $body;
-
-    /**
-     * The requesting identity's ID (not name ID).
+     * @Assert\NotBlank(message="stepup.verify_possession_of_phone_command.challenge.may_not_be_empty")
+     * @Assert\Type(type="string", message="stepup.verify_possession_of_phone_command.challenge.must_be_string")
      *
      * @var string
      */
-    public $identity;
+    public $challenge;
 
     /**
-     * The requesting identity's institution.
-     *
+     * @Assert\Type(type="string", message="stepup.verify_possession_of_phone_command.recovery_token_id.must_be_string")
      * @var string
      */
-    public $institution;
+    public $recoveryTokenId;
 }

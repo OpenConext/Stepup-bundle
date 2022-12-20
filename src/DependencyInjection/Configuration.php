@@ -81,6 +81,15 @@ class Configuration implements ConfigurationInterface
                                 ->thenInvalid('Loa definition for "loa3" must be a string')
                             ->end()
                         ->end()
+                        ->scalarNode('loa_self_asserted')
+                            ->example('https://gateway.tld/authentication/loa_self_asserted')
+                            ->validate()
+                                ->ifTrue(function ($value) {
+                                    return !is_string($value);
+                                })
+                                ->thenInvalid('Loa definition for "loa_self_asserted" must be a string')
+                            ->end()
+                        ->end()
                     ->end()
                 ->end()
                 ->arrayNode('attach_request_id_injector_to')

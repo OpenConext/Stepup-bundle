@@ -23,6 +23,9 @@ use Surfnet\StepupBundle\Exception\DomainException;
 use Surfnet\StepupBundle\Value\GssfConfig;
 use Surfnet\StepupBundle\Value\Loa;
 use Surfnet\StepupBundle\Value\SecondFactorType;
+use Surfnet\StepupBundle\Value\VettingType;
+use function array_key_exists;
+use function in_array;
 
 class SecondFactorTypeService
 {
@@ -32,6 +35,21 @@ class SecondFactorTypeService
     private $loaLevelTypeMap = [
         'sms' => Loa::LOA_2,
         'yubikey' => Loa::LOA_3,
+    ];
+
+    /**
+     * When the vetting type is of a certain type, a LoA subtraction might apply
+     *
+     * Rationale being that a token has a certain strength. For example a Yubikey
+     * is a stronger token than say a SMS based token. The same principle applies
+     * for the vetting type. An on-premise vetting action gives a high level of
+     * authenticity, where a self-asserted registration tells us far less about the
+     * Identity.
+     *
+     * @var array
+     */
+    private $vettingTypeSubtractions = [
+        VettingType::TYPE_SELF_ASSERTED_REGISTRATION => Loa::LOA_SELF_VETTED
     ];
 
     /**
@@ -66,52 +84,42 @@ class SecondFactorTypeService
         return $this->gssfConfig->getSecondFactorTypes();
     }
 
-    /**
-     * @param SecondFactorType $secondFactorType
-     * @param Loa $loa
-     * @return bool
-     */
-    public function canSatisfy(SecondFactorType $secondFactorType, Loa $loa)
+    public function canSatisfy(SecondFactorType $secondFactorType, Loa $loa, VettingType $vettingType): bool
     {
-        return $loa->levelIsLowerOrEqualTo($this->getLevel($secondFactorType));
+        return $loa->levelIsLowerOrEqualTo($this->getLevel($secondFactorType, $vettingType));
     }
 
-    /**
-     * @param SecondFactorType $secondFactorType
-     * @param Loa $loa
-     * @return bool
-     */
-    public function isSatisfiedBy(SecondFactorType $secondFactorType, Loa $loa)
+    public function isSatisfiedBy(SecondFactorType $secondFactorType, Loa $loa, VettingType $vettingType): bool
     {
-        return $loa->levelIsHigherOrEqualTo($this->getLevel($secondFactorType));
+        return $loa->levelIsHigherOrEqualTo($this->getLevel($secondFactorType, $vettingType));
     }
 
-    /**
-     * @param SecondFactorType $secondFactorType
-     * @param SecondFactorTypeService|SecondFactorType $other
-     * @return bool
-     */
-    public function hasEqualOrHigherLoaComparedTo(SecondFactorType $secondFactorType, SecondFactorType $other)
-    {
-        return $this->getLevel($secondFactorType) >= $this->getLevel($other);
+    public function hasEqualOrHigherLoaComparedTo(
+        SecondFactorType $secondFactorType,
+        VettingType $vettingType,
+        SecondFactorType $other,
+        VettingType $otherVettingType
+    ): bool {
+        return $this->getLevel($secondFactorType, $vettingType) >= $this->getLevel($other, $otherVettingType);
     }
 
-    /**
-     * @param SecondFactorType $secondFactorType
-     * @param SecondFactorTypeService|SecondFactorType $other
-     * @return bool
-     */
-    public function hasEqualOrLowerLoaComparedTo(SecondFactorType $secondFactorType, SecondFactorType $other)
-    {
-        return $this->getLevel($secondFactorType) <= $this->getLevel($other);
+    public function hasEqualOrLowerLoaComparedTo(
+        SecondFactorType $secondFactorType,
+        VettingType $vettingType,
+        SecondFactorType $other,
+        VettingType $otherVettingType
+    ): bool {
+        return $this->getLevel($secondFactorType, $vettingType) <= $this->getLevel($other, $otherVettingType);
     }
 
-    /**
-     * @param SecondFactorType $secondFactorType
-     * @return int
-     */
-    public function getLevel(SecondFactorType $secondFactorType)
+    public function getLevel(SecondFactorType $secondFactorType, VettingType $vettingType): float
     {
+        // For now the substraction model works as follows: is your vetting type in the
+        // list of subtractions? Then the LoA level set for that vetting type is applied
+        if (array_key_exists($vettingType->getType(), $this->vettingTypeSubtractions)) {
+            return $this->vettingTypeSubtractions[$vettingType->getType()];
+        }
+
         $loaMap = array_merge(
             $this->loaLevelTypeMap,
             $this->gssfConfig->getLoaMap()

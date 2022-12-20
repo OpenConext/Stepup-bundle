@@ -68,6 +68,7 @@ class SecondFactorTypeTranslationService
                 ->getTitle();
         } else {
             // Attempt a regular symfony translation for any non gssp sf type.
+            /** @Ignore */
             $translation = $this->translator->trans($translationId);
         }
 

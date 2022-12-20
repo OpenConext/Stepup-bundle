@@ -37,8 +37,6 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * Class SurfnetStepupExtension
- *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class SurfnetStepupExtension extends Extension
@@ -103,8 +101,9 @@ class SurfnetStepupExtension extends Extension
         $loa1 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_1, $loaDefinitions['loa1']]);
         $loa2 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_2, $loaDefinitions['loa2']]);
         $loa3 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_3, $loaDefinitions['loa3']]);
+        $loaSelfAsserted = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_SELF_VETTED, $loaDefinitions['loa_self_asserted']]);
 
-        $loaService->addArgument([$loa1, $loa2, $loa3]);
+        $loaService->addArgument([$loa1, $loa2, $loa3, $loaSelfAsserted]);
     }
 
     /**

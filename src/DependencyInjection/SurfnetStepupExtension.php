@@ -35,6 +35,7 @@ use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use function array_key_exists;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -101,9 +102,13 @@ class SurfnetStepupExtension extends Extension
         $loa1 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_1, $loaDefinitions['loa1']]);
         $loa2 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_2, $loaDefinitions['loa2']]);
         $loa3 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_3, $loaDefinitions['loa3']]);
-        $loaSelfAsserted = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_SELF_VETTED, $loaDefinitions['loa_self_asserted']]);
 
-        $loaService->addArgument([$loa1, $loa2, $loa3, $loaSelfAsserted]);
+        $arguments = [$loa1, $loa2, $loa3];
+
+        if (array_key_exists('loa_self_asserted', $loaDefinitions)) {
+            $arguments[] = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_SELF_VETTED, $loaDefinitions['loa_self_asserted']]);
+        }
+        $loaService->addArgument($arguments);
     }
 
     /**

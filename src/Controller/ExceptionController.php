@@ -34,15 +34,20 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * @package Surfnet\StepupBundle\Controller
- *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects) Contains extensive mapping for exceptions
  */
 class ExceptionController extends FrameworkController
 {
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function showAction(Request $request, Exception $exception)
     {
         $statusCode = $this->getStatusCode($exception);
@@ -55,7 +60,7 @@ class ExceptionController extends FrameworkController
 
         $response = new Response('', $statusCode);
 
-        $timestamp = (new DateTime)->format(DateTime::ISO8601);
+        $timestamp = (new DateTime)->format(DateTime::ATOM);
         $hostname  = $request->getHost();
         $requestId = $this->get('surfnet_stepup.request.request_id');
         $errorCode = Art::forException($exception);
@@ -153,11 +158,8 @@ class ExceptionController extends FrameworkController
         ];
     }
 
-    /**
-     * @return TranslatorInterface
-     */
-    protected function getTranslator()
+    protected function getTranslator(): TranslatorInterface
     {
-        return $this->get('translator');
+        return $this->translator;
     }
 }

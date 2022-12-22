@@ -1,3 +1,6 @@
+# 5.0.1
+- Renamed SMS challenge service definition
+
 # 5.0.0
 Upgrade dependencies
 

@@ -25,6 +25,7 @@ use Surfnet\StepupBundle\Http\CookieHelper;
 use Surfnet\StepupBundle\Service\LoaResolutionService;
 use Surfnet\StepupBundle\Service\SecondFactorTypeService;
 use Surfnet\StepupBundle\Service\SmsRecoveryTokenService;
+use Surfnet\StepupBundle\Service\SmsSecondFactor\SessionSmsVerificationStateHandler;
 use Surfnet\StepupBundle\Service\SmsSecondFactorService;
 use Surfnet\StepupBundle\Value\Loa;
 use Symfony\Component\Config\Definition\Processor;
@@ -65,7 +66,7 @@ class SurfnetStepupExtension extends Extension
         if ($config['sms']['enabled'] === false) {
             $container->removeDefinition('surfnet_stepup.service.sms_second_factor');
             $container->removeAlias(SmsSecondFactorService::class);
-            $container->removeDefinition('surfnet_stepup.service.challenge_handler');
+            $container->removeDefinition(SessionSmsVerificationStateHandler::class);
         } else {
             $this->configureSmsSecondFactorServices($config, $container);
             if (!$config['gateway_api']['enabled'] && $config['sms']['service'] === Configuration::DEFAULT_SMS_SERVICE) {
@@ -173,7 +174,7 @@ class SurfnetStepupExtension extends Extension
         $recoveryTokenService->replaceArgument(2, $config['sms']['originator']);
 
         $container
-            ->getDefinition('surfnet_stepup.service.challenge_handler')
+            ->getDefinition(SessionSmsVerificationStateHandler::class)
             ->replaceArgument(2, $config['sms']['otp_expiry_interval'])
             ->replaceArgument(3, $config['sms']['maximum_otp_requests']);
 

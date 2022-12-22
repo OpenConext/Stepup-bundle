@@ -7,6 +7,12 @@ services:
         alias: 'monolog.logger'
         public: true
 
+    surfnet_stepup.controller.exception:
+        class: Surfnet\StepupBundle\Controller\ExceptionController
+        arguments:
+            - '@translator'
+        tags: ['controller.service_arguments']
+
     surfnet_stepup.json_convertible_param_converter:
         class: Surfnet\StepupBundle\Request\JsonConvertibleParamConverter
         arguments:
@@ -97,29 +103,29 @@ services:
             - "@surfnet_stepup.guzzle.gateway_api"
             - "@logger"
 
-    surfnet_stepup.service.sms_second_factor:
-        class: Surfnet\StepupBundle\Service\SmsSecondFactorService
-        arguments:
-            - '' # SMS service set in extension
-            - "@surfnet_stepup.service.challenge_handler"
-            - '' # Originator set in extension
-    Surfnet\StepupBundle\Service\SmsSecondFactorService:
-        alias: surfnet_stepup.service.sms_second_factor
-
-    Surfnet\StepupBundle\Service\SmsRecoveryTokenService:
-        arguments:
-            - '' # SMS service set in extension
-            - "@surfnet_stepup.service.challenge_handler"
-            - '' # Originator set in extension
-
-    surfnet_stepup.service.challenge_handler:
-        public: false
+    Surfnet\StepupBundle\Service\SmsSecondFactor\SessionSmsVerificationStateHandler:
         class: Surfnet\StepupBundle\Service\SmsSecondFactor\SessionSmsVerificationStateHandler
         arguments:
             - "@session"
             - "Surfnet/Stepup/SecondFactor/Sms:challenge"
             - {} # OTP expiry interval
             - 0  # Maximum OTP requests
+
+    surfnet_stepup.service.sms_second_factor:
+        class: Surfnet\StepupBundle\Service\SmsSecondFactorService
+        arguments:
+            - '' # SMS service set in extension
+            - '@Surfnet\StepupBundle\Service\SmsSecondFactor\SessionSmsVerificationStateHandler'
+            - '' # Originator set in extension
+
+    Surfnet\StepupBundle\Service\SmsRecoveryTokenService:
+        arguments:
+            - '' # SMS service set in extension
+            - '@Surfnet\StepupBundle\Service\SmsSecondFactor\SessionSmsVerificationStateHandler'
+            - '' # Originator set in extension
+
+    Surfnet\StepupBundle\Service\SmsSecondFactorService:
+        alias: surfnet_stepup.service.sms_second_factor
 
     surfnet_stepup.service.second_factor_type:
         class: Surfnet\StepupBundle\Service\SecondFactorTypeService

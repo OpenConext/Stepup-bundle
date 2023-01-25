@@ -1,5 +1,8 @@
-# 5.0.1
+# 5.0.2
 Allow for symfony 5 packages (as the package already advertised)
+
+# 5.0.1
+The challenge handler was not loading right in Stepup-tiqr. Easily resolved by using the FQN naming strategy.
 
 # 5.0.0
 Upgrade dependencies

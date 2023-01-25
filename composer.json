@@ -1,6 +1,6 @@
 {
     "name": "surfnet/stepup-bundle",
-    "description": "A Symfony 3 bundle (with Symfony 4.3 support) that holds shared code and framework integration for all Step-up applications.",
+    "description": "A Symfony 4|5 bundle that holds shared code and framework integration for all Step-up applications.",
     "keywords": [
         "stepup",
         "suaas",
@@ -14,20 +14,20 @@
         }
     },
     "require": {
-        "php": "^7.2",
+        "php": "^7.2|^8.0",
         "ext-gmp": "*",
         "ext-openssl": "*",
         "guzzlehttp/guzzle": "^6.0",
         "monolog/monolog": "~1.11",
         "sensio/framework-extra-bundle": "^5.4",
-        "surfnet/stepup-saml-bundle": "^4.1.8",
-        "symfony/config": "^4.4",
-        "symfony/dependency-injection": "^4.4",
-        "symfony/form": "^4.4",
-        "symfony/framework-bundle": "^4.4",
-        "symfony/http-kernel": "^4.4",
-        "symfony/twig-bridge": "^4.4",
-        "symfony/validator": "^4.4",
+        "surfnet/stepup-saml-bundle": "^5.0",
+        "symfony/config": "^4.4|^5.4",
+        "symfony/dependency-injection": "^4.4|^5.4",
+        "symfony/form": "^4.4|^5.4",
+        "symfony/framework-bundle": "^4.4|^5.4",
+        "symfony/http-kernel": "^4.4|^5.4",
+        "symfony/twig-bridge": "^4.4|^5.4",
+        "symfony/validator": "^4.4|^5.4",
         "ext-json": "*"
     },
     "require-dev": {
@@ -37,6 +37,9 @@
         "sensiolabs/security-checker": "^5.0",
         "sebastian/phpcpd": "^4.0",
         "squizlabs/php_codesniffer": "^3.4",
-        "symfony/phpunit-bridge": "^4.4"
+        "symfony/phpunit-bridge": "^4.4|^5.4"
+    },
+    "config": {
+        "sort-packages": true
     }
 }

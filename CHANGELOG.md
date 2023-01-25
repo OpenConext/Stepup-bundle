@@ -1,3 +1,6 @@
+# 5.0.1
+Allow for symfony 5 packages (as the package already advertised)
+
 # 5.0.0
 Upgrade dependencies
 

@@ -21,13 +21,13 @@
         "monolog/monolog": "~1.11",
         "sensio/framework-extra-bundle": "^5.4",
         "surfnet/stepup-saml-bundle": "^5.0",
-        "symfony/config": "^4.4",
-        "symfony/dependency-injection": "^4.4",
-        "symfony/form": "^4.4",
-        "symfony/framework-bundle": "^4.4",
-        "symfony/http-kernel": "^4.4",
-        "symfony/twig-bridge": "^4.4",
-        "symfony/validator": "^4.4",
+        "symfony/config": "^4.4|^5.4",
+        "symfony/dependency-injection": "^4.4|^5.4",
+        "symfony/form": "^4.4|^5.4",
+        "symfony/framework-bundle": "^4.4|^5.4",
+        "symfony/http-kernel": "^4.4|^5.4",
+        "symfony/twig-bridge": "^4.4|^5.4",
+        "symfony/validator": "^4.4|^5.4",
         "ext-json": "*"
     },
     "require-dev": {
@@ -37,7 +37,7 @@
         "sensiolabs/security-checker": "^5.0",
         "sebastian/phpcpd": "^4.0",
         "squizlabs/php_codesniffer": "^3.4",
-        "symfony/phpunit-bridge": "^4.4"
+        "symfony/phpunit-bridge": "^4.4|^5.4"
     },
     "config": {
         "sort-packages": true

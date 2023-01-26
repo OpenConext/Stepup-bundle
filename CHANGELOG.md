@@ -1,7 +1,10 @@
+# 4.2.6
+Change the SecondFactorTypeService signature, adheres to the old signature, adding the vetting type parameters as optional params.
+
 # 4.2.5
 - Teach extension to parse loa-self-asserted
 - Evaluate vetting type in LoA determination
-- Ignore ->translate call in Translation service 
+- Ignore ->translate call in Translation service
 
 # 4.2.4
 * LoA 1.5 (self-asserted) was introduced. Used to mark tokens that are registered using the self-asserted tokens feature #66

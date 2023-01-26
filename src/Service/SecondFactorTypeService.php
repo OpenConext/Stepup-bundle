@@ -84,39 +84,45 @@ class SecondFactorTypeService
         return $this->gssfConfig->getSecondFactorTypes();
     }
 
-    public function canSatisfy(SecondFactorType $secondFactorType, Loa $loa, VettingType $vettingType): bool
-    {
+    public function canSatisfy(
+        SecondFactorType $secondFactorType,
+        Loa $loa,
+        ?VettingType $vettingType = null
+    ): bool {
         return $loa->levelIsLowerOrEqualTo($this->getLevel($secondFactorType, $vettingType));
     }
 
-    public function isSatisfiedBy(SecondFactorType $secondFactorType, Loa $loa, VettingType $vettingType): bool
-    {
+    public function isSatisfiedBy(
+        SecondFactorType $secondFactorType,
+        Loa $loa,
+        ?VettingType $vettingType = null
+    ): bool {
         return $loa->levelIsHigherOrEqualTo($this->getLevel($secondFactorType, $vettingType));
     }
 
     public function hasEqualOrHigherLoaComparedTo(
         SecondFactorType $secondFactorType,
-        VettingType $vettingType,
         SecondFactorType $other,
-        VettingType $otherVettingType
+        ?VettingType $vettingType = null,
+        ?VettingType $otherVettingType = null
     ): bool {
         return $this->getLevel($secondFactorType, $vettingType) >= $this->getLevel($other, $otherVettingType);
     }
 
     public function hasEqualOrLowerLoaComparedTo(
         SecondFactorType $secondFactorType,
-        VettingType $vettingType,
         SecondFactorType $other,
-        VettingType $otherVettingType
+        ?VettingType $vettingType = null,
+        ?VettingType $otherVettingType = null
     ): bool {
         return $this->getLevel($secondFactorType, $vettingType) <= $this->getLevel($other, $otherVettingType);
     }
 
-    public function getLevel(SecondFactorType $secondFactorType, VettingType $vettingType): float
+    public function getLevel(SecondFactorType $secondFactorType, ?VettingType $vettingType = null): float
     {
         // For now the substraction model works as follows: is your vetting type in the
         // list of subtractions? Then the LoA level set for that vetting type is applied
-        if (array_key_exists($vettingType->getType(), $this->vettingTypeSubtractions)) {
+        if ($vettingType && array_key_exists($vettingType->getType(), $this->vettingTypeSubtractions)) {
             return $this->vettingTypeSubtractions[$vettingType->getType()];
         }
 

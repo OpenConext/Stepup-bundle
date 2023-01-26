@@ -1,3 +1,6 @@
+# 5.0.3
+Change the SecondFactorTypeService signature, adheres to the old signature, adding the vetting type parameters as optional params.
+
 # 5.0.2
 Allow for symfony 5 packages (as the package already advertised)
 

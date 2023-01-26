@@ -65,6 +65,7 @@ class SurfnetStepupExtension extends Extension
         if ($config['sms']['enabled'] === false) {
             $container->removeDefinition('surfnet_stepup.service.sms_second_factor');
             $container->removeAlias(SmsSecondFactorService::class);
+            $container->removeDefinition(SmsRecoveryTokenService::class);
             $container->removeDefinition('surfnet_stepup.service.challenge_handler');
         } else {
             $this->configureSmsSecondFactorServices($config, $container);

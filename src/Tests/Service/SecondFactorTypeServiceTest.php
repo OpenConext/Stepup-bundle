@@ -136,6 +136,14 @@ class SecondFactorTypeServiceTest extends TestCase
         $this->assertFalse($service->canSatisfy($sms, $loa3, $this->vettingTypeOnPremise));
         $this->assertFalse($service->canSatisfy($sms, $loa2, $this->vettingTypeSelfAsserted));
         $this->assertFalse($service->canSatisfy($yubikey, $loa2, $this->vettingTypeSelfAsserted));
+
+        // Without vetting type
+        $this->assertTrue($service->canSatisfy($yubikey, $loa1));
+        $this->assertTrue($service->canSatisfy($yubikey, $loa15));
+        $this->assertTrue($service->canSatisfy($sms, $loa2));
+        $this->assertTrue($service->canSatisfy($tiqr, $loa3));
+        $this->assertTrue($service->canSatisfy($biometric, $loa3));
+        $this->assertFalse($service->canSatisfy($sms, $loa3));
     }
 
     /**
@@ -152,16 +160,25 @@ class SecondFactorTypeServiceTest extends TestCase
         $sms = new SecondFactorType('sms');
 
         $this->assertFalse($service->isSatisfiedBy($yubikey, $loa1, $this->vettingTypeOnPremise));
+        $this->assertFalse($service->isSatisfiedBy($yubikey, $loa15, $this->vettingTypeOnPremise));
         $this->assertFalse($service->isSatisfiedBy($yubikey, $loa2, $this->vettingTypeOnPremise));
         $this->assertTrue($service->isSatisfiedBy($yubikey, $loa3, $this->vettingTypeOnPremise));
         $this->assertTrue($service->isSatisfiedBy($sms, $loa2, $this->vettingTypeOnPremise));
         $this->assertTrue($service->isSatisfiedBy($sms, $loa3, $this->vettingTypeOnPremise));
 
         $this->assertFalse($service->isSatisfiedBy($yubikey, $loa1, $this->vettingTypeSelfAsserted));
+        $this->assertTrue($service->isSatisfiedBy($yubikey, $loa15, $this->vettingTypeSelfAsserted));
         $this->assertTrue($service->isSatisfiedBy($yubikey, $loa2, $this->vettingTypeSelfAsserted));
         $this->assertTrue($service->isSatisfiedBy($yubikey, $loa3, $this->vettingTypeSelfAsserted));
         $this->assertTrue($service->isSatisfiedBy($sms, $loa2, $this->vettingTypeSelfAsserted));
         $this->assertTrue($service->isSatisfiedBy($sms, $loa3, $this->vettingTypeSelfAsserted));
+
+        $this->assertFalse($service->isSatisfiedBy($yubikey, $loa1));
+        $this->assertFalse($service->isSatisfiedBy($yubikey, $loa15));
+        $this->assertFalse($service->isSatisfiedBy($yubikey, $loa2));
+        $this->assertTrue($service->isSatisfiedBy($yubikey, $loa3));
+        $this->assertTrue($service->isSatisfiedBy($sms, $loa2));
+        $this->assertTrue($service->isSatisfiedBy($sms, $loa3));
     }
 
     /**
@@ -175,29 +192,35 @@ class SecondFactorTypeServiceTest extends TestCase
         $sms = new SecondFactorType('sms');
         $biometric = new SecondFactorType('biometric');
 
-        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $this->vettingTypeOnPremise, $biometric, $this->vettingTypeOnPremise));
-        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $this->vettingTypeOnPremise, $sms, $this->vettingTypeOnPremise));
-        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $this->vettingTypeOnPremise, $yubikey, $this->vettingTypeOnPremise));
-        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($yubikey, $this->vettingTypeOnPremise, $sms, $this->vettingTypeOnPremise));
-        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($sms, $this->vettingTypeOnPremise, $sms, $this->vettingTypeOnPremise));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $biometric));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $sms));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $yubikey));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($yubikey, $sms));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($sms, $sms));
 
-        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $this->vettingTypeOnPremise, $biometric, $this->vettingTypeSelfAsserted));
-        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $this->vettingTypeOnPremise, $sms, $this->vettingTypeSelfAsserted));
-        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $this->vettingTypeOnPremise, $yubikey, $this->vettingTypeSelfAsserted));
-        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($yubikey, $this->vettingTypeOnPremise, $sms, $this->vettingTypeSelfAsserted));
-        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($sms, $this->vettingTypeOnPremise, $sms, $this->vettingTypeSelfAsserted));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $biometric, $this->vettingTypeOnPremise, $this->vettingTypeOnPremise));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $sms, $this->vettingTypeOnPremise, $this->vettingTypeOnPremise));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $yubikey, $this->vettingTypeOnPremise, $this->vettingTypeOnPremise));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($yubikey, $sms, $this->vettingTypeOnPremise, $this->vettingTypeOnPremise));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($sms, $sms, $this->vettingTypeOnPremise, $this->vettingTypeOnPremise));
 
-        $this->assertFalse($service->hasEqualOrHigherLoaComparedTo($tiqr, $this->vettingTypeSelfAsserted, $biometric, $this->vettingTypeOnPremise));
-        $this->assertFalse($service->hasEqualOrHigherLoaComparedTo($tiqr, $this->vettingTypeSelfAsserted, $sms, $this->vettingTypeOnPremise));
-        $this->assertFalse($service->hasEqualOrHigherLoaComparedTo($tiqr, $this->vettingTypeSelfAsserted, $yubikey, $this->vettingTypeOnPremise));
-        $this->assertFalse($service->hasEqualOrHigherLoaComparedTo($yubikey, $this->vettingTypeSelfAsserted, $sms, $this->vettingTypeOnPremise));
-        $this->assertFalse($service->hasEqualOrHigherLoaComparedTo($sms, $this->vettingTypeSelfAsserted, $sms, $this->vettingTypeOnPremise));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $biometric, $this->vettingTypeOnPremise, $this->vettingTypeSelfAsserted));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $sms, $this->vettingTypeOnPremise, $this->vettingTypeSelfAsserted));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $yubikey, $this->vettingTypeOnPremise, $this->vettingTypeSelfAsserted));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($yubikey, $sms, $this->vettingTypeOnPremise, $this->vettingTypeSelfAsserted));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($sms, $sms, $this->vettingTypeOnPremise, $this->vettingTypeSelfAsserted));
 
-        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $this->vettingTypeSelfAsserted, $biometric, $this->vettingTypeSelfAsserted));
-        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $this->vettingTypeSelfAsserted, $sms, $this->vettingTypeSelfAsserted));
-        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $this->vettingTypeSelfAsserted, $yubikey, $this->vettingTypeSelfAsserted));
-        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($yubikey, $this->vettingTypeSelfAsserted, $sms, $this->vettingTypeSelfAsserted));
-        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($sms, $this->vettingTypeSelfAsserted, $sms, $this->vettingTypeSelfAsserted));
+        $this->assertFalse($service->hasEqualOrHigherLoaComparedTo($tiqr, $biometric, $this->vettingTypeSelfAsserted, $this->vettingTypeOnPremise));
+        $this->assertFalse($service->hasEqualOrHigherLoaComparedTo($tiqr, $sms, $this->vettingTypeSelfAsserted, $this->vettingTypeOnPremise));
+        $this->assertFalse($service->hasEqualOrHigherLoaComparedTo($tiqr, $yubikey, $this->vettingTypeSelfAsserted, $this->vettingTypeOnPremise));
+        $this->assertFalse($service->hasEqualOrHigherLoaComparedTo($yubikey, $sms, $this->vettingTypeSelfAsserted, $this->vettingTypeOnPremise));
+        $this->assertFalse($service->hasEqualOrHigherLoaComparedTo($sms, $sms, $this->vettingTypeSelfAsserted, $this->vettingTypeOnPremise));
+
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $biometric, $this->vettingTypeSelfAsserted, $this->vettingTypeSelfAsserted));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $sms, $this->vettingTypeSelfAsserted, $this->vettingTypeSelfAsserted));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($tiqr, $yubikey, $this->vettingTypeSelfAsserted, $this->vettingTypeSelfAsserted));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($yubikey, $sms, $this->vettingTypeSelfAsserted, $this->vettingTypeSelfAsserted));
+        $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($sms, $sms, $this->vettingTypeSelfAsserted, $this->vettingTypeSelfAsserted));
     }
 
     /**
@@ -211,29 +234,35 @@ class SecondFactorTypeServiceTest extends TestCase
         $sms = new SecondFactorType('sms');
         $biometric = new SecondFactorType('biometric');
 
-        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($tiqr, $this->vettingTypeOnPremise, $biometric, $this->vettingTypeOnPremise));
-        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($sms, $this->vettingTypeOnPremise, $tiqr, $this->vettingTypeOnPremise));
-        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($sms, $this->vettingTypeOnPremise, $biometric, $this->vettingTypeOnPremise));
-        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($yubikey, $this->vettingTypeOnPremise, $biometric, $this->vettingTypeOnPremise));
-        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($sms, $this->vettingTypeOnPremise, $sms, $this->vettingTypeOnPremise));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($tiqr, $biometric));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($sms, $tiqr));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($sms, $biometric));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($yubikey, $biometric));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($sms, $sms));
 
-        $this->assertFalse($service->hasEqualOrLowerLoaComparedTo($tiqr, $this->vettingTypeOnPremise, $biometric, $this->vettingTypeSelfAsserted));
-        $this->assertFalse($service->hasEqualOrLowerLoaComparedTo($tiqr, $this->vettingTypeOnPremise, $sms, $this->vettingTypeSelfAsserted));
-        $this->assertFalse($service->hasEqualOrLowerLoaComparedTo($tiqr, $this->vettingTypeOnPremise, $yubikey, $this->vettingTypeSelfAsserted));
-        $this->assertFalse($service->hasEqualOrLowerLoaComparedTo($yubikey, $this->vettingTypeOnPremise, $sms, $this->vettingTypeSelfAsserted));
-        $this->assertFalse($service->hasEqualOrLowerLoaComparedTo($sms, $this->vettingTypeOnPremise, $sms, $this->vettingTypeSelfAsserted));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($tiqr, $biometric, $this->vettingTypeOnPremise, $this->vettingTypeOnPremise));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($sms, $tiqr, $this->vettingTypeOnPremise, $this->vettingTypeOnPremise));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($sms, $biometric, $this->vettingTypeOnPremise, $this->vettingTypeOnPremise));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($yubikey, $biometric, $this->vettingTypeOnPremise, $this->vettingTypeOnPremise));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($sms, $sms, $this->vettingTypeOnPremise, $this->vettingTypeOnPremise));
 
-        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($tiqr, $this->vettingTypeSelfAsserted, $biometric, $this->vettingTypeOnPremise));
-        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($tiqr, $this->vettingTypeSelfAsserted, $sms, $this->vettingTypeOnPremise));
-        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($tiqr, $this->vettingTypeSelfAsserted, $yubikey, $this->vettingTypeOnPremise));
-        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($yubikey, $this->vettingTypeSelfAsserted, $sms, $this->vettingTypeOnPremise));
-        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($sms, $this->vettingTypeSelfAsserted, $sms, $this->vettingTypeOnPremise));
+        $this->assertFalse($service->hasEqualOrLowerLoaComparedTo($tiqr, $biometric, $this->vettingTypeOnPremise, $this->vettingTypeSelfAsserted));
+        $this->assertFalse($service->hasEqualOrLowerLoaComparedTo($tiqr, $sms, $this->vettingTypeOnPremise, $this->vettingTypeSelfAsserted));
+        $this->assertFalse($service->hasEqualOrLowerLoaComparedTo($tiqr, $yubikey, $this->vettingTypeOnPremise, $this->vettingTypeSelfAsserted));
+        $this->assertFalse($service->hasEqualOrLowerLoaComparedTo($yubikey, $sms, $this->vettingTypeOnPremise, $this->vettingTypeSelfAsserted));
+        $this->assertFalse($service->hasEqualOrLowerLoaComparedTo($sms, $sms, $this->vettingTypeOnPremise, $this->vettingTypeSelfAsserted));
 
-        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($tiqr, $this->vettingTypeSelfAsserted, $biometric, $this->vettingTypeSelfAsserted));
-        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($tiqr, $this->vettingTypeSelfAsserted, $sms, $this->vettingTypeSelfAsserted));
-        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($tiqr, $this->vettingTypeSelfAsserted, $yubikey, $this->vettingTypeSelfAsserted));
-        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($yubikey, $this->vettingTypeSelfAsserted, $sms, $this->vettingTypeSelfAsserted));
-        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($sms, $this->vettingTypeSelfAsserted, $sms, $this->vettingTypeSelfAsserted));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($tiqr, $biometric, $this->vettingTypeSelfAsserted, $this->vettingTypeOnPremise));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($tiqr, $sms, $this->vettingTypeSelfAsserted, $this->vettingTypeOnPremise));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($tiqr, $yubikey, $this->vettingTypeSelfAsserted, $this->vettingTypeOnPremise));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($yubikey, $sms, $this->vettingTypeSelfAsserted, $this->vettingTypeOnPremise));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($sms, $sms, $this->vettingTypeSelfAsserted, $this->vettingTypeOnPremise));
+
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($tiqr, $biometric, $this->vettingTypeSelfAsserted, $this->vettingTypeSelfAsserted));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($tiqr, $sms, $this->vettingTypeSelfAsserted, $this->vettingTypeSelfAsserted));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($tiqr, $yubikey, $this->vettingTypeSelfAsserted, $this->vettingTypeSelfAsserted));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($yubikey, $sms, $this->vettingTypeSelfAsserted, $this->vettingTypeSelfAsserted));
+        $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($sms, $sms, $this->vettingTypeSelfAsserted, $this->vettingTypeSelfAsserted));
     }
 
     /**

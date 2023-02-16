@@ -64,6 +64,7 @@ class SurfnetStepupExtension extends Extension
         if ($config['sms']['enabled'] === false) {
             $container->removeDefinition('surfnet_stepup.service.sms_second_factor');
             $container->removeAlias(SmsSecondFactorService::class);
+            $container->removeDefinition(SmsRecoveryTokenService::class);
             $container->removeDefinition('surfnet_stepup.service.challenge_handler');
         } else {
             $this->configureSmsSecondFactorServices($config, $container);
@@ -101,9 +102,13 @@ class SurfnetStepupExtension extends Extension
         $loa1 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_1, $loaDefinitions['loa1']]);
         $loa2 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_2, $loaDefinitions['loa2']]);
         $loa3 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_3, $loaDefinitions['loa3']]);
-        $loaSelfAsserted = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_SELF_VETTED, $loaDefinitions['loa_self_asserted']]);
 
-        $loaService->addArgument([$loa1, $loa2, $loa3, $loaSelfAsserted]);
+        $arguments = [$loa1, $loa2, $loa3];
+
+        if (array_key_exists('loa_self_asserted', $loaDefinitions)) {
+            $arguments[] = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_SELF_VETTED, $loaDefinitions['loa_self_asserted']]);
+        }
+        $loaService->addArgument($arguments);
     }
 
     /**

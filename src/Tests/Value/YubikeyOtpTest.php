@@ -104,9 +104,8 @@ class YubikeyOtpTest extends TestCase
 
     /**
      * @dataProvider nonStrings
-     * @param mixed $nonString
      */
-    public function testItThrowsAnExceptionWhenGivenArgumentIsNotAString($nonString)
+    public function testItThrowsAnExceptionWhenGivenArgumentIsNotAString(mixed $nonString)
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('not a string');
@@ -122,7 +121,7 @@ class YubikeyOtpTest extends TestCase
         return [
             'integer' => [1],
             'float' => [1.1],
-            'array' => [array()],
+            'array' => [[]],
             'object' => [new \stdClass],
             'null' => [null],
             'boolean' => [false],
@@ -131,9 +130,8 @@ class YubikeyOtpTest extends TestCase
 
     /**
      * @dataProvider nonOtpStrings
-     * @param mixed $nonOtpString
      */
-    public function testItThrowsAnExceptionWhenGivenStringIsNotAnOtpString($nonOtpString)
+    public function testItThrowsAnExceptionWhenGivenStringIsNotAnOtpString(mixed $nonOtpString)
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('not a valid OTP');

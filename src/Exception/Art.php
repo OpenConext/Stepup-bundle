@@ -24,12 +24,11 @@ use Symfony\Component\Debug\Exception\FlattenException;
 class Art
 {
     /**
-     * @param Exception $exception
      * @return string
      */
     public static function forException(Exception $exception)
     {
-        return self::calculateArt(get_class($exception), $exception->getMessage());
+        return self::calculateArt($exception::class, $exception->getMessage());
     }
 
     /**
@@ -61,6 +60,6 @@ class Art
      */
     private static function stripVariableArgumentsFromMessage($message)
     {
-        return preg_replace('#".*"|\'.*\'#', '', $message);
+        return preg_replace('#".*"|\'.*\'#', '', (string) $message);
     }
 }

@@ -28,7 +28,7 @@ class OtpTest extends TestCase
     public function non_strings()
     {
         return [
-            'array'        => [array()],
+            'array'        => [[]],
             'integer'      => [1],
             'object'       => [new \stdClass()],
             'null'         => [null],
@@ -41,7 +41,7 @@ class OtpTest extends TestCase
     {
         return [
             'empty string' => [''],
-            'array'        => [array()],
+            'array'        => [[]],
             'integer'      => [1],
             'object'       => [new \stdClass()],
             'null'         => [null],
@@ -65,9 +65,8 @@ class OtpTest extends TestCase
      * @test
      * @group sms
      * @dataProvider non_non_empty_strings
-     * @param mixed $nonString
      */
-    public function only_accepts_string_otps($nonString)
+    public function only_accepts_string_otps(mixed $nonString)
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('otpString');
@@ -79,9 +78,8 @@ class OtpTest extends TestCase
      * @test
      * @group sms
      * @dataProvider non_non_empty_strings
-     * @param mixed $nonString
      */
-    public function only_accepts_string_phone_numbers($nonString)
+    public function only_accepts_string_phone_numbers(mixed $nonString)
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('phoneNumber');
@@ -93,9 +91,8 @@ class OtpTest extends TestCase
      * @test
      * @group sms
      * @dataProvider non_strings
-     * @param mixed $nonString
      */
-    public function it_verifies_only_string_otps($nonString)
+    public function it_verifies_only_string_otps(mixed $nonString)
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('otpString');

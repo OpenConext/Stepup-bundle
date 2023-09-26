@@ -21,12 +21,9 @@ namespace Surfnet\StepupBundle\Value\PhoneNumber;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\Exception\InvalidPhoneNumberFormatException;
 
-class PhoneNumber
+class PhoneNumber implements \Stringable
 {
-    /**
-     * @var string
-     */
-    private $number;
+    private string $number;
 
     /**
      * @param string $number
@@ -54,7 +51,7 @@ class PhoneNumber
     {
         $number = $this->number;
         // we may only strip a single leading zero
-        if (strpos($number, '0') === 0) {
+        if (str_starts_with($number, '0')) {
             $number = substr($number, 1);
         }
 
@@ -70,7 +67,6 @@ class PhoneNumber
     }
 
     /**
-     * @param PhoneNumber $other
      * @return bool
      */
     public function equals(PhoneNumber $other)
@@ -78,7 +74,7 @@ class PhoneNumber
         return $this->formatAsMsisdnPart() === $other->formatAsMsisdnPart();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return '(0) ' . $this->formatAsMsisdnPart();
     }

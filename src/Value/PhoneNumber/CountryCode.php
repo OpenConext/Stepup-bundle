@@ -22,12 +22,9 @@ use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\Exception\InvalidCountryCodeFormatException;
 use Surfnet\StepupBundle\Value\Exception\UnknownCountryCodeException;
 
-class CountryCode
+class CountryCode implements \Stringable
 {
-    /**
-     * @var string
-     */
-    private $countryCode;
+    private readonly string $countryCode;
 
     /**
      * @param string $countyCode
@@ -58,7 +55,6 @@ class CountryCode
     }
 
     /**
-     * @param CountryCode $other
      * @return bool
      */
     public function equals(CountryCode $other)
@@ -66,7 +62,7 @@ class CountryCode
         return $this->countryCode === $other->countryCode;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         $countryCode = $this->getCountryCode();
 

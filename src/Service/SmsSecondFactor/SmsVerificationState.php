@@ -1,5 +1,4 @@
-<?php
-
+<?php declare(strict_types=1);
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -28,12 +27,7 @@ final class SmsVerificationState
     /**
      * The maximum amount of attempts can be made, per OTP, to verify the OTP.
      */
-    const MAXIMUM_VERIFICATION_ATTEMPTS = 10;
-
-    /**
-     * @var DateInterval
-     */
-    private $expiryInterval;
+    public const MAXIMUM_VERIFICATION_ATTEMPTS = 10;
 
     /**
      * @var int
@@ -43,39 +37,25 @@ final class SmsVerificationState
     /**
      * @var Otp[]
      */
-    private $otps;
+    private array $otps;
+
+    private int $verificationAttemptsMade;
 
     /**
-     * @var int
-     */
-    private $verificationAttemptsMade;
-
-    /**
-     * @param DateInterval $expiryInterval
      * @param int $maximumOtpRequests
      */
-    public function __construct(DateInterval $expiryInterval, $maximumOtpRequests)
+    public function __construct(private readonly DateInterval $expiryInterval, int $maximumOtpRequests)
     {
         if ($maximumOtpRequests <= 0) {
             throw new InvalidArgumentException('Expected greater-than-zero number of maximum OTP requests.');
         }
-
-        $this->expiryInterval = $expiryInterval;
         $this->maximumOtpRequests= $maximumOtpRequests;
         $this->otps = [];
         $this->verificationAttemptsMade = 0;
     }
 
-    /**
-     * @param string $phoneNumber
-     * @return string The generated OTP string.
-     */
-    public function requestNewOtp($phoneNumber)
+    public function requestNewOtp(string $phoneNumber): string
     {
-        if (!is_string($phoneNumber) || empty($phoneNumber)) {
-            throw InvalidArgumentException::invalidType('string', 'phoneNumber', $phoneNumber);
-        }
-
         if (count($this->otps) >= $this->maximumOtpRequests) {
             throw new TooManyChallengesRequestedException(
                 sprintf(
@@ -86,9 +66,7 @@ final class SmsVerificationState
             );
         }
 
-        $this->otps = array_filter($this->otps, function (Otp $otp) use ($phoneNumber) {
-            return $otp->hasPhoneNumber($phoneNumber);
-        });
+        $this->otps = array_filter($this->otps, fn(Otp $otp) => $otp->hasPhoneNumber($phoneNumber));
 
         $otp = OtpGenerator::generate(8);
         $this->otps[] = Otp::create($otp, $phoneNumber, $this->expiryInterval);
@@ -96,21 +74,13 @@ final class SmsVerificationState
         return $otp;
     }
 
-    /**
-     * @param string $userOtp
-     * @return OtpVerification
-     */
-    public function verify($userOtp)
+    public function verify(string $userOtp): OtpVerification
     {
         if ($this->verificationAttemptsMade >= self::MAXIMUM_VERIFICATION_ATTEMPTS) {
             return OtpVerification::tooManyAttempts();
         }
 
         $this->verificationAttemptsMade++;
-
-        if (!is_string($userOtp)) {
-            throw InvalidArgumentException::invalidType('string', 'userOtp', $userOtp);
-        }
 
         foreach ($this->otps as $otp) {
             $verification = $otp->verify($userOtp);
@@ -123,10 +93,7 @@ final class SmsVerificationState
         return OtpVerification::noMatch();
     }
 
-    /**
-     * @return int
-     */
-    public function getOtpRequestsRemainingCount()
+    public function getOtpRequestsRemainingCount(): int
     {
         return $this->maximumOtpRequests - count($this->otps);
     }

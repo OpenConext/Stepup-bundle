@@ -20,20 +20,10 @@ namespace Surfnet\StepupBundle\Service\SmsSecondFactor;
 
 final class OtpVerification
 {
-    const STATUS_NO_MATCH = 0;
-    const STATUS_MATCH_EXPIRED = 1;
-    const STATUS_FOUND_MATCH = 2;
-    const STATUS_TOO_MANY_ATTEMPTS = 3;
-
-    /**
-     * @var int
-     */
-    private $status;
-
-    /**
-     * @var null|string
-     */
-    private $phoneNumber;
+    public const STATUS_NO_MATCH = 0;
+    public const STATUS_MATCH_EXPIRED = 1;
+    public const STATUS_FOUND_MATCH = 2;
+    public const STATUS_TOO_MANY_ATTEMPTS = 3;
 
     public static function noMatch()
     {
@@ -59,10 +49,8 @@ final class OtpVerification
      * @param int $status
      * @param string|null $phoneNumber
      */
-    private function __construct($status, $phoneNumber = null)
+    private function __construct(private $status, private $phoneNumber = null)
     {
-        $this->status = $status;
-        $this->phoneNumber = $phoneNumber;
     }
 
     /**

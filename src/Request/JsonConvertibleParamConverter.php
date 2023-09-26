@@ -33,27 +33,21 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class JsonConvertibleParamConverter implements ParamConverterInterface
 {
-    /**
-     * @var ValidatorInterface
-     */
-    private $validator;
-
-    public function __construct(ValidatorInterface $validator)
+    public function __construct(private readonly ValidatorInterface $validator)
     {
-        $this->validator = $validator;
     }
 
     /**
      * @SuppressWarnings(PHPMD.MissingImport) - Unable to import the dynamic class creation at line 63
      */
-    public function apply(Request $request, ParamConverter $configuration)
+    public function apply(Request $request, ParamConverter $configuration): void
     {
         $name = $configuration->getName();
         $snakeCasedName = $this->camelCaseToSnakeCase($name);
         $class = $configuration->getClass();
 
         $json = $request->getContent();
-        $object = json_decode($json, true);
+        $object = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
         if (!isset($object[$snakeCasedName]) || !is_array($object[$snakeCasedName])) {
             throw new BadJsonRequestException([sprintf("Missing parameter '%s'", $name)]);
@@ -85,7 +79,7 @@ class JsonConvertibleParamConverter implements ParamConverterInterface
         $request->attributes->set($name, $convertedObject);
     }
 
-    public function supports(ParamConverter $configuration)
+    public function supports(ParamConverter $configuration): ?bool
     {
         $class = $configuration->getClass();
 
@@ -93,15 +87,13 @@ class JsonConvertibleParamConverter implements ParamConverterInterface
             return null;
         }
 
-        return is_subclass_of($class, 'Surfnet\StepupBundle\Request\JsonConvertible');
+        return is_subclass_of($class, JsonConvertible::class);
     }
 
     /**
-     * @param string $camelCase
      * @return string
-     * @see \Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
      */
-    private function camelCaseToSnakeCase($camelCase)
+    private function camelCaseToSnakeCase(string $camelCase): string
     {
         $snakeCase = '';
 

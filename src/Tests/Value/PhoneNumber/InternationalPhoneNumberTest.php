@@ -77,7 +77,7 @@ class InternationalPhoneNumberTest extends UnitTest
     public function invalid_types()
     {
         return [
-            'array'        => [array()],
+            'array'        => [[]],
             'integer'      => [1],
             'object'       => [new \stdClass()],
             'null'         => [null],
@@ -90,10 +90,8 @@ class InternationalPhoneNumberTest extends UnitTest
      * @test
      * @dataProvider invalid_types
      * @group value
-     *
-     * @param mixed $invalidType
      */
-    public function it_rejects_invalid_types($invalidType)
+    public function it_rejects_invalid_types(mixed $invalidType)
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -114,10 +112,8 @@ class InternationalPhoneNumberTest extends UnitTest
      * @test
      * @dataProvider invalid_phone_numbers
      * @group value
-     *
-     * @param mixed $invalidPhoneNumber
      */
-    public function it_rejects_invalid_phone_numbers($invalidPhoneNumber)
+    public function it_rejects_invalid_phone_numbers(mixed $invalidPhoneNumber)
     {
         $this->expectException(InvalidPhoneNumberFormatException::class);
 

@@ -27,7 +27,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
-    const DEFAULT_SMS_SERVICE = 'surfnet_stepup.service.gateway_api_sms';
+    final public const DEFAULT_SMS_SERVICE = 'surfnet_stepup.service.gateway_api_sms';
 
     public function getConfigTreeBuilder()
     {
@@ -43,9 +43,7 @@ class Configuration implements ConfigurationInterface
                             ->info('This is the application name that is included with each log message')
                             ->isRequired()
                             ->validate()
-                                ->ifTrue(function ($name) {
-                                    return !is_string($name);
-                                })
+                                ->ifTrue(fn($name) => !is_string($name))
                                 ->thenInvalid('surfnet_bundle.logging.application_name must be string')
                             ->end()
                         ->end()
@@ -57,36 +55,28 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('loa1')
                             ->example('https://gateway.tld/authentication/loa1')
                             ->validate()
-                            ->ifTrue(function ($value) {
-                                return !is_string($value);
-                            })
+                            ->ifTrue(fn($value) => !is_string($value))
                                 ->thenInvalid('Loa definition for "loa1" must be a string')
                             ->end()
                         ->end()
                         ->scalarNode('loa2')
                             ->example('https://gateway.tld/authentication/loa2')
                             ->validate()
-                            ->ifTrue(function ($value) {
-                                return !is_string($value);
-                            })
+                            ->ifTrue(fn($value) => !is_string($value))
                                 ->thenInvalid('Loa definition for "loa2" must be a string')
                             ->end()
                         ->end()
                         ->scalarNode('loa3')
                             ->example('https://gateway.tld/authentication/loa3')
                             ->validate()
-                            ->ifTrue(function ($value) {
-                                return !is_string($value);
-                            })
+                            ->ifTrue(fn($value) => !is_string($value))
                                 ->thenInvalid('Loa definition for "loa3" must be a string')
                             ->end()
                         ->end()
                         ->scalarNode('loa_self_asserted')
                             ->example('https://gateway.tld/authentication/loa_self_asserted')
                             ->validate()
-                                ->ifTrue(function ($value) {
-                                    return !is_string($value);
-                                })
+                                ->ifTrue(fn($value) => !is_string($value))
                                 ->thenInvalid('Loa definition for "loa_self_asserted" must be a string')
                             ->end()
                         ->end()
@@ -95,9 +85,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('attach_request_id_injector_to')
                     ->prototype('scalar')
                     ->validate()
-                        ->ifTrue(function ($serviceId) {
-                            return !is_string($serviceId);
-                        })
+                        ->ifTrue(fn($serviceId) => !is_string($serviceId))
                         ->thenInvalid('surfnet_bundle.attach_request_id_injector_to must be array of strings')
                     ->end()
                 ->end()
@@ -125,9 +113,7 @@ class Configuration implements ConfigurationInterface
                                     ->info('Username for the Gateway API')
                                     ->isRequired()
                                     ->validate()
-                                        ->ifTrue(function ($value) {
-                                            return (!is_string($value) || empty($value));
-                                        })
+                                        ->ifTrue(fn($value) => !is_string($value) || empty($value))
                                         ->thenInvalid(
                                             'Invalid Gateway API username specified: "%s". Must be non-empty string'
                                         )
@@ -137,9 +123,7 @@ class Configuration implements ConfigurationInterface
                                     ->info('Password for the Gateway API')
                                     ->isRequired()
                                     ->validate()
-                                        ->ifTrue(function ($value) {
-                                            return (!is_string($value) || empty($value));
-                                        })
+                                        ->ifTrue(fn($value) => !is_string($value) || empty($value))
                                         ->thenInvalid(
                                             'Invalid Gateway API password specified: "%s". Must be non-empty string'
                                         )
@@ -151,9 +135,7 @@ class Configuration implements ConfigurationInterface
                             ->info('The URL to the Gateway application (e.g. https://gateway.tld)')
                             ->isRequired()
                             ->validate()
-                                ->ifTrue(function ($value) {
-                                    return (!is_string($value) || empty($value) || !preg_match('~/$~', $value));
-                                })
+                                ->ifTrue(fn($value) => !is_string($value) || empty($value) || !preg_match('~/$~', $value))
                                 ->thenInvalid(
                                     'Invalid Gateway URL specified: "%s". Must be string ending in forward slash'
                                 )
@@ -180,18 +162,14 @@ class Configuration implements ConfigurationInterface
                             )
                             ->defaultValue(self::DEFAULT_SMS_SERVICE)
                             ->validate()
-                                ->ifTrue(function ($value) {
-                                    return !is_string($value);
-                                })
+                                ->ifTrue(fn($value) => !is_string($value))
                                 ->thenInvalid('The SMS service ID must be specified using a string.')
                             ->end()
                         ->end()
                         ->scalarNode('originator')
                             ->info('Originator (sender) for SMS messages')
                             ->validate()
-                                ->ifTrue(function ($value) {
-                                    return (!is_string($value) || !preg_match('~^[a-z0-9]{1,11}$~i', $value));
-                                })
+                                ->ifTrue(fn($value) => !is_string($value) || !preg_match('~^[a-z0-9]{1,11}$~i', $value))
                                 ->thenInvalid(
                                     'Invalid SMS originator specified: "%s". Must be a string matching '
                                     . '"~^[a-z0-9]{1,11}$~i".'
@@ -201,9 +179,7 @@ class Configuration implements ConfigurationInterface
                         ->integerNode('otp_expiry_interval')
                             ->info('After how many seconds an SMS challenge OTP expires')
                             ->validate()
-                                ->ifTrue(function ($value) {
-                                    return $value <= 0;
-                                })
+                                ->ifTrue(fn($value) => $value <= 0)
                                 ->thenInvalid(
                                     'Invalid SMS challenge OTP expiry, must be one or more seconds.'
                                 )
@@ -212,9 +188,7 @@ class Configuration implements ConfigurationInterface
                         ->integerNode('maximum_otp_requests')
                             ->info('How many challenges a user may request during a session')
                             ->validate()
-                                ->ifTrue(function ($value) {
-                                    return $value <= 0;
-                                })
+                                ->ifTrue(fn($value) => $value <= 0)
                                 ->thenInvalid(
                                     'Maximum OTP requests has a minimum of 1'
                                 )

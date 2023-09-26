@@ -40,7 +40,7 @@ class ExceptionListener extends CoreExceptionListener
      */
     protected function duplicateRequest(\Exception $exception, Request $request)
     {
-        $attributes = array(
+        $attributes = [
             '_controller' => $this->controller,
             'exception' => $exception,
             'logger' => $this->logger instanceof DebugLoggerInterface ? $this->logger : null,
@@ -48,7 +48,7 @@ class ExceptionListener extends CoreExceptionListener
             // see src/Symfony/Bundle/TwigBundle/Controller/ExceptionController.php
             // @deprecated since version 2.4, to be removed in 3.0
             'format' => $request->getRequestFormat(),
-        );
+        ];
         $request = $request->duplicate(null, null, $attributes);
         $request->setMethod('GET');
 

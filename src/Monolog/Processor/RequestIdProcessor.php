@@ -22,23 +22,13 @@ use Surfnet\StepupBundle\Request\RequestId;
 
 class RequestIdProcessor
 {
-    /**
-     * @var RequestId
-     */
-    private $requestId;
-
-    /**
-     * @param RequestId $requestId
-     */
-    public function __construct(RequestId $requestId)
+    public function __construct(private readonly RequestId $requestId)
     {
-        $this->requestId = $requestId;
     }
 
     /**
      * Adds the request ID onto the record's extra data.
      *
-     * @param array $record
      * @return array
      */
     public function __invoke(array $record)

@@ -40,7 +40,7 @@ class JsonHelperTest extends TestCase
      */
     public function jsonHelperThrowsAnExceptionWhenThereIsASyntaxError()
     {
-        $this->expectException(JsonException::class, 'Syntax error');
+        $this->expectException(JsonException::class);
         $jsonWithMissingDoubleQuotes = '{ hello : world }';
         JsonHelper::decode($jsonWithMissingDoubleQuotes);
     }

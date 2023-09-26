@@ -124,13 +124,12 @@ class JsonConvertibleParamConverterTest extends TestCase
     }
 
     /**
-     * @param mixed $object
      * @return \Request
      */
-    private function createJsonRequest($object)
+    private function createJsonRequest(mixed $object)
     {
         $request = m::mock(Request::class)
-            ->shouldReceive('getContent')->andReturn(json_encode($object))
+            ->shouldReceive('getContent')->andReturn(json_encode($object, JSON_THROW_ON_ERROR))
             ->getMock();
 
         return $request;

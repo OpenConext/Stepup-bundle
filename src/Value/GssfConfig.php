@@ -20,17 +20,8 @@ namespace Surfnet\StepupBundle\Value;
 
 class GssfConfig
 {
-    /**
-     * @var array
-     */
-    private $config;
-
-    /**
-     * @param array $config
-     */
-    public function __construct(array $config = [])
+    public function __construct(private readonly array $config = [])
     {
-        $this->config = $config;
     }
 
     /**

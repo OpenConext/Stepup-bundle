@@ -31,10 +31,8 @@ class LoaTest extends UnitTest
      * @test
      * @group        value
      * @dataProvider wrongTypeLevelProvider
-     *
-     * @param mixed $invalidLevel
      */
-    public function it_cannot_be_created_with_a_wrong_loa_data_type($invalidLevel)
+    public function it_cannot_be_created_with_a_wrong_loa_data_type(mixed $invalidLevel)
     {
         self::expectException(Error::class);
 
@@ -45,10 +43,8 @@ class LoaTest extends UnitTest
      * @test
      * @group        value
      * @dataProvider invalidLevelProvider
-     *
-     * @param mixed $invalidLevel
      */
-    public function it_cannot_be_created_with_an_invalid_loa_type($invalidLevel)
+    public function it_cannot_be_created_with_an_invalid_loa_type(mixed $invalidLevel)
     {
         $this->expectException(DomainException::class);
 

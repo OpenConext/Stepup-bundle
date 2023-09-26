@@ -25,20 +25,11 @@ use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
 final class Otp
 {
-    /**
-     * @var string
-     */
-    private $otp;
+    private ?string $otp = null;
 
-    /**
-     * @var string
-     */
-    private $phoneNumber;
+    private ?string $phoneNumber = null;
 
-    /**
-     * @var DateInterval
-     */
-    private $expiryInterval;
+    private ?\DateInterval $expiryInterval = null;
 
     /**
      * @var CoreDateTime
@@ -48,7 +39,6 @@ final class Otp
     /**
      * @param string $otpString
      * @param string $phoneNumber
-     * @param DateInterval $expiryInterval
      * @return Otp
      */
     public static function create($otpString, $phoneNumber, DateInterval $expiryInterval)

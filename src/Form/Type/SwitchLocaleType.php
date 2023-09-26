@@ -29,26 +29,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class SwitchLocaleType extends AbstractType
 {
-    /**
-     * @var \Surfnet\StepupBundle\Form\ChoiceList\LocaleChoiceList
-     */
-    private $localeChoiceList;
-
-    /**
-     * @var \Symfony\Component\Routing\Generator\UrlGeneratorInterface
-     */
-    private $urlGenerator;
-
-    public function __construct(LocaleChoiceList $localeChoiceList, UrlGeneratorInterface $urlGenerator)
+    public function __construct(private readonly LocaleChoiceList $localeChoiceList, private readonly UrlGeneratorInterface $urlGenerator)
     {
-        $this->localeChoiceList = $localeChoiceList;
-        $this->urlGenerator = $urlGenerator;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setAction($this->urlGenerator->generate($options['route'], $options['route_parameters']));
-        $builder->setMethod('POST');
+        $builder->setMethod(\Symfony\Component\HttpFoundation\Request::METHOD_POST);
         $builder->add('locale', ChoiceType::class, [
             'label' => /** @Ignore */ false,
             'required' => true,
@@ -66,7 +54,7 @@ final class SwitchLocaleType extends AbstractType
         $resolver->setDefaults([
             'route'            => null,
             'route_parameters' => [],
-            'data_class'       => 'Surfnet\StepupBundle\Command\SwitchLocaleCommand',
+            'data_class'       => \Surfnet\StepupBundle\Command\SwitchLocaleCommand::class,
         ]);
 
         $resolver->setRequired(['route']);

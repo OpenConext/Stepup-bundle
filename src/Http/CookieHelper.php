@@ -27,14 +27,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class CookieHelper
 {
-    /**
-     * @var Cookie
-     */
-    private $cookieSettings;
-
-    public function __construct(Cookie $cookieSettings)
+    public function __construct(private readonly Cookie $cookieSettings)
     {
-        $this->cookieSettings = $cookieSettings;
     }
 
     /**
@@ -55,7 +49,6 @@ final class CookieHelper
      *
      * Note that we only read the value, we ignore the other settings.
      *
-     * @param Request $request
      * @return null|Cookie
      */
     public function read(Request $request)

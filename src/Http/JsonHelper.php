@@ -23,7 +23,7 @@ use Surfnet\StepupBundle\Exception\JsonException;
 
 final class JsonHelper
 {
-    private static $jsonErrors = [
+    private static array $jsonErrors = [
         JSON_ERROR_DEPTH          => 'JSON_ERROR_DEPTH - Maximum stack depth exceeded',
         JSON_ERROR_STATE_MISMATCH => 'JSON_ERROR_STATE_MISMATCH - Underflow or the modes mismatch',
         JSON_ERROR_CTRL_CHAR      => 'JSON_ERROR_CTRL_CHAR - Unexpected control character found',

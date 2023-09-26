@@ -20,12 +20,9 @@ namespace Surfnet\StepupBundle\Value;
 
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
-final class YubikeyPublicId
+final class YubikeyPublicId implements \Stringable
 {
-    /**
-     * @var string
-     */
-    private $value;
+    private readonly string $value;
 
     public static function fromOtp(YubikeyOtp $otp)
     {
@@ -75,7 +72,7 @@ final class YubikeyPublicId
         return $this->value;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->value;
     }

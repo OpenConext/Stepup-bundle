@@ -28,13 +28,14 @@ use Surfnet\SamlBundle\Http\Exception\UnknownServiceProviderException;
 use Surfnet\SamlBundle\Http\Exception\UnsignedRequestException;
 use Surfnet\SamlBundle\Http\Exception\UnsupportedSignatureException;
 use Surfnet\StepupBundle\Exception\Art;
+use Surfnet\StepupBundle\Request\RequestId;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as FrameworkController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @package Surfnet\StepupBundle\Controller
@@ -43,7 +44,14 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class ExceptionController extends FrameworkController
 {
-    public function showAction(Request $request, Exception $exception)
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+        // Service: surfnet_stepup.request.request_id
+        private RequestId $requestId
+    ) {
+    }
+
+    public function show(Request $request, Exception $exception): Response
     {
         $statusCode = $this->getStatusCode($exception);
 
@@ -57,7 +65,7 @@ class ExceptionController extends FrameworkController
 
         $timestamp = (new DateTime)->format(DateTime::ISO8601);
         $hostname  = $request->getHost();
-        $requestId = $this->get('surfnet_stepup.request.request_id');
+        $requestId = $this->requestId;
         $errorCode = Art::forException($exception);
         $userAgent = $request->headers->get('User-Agent');
         $ipAddress = $request->getClientIp();
@@ -77,10 +85,9 @@ class ExceptionController extends FrameworkController
     }
 
     /**
-     * @param Exception $exception
      * @return int HTTP status code
      */
-    protected function getStatusCode(Exception $exception)
+    protected function getStatusCode(Exception $exception): int
     {
         if ($exception instanceof AuthenticationException ||
             $exception instanceof InvalidResponseException) {
@@ -101,11 +108,10 @@ class ExceptionController extends FrameworkController
     }
 
     /**
-     * @param Exception $exception
      * @return array View parameters 'title' and 'description'
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function getPageTitleAndDescription(Exception $exception)
+    protected function getPageTitleAndDescription(Exception $exception): array
     {
         $translator = $this->getTranslator();
 
@@ -150,8 +156,8 @@ class ExceptionController extends FrameworkController
     /**
      * @return TranslatorInterface
      */
-    protected function getTranslator()
+    protected function getTranslator(): TranslatorInterface
     {
-        return $this->get('translator');
+        return $this->translator;
     }
 }

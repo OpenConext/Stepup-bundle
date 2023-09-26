@@ -28,10 +28,7 @@ use function in_array;
 
 class SecondFactorTypeService
 {
-    /**
-     * @var array
-     */
-    private $loaLevelTypeMap = [
+    private array $loaLevelTypeMap = [
         'sms' => Loa::LOA_2,
         'yubikey' => Loa::LOA_3,
     ];
@@ -44,21 +41,13 @@ class SecondFactorTypeService
      * for the vetting type. An on-premise vetting action gives a high level of
      * authenticity, where a self-asserted registration tells us far less about the
      * Identity.
-     *
-     * @var array
      */
-    private $vettingTypeSubtractions = [
+    private array $vettingTypeSubtractions = [
         VettingType::TYPE_SELF_ASSERTED_REGISTRATION => Loa::LOA_SELF_VETTED
     ];
 
-    /**
-     * @var GssfConfig
-     */
-    private $gssfConfig;
+    private readonly \Surfnet\StepupBundle\Value\GssfConfig $gssfConfig;
 
-    /**
-     * @param array $gssfConfig
-     */
     public function __construct(array $gssfConfig)
     {
         $this->gssfConfig = new GssfConfig($gssfConfig);

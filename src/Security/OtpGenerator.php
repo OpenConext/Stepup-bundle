@@ -30,12 +30,12 @@ final class OtpGenerator
      * The characters used in the OTP. Must be a power of two characters long to ensure all characters have equal chance
      * of being included.
      */
-    const CHARACTER_SET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    public const CHARACTER_SET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
     /**
      * The 32 possible characters in the Base32 alphabet can be represented in exactly 5 bits
      */
-    const BITS_PER_CHARACTER = 5;
+    public const BITS_PER_CHARACTER = 5;
 
     /**
      * Securely generate an arbitrary length OTP containing only characters from the OtpGenerator::CHARACTER_SET constant.

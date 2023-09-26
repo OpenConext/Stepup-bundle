@@ -27,13 +27,13 @@ class LoaResolutionServiceTest extends UnitTest
     /**
      * @var \Surfnet\StepupBundle\Value\Loa[]
      */
-    private $loas;
+    private ?array $loas = null;
 
     public function setUp(): void
     {
         $providedLoas = $this->loaProvider();
         foreach ($providedLoas as $definition) {
-            list($level, $identifier) = $definition;
+            [$level, $identifier] = $definition;
             $this->loas[] = new Loa($level, $identifier);
         }
     }

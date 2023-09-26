@@ -22,14 +22,8 @@ use Surfnet\StepupBundle\Guzzle\Middleware\GuzzleRequestIdInjector;
 
 final class GuzzleClientRequestIdConfigurator
 {
-    /**
-     * @var GuzzleRequestIdInjector
-     */
-    private $guzzleRequestIdInjector;
-
-    public function __construct(GuzzleRequestIdInjector $guzzleRequestIdInjector)
+    public function __construct(private readonly GuzzleRequestIdInjector $guzzleRequestIdInjector)
     {
-        $this->guzzleRequestIdInjector = $guzzleRequestIdInjector;
     }
 
     public function configure(Client $client)

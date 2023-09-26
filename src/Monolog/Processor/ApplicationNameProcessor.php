@@ -22,10 +22,7 @@ use InvalidArgumentException;
 
 class ApplicationNameProcessor
 {
-    /**
-     * @var string
-     */
-    private $applicationName;
+    private string $applicationName;
 
     /**
      * @param string $applicationName
@@ -40,7 +37,6 @@ class ApplicationNameProcessor
     }
 
     /**
-     * @param array $record
      * @return array
      */
     public function __invoke(array $record)

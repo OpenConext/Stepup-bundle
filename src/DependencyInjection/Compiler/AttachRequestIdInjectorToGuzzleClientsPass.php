@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class AttachRequestIdInjectorToGuzzleClientsPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $configs = $container->getExtensionConfig('surfnet_stepup');
         $config = $configs[0];

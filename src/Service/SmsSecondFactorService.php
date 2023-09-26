@@ -27,29 +27,14 @@ use Surfnet\StepupBundle\Service\SmsSecondFactor\SmsVerificationStateHandler;
 
 class SmsSecondFactorService implements SmsSecondFactorServiceInterface
 {
-    /**
-     * @var \Surfnet\StepupBundle\Service\SmsService
-     */
-    private $smsService;
+    private string $originator;
 
     /**
-     * @var \Surfnet\StepupBundle\Service\SmsSecondFactor\SmsVerificationStateHandler
-     */
-    private $smsVerificationStateHandler;
-
-    /**
-     * @var string
-     */
-    private $originator;
-
-    /**
-     * @param SmsService                  $smsService
-     * @param SmsVerificationStateHandler $smsVerificationStateHandler
      * @param string                      $originator
      */
     public function __construct(
-        SmsService $smsService,
-        SmsVerificationStateHandler $smsVerificationStateHandler,
+        private readonly SmsService $smsService,
+        private readonly SmsVerificationStateHandler $smsVerificationStateHandler,
         $originator
     ) {
         if (!is_string($originator)) {
@@ -61,9 +46,6 @@ class SmsSecondFactorService implements SmsSecondFactorServiceInterface
                 'Invalid SMS originator given: may only contain alphanumerical characters.'
             );
         }
-
-        $this->smsService = $smsService;
-        $this->smsVerificationStateHandler = $smsVerificationStateHandler;
         $this->originator = $originator;
     }
 

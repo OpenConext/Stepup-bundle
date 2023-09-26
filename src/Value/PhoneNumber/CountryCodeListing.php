@@ -23,7 +23,7 @@ class CountryCodeListing
     /**
      * The preferred choice to display on forms. Currently The Netherlands (+31).
      */
-    const PREFERRED_CHOICE = '31';
+    final public const PREFERRED_CHOICE = '31';
 
     /**
      * List of currently (2015-03-16) known and used country codes as per
@@ -34,10 +34,8 @@ class CountryCodeListing
      * the actual code.
      *
      * When updating, update CountryCodeListing::$countryCodes to match.
-     *
-     * @var array
      */
-    private static $countries = [
+    private static array $countries = [
         'Abkhazia (+7 840)'                                   => '7840',
         'Abkhazia (+7 940)'                                   => '7940',
         'Afghanistan (+93)'                                   => '93',
@@ -294,7 +292,6 @@ class CountryCodeListing
         return array_combine($countryNames, $countries);
     }
     /**
-     * @param Country $country
      * @return bool
      */
     public static function isPreferredChoice(Country $country)

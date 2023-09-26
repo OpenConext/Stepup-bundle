@@ -29,23 +29,17 @@ use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 class RegistrationExpirationHelper
 {
     /**
-     * The current time, this field can be set for testing purposes
-     * @var DateTime
+     * Must be a DateInterval compliant $interval_spec string
      */
-    private $now;
+    private ?DateInterval $expirationWindow = null;
 
-    /**
-     * @var string a DateInterval complient $interval_spec string
-     */
-    private $expirationWindow;
-
-    public function __construct(CoreDateTime $now = null, $expirationWindow = 'P14D')
-    {
-        $this->now = $now;
-
+    public function __construct(
+        private ?CoreDateTime $now = null,
+        $expirationWindow = 'P14D'
+    ) {
         try {
             $this->expirationWindow = new DateInterval($expirationWindow);
-        } catch (Exception $e) {
+        } catch (Exception) {
             throw new InvalidArgumentException(
                 sprintf(
                     'The provided DateInterval interval specification ("%s") is invalid',
@@ -55,19 +49,19 @@ class RegistrationExpirationHelper
         }
     }
 
-    public function expiresAt(CoreDateTime $registeredAt)
+    public function expiresAt(CoreDateTime $registeredAt): CoreDateTime
     {
         $registrationDate = clone $registeredAt;
         return $registrationDate->add($this->expirationWindow);
     }
 
-    public function hasExpired(CoreDateTime $registeredAt)
+    public function hasExpired(CoreDateTime $registeredAt): bool
     {
         $now = $this->getNow();
         return $this->expiresAt($registeredAt) <= $now;
     }
 
-    private function getNow()
+    private function getNow(): CoreDateTime
     {
         if (is_null($this->now)) {
             $this->now = new CoreDateTime();

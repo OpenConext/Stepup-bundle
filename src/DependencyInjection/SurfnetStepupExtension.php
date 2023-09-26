@@ -99,22 +99,18 @@ class SurfnetStepupExtension extends Extension
     {
         $loaService = $container->getDefinition('surfnet_stepup.service.loa_resolution');
 
-        $loa1 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_1, $loaDefinitions['loa1']]);
-        $loa2 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_2, $loaDefinitions['loa2']]);
-        $loa3 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_3, $loaDefinitions['loa3']]);
+        $loa1 = new Definition(\Surfnet\StepupBundle\Value\Loa::class, [Loa::LOA_1, $loaDefinitions['loa1']]);
+        $loa2 = new Definition(\Surfnet\StepupBundle\Value\Loa::class, [Loa::LOA_2, $loaDefinitions['loa2']]);
+        $loa3 = new Definition(\Surfnet\StepupBundle\Value\Loa::class, [Loa::LOA_3, $loaDefinitions['loa3']]);
 
         $arguments = [$loa1, $loa2, $loa3];
 
         if (array_key_exists('loa_self_asserted', $loaDefinitions)) {
-            $arguments[] = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_SELF_VETTED, $loaDefinitions['loa_self_asserted']]);
+            $arguments[] = new Definition(\Surfnet\StepupBundle\Value\Loa::class, [Loa::LOA_SELF_VETTED, $loaDefinitions['loa_self_asserted']]);
         }
         $loaService->addArgument($arguments);
     }
 
-    /**
-     * @param array            $config
-     * @param ContainerBuilder $container
-     */
     private function configureLocaleCookieSettings(array $config, ContainerBuilder $container)
     {
         $container->getDefinition('surfnet_stepup.locale_cookie_settings')
@@ -131,10 +127,6 @@ class SurfnetStepupExtension extends Extension
             );
     }
 
-    /**
-     * @param array            $config
-     * @param ContainerBuilder $container
-     */
     private function configureGatewayApiClient(array $config, ContainerBuilder $container)
     {
         $handlerStack = $container->getDefinition('surfnet_stepup.guzzle.handler_stack');
@@ -158,10 +150,6 @@ class SurfnetStepupExtension extends Extension
         $gatewayGuzzle->replaceArgument(0, $gatewayGuzzleOptions);
     }
 
-    /**
-     * @param array            $config
-     * @param ContainerBuilder $container
-     */
     private function configureSmsSecondFactorServices(array $config, ContainerBuilder $container)
     {
         $smsSecondFactorService = $container->getDefinition('surfnet_stepup.service.sms_second_factor');

@@ -53,10 +53,8 @@ final class OtpGeneratorTest extends TestCase
      * @test
      * @group security
      * @dataProvider nonPositiveIntegers
-     *
-     * @param mixed $length
      */
-    public function it_cannot_generate_otp_strings_of_negative_or_non_integer_length($length)
+    public function it_cannot_generate_otp_strings_of_negative_or_non_integer_length(mixed $length)
     {
         $this->expectException(InvalidArgumentException::class);
 

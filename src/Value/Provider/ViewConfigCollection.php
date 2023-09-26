@@ -29,10 +29,9 @@ class ViewConfigCollection
     /**
      * @var ViewConfigInterface[]
      */
-    private $collection = [];
+    private array $collection = [];
 
     /**
-     * @param ViewConfigInterface $viewConfig
      * @param $identifier
      */
     public function addViewConfig(ViewConfigInterface $viewConfig, $identifier)

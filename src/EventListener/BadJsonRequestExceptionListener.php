@@ -35,6 +35,6 @@ class BadJsonRequestExceptionListener
             return null;
         }
 
-        $event->setResponse(new JsonResponse(['errors' => $exception->getErrors()], 400));
+        $event->setResponse(new JsonResponse(['errors' => $exception->getErrors()], \Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST));
     }
 }

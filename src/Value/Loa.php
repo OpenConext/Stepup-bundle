@@ -24,25 +24,19 @@ use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 /**
  * Value object representing the different LOAs that can be configured
  */
-class Loa
+class Loa implements \Stringable
 {
     /**
      * The different levels
      */
-    const LOA_1 = 1.0;
-    const LOA_SELF_VETTED = 1.5;
-    const LOA_2 = 2.0;
-    const LOA_3 = 3.0;
+    final public const LOA_1 = 1.0;
+    final public const LOA_SELF_VETTED = 1.5;
+    final public const LOA_2 = 2.0;
+    final public const LOA_3 = 3.0;
 
-    /**
-     * @var float
-     */
-    private $level;
+    private readonly float $level;
 
-    /**
-     * @var string
-     */
-    private $identifier;
+    private readonly string $identifier;
 
     public function __construct(float $level, string $identifier)
     {

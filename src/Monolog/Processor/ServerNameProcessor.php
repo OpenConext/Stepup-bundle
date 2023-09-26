@@ -22,21 +22,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class ServerNameProcessor
 {
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
-
-    /**
-     * @param RequestStack $requestStack
-     */
-    public function __construct(RequestStack $requestStack)
+    public function __construct(private readonly RequestStack $requestStack)
     {
-        $this->requestStack = $requestStack;
     }
 
     /**
-     * @param array $record
      * @return array
      */
     public function __invoke(array $record)

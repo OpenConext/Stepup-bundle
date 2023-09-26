@@ -21,12 +21,9 @@ namespace Surfnet\StepupBundle\Value;
 use JsonSerializable;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
-final class SecondFactorType implements JsonSerializable
+final class SecondFactorType implements JsonSerializable, \Stringable
 {
-    /**
-     * @var string
-     */
-    private $type;
+    private readonly string $type;
 
     /**
      * @param string $type
@@ -40,7 +37,6 @@ final class SecondFactorType implements JsonSerializable
     }
 
     /**
-     * @param self $other
      * @return bool
      */
     public function equals(self $other)
@@ -84,7 +80,7 @@ final class SecondFactorType implements JsonSerializable
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->type;
     }

@@ -21,22 +21,10 @@ namespace Surfnet\StepupBundle\Value\PhoneNumber;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\Exception\InvalidPhoneNumberFormatException;
 
-class InternationalPhoneNumber
+class InternationalPhoneNumber implements \Stringable
 {
-    /**
-     * @var CountryCode
-     */
-    private $countryCode;
-
-    /**
-     * @var PhoneNumber
-     */
-    private $phoneNumber;
-
-    public function __construct(CountryCode $countryCode, PhoneNumber $number)
+    public function __construct(private readonly CountryCode $countryCode, private readonly PhoneNumber $phoneNumber)
     {
-        $this->countryCode = $countryCode;
-        $this->phoneNumber = $number;
     }
 
     /**
@@ -75,7 +63,6 @@ class InternationalPhoneNumber
     }
 
     /**
-     * @param InternationalPhoneNumber $other
      * @return bool
      */
     public function equals(InternationalPhoneNumber $other)
@@ -84,7 +71,7 @@ class InternationalPhoneNumber
                 && $this->phoneNumber->equals($other->phoneNumber);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->countryCode . ' ' . $this->phoneNumber;
     }

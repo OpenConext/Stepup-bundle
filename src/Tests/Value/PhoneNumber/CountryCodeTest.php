@@ -30,10 +30,8 @@ class CountryCodeTest extends UnitTest
      * @test
      * @group value
      * @dataProvider invalidConstructorArgumentProvider
-     *
-     * @param mixed $invalidArgument
      */
-    public function a_country_code_cannot_be_constructed_with_anything_but_a_string($invalidArgument)
+    public function a_country_code_cannot_be_constructed_with_anything_but_a_string(mixed $invalidArgument)
     {
         $this->expectException(InvalidArgumentException::class);
 

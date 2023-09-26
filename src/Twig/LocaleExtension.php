@@ -26,20 +26,14 @@ use Twig\TwigFunction;
 
 final class LocaleExtension extends AbstractExtension
 {
-    /**
-     * @var \Symfony\Component\Form\FormFactoryInterface
-     */
-    private $formFactory;
-
-    public function __construct(FormFactoryInterface $formFactory)
+    public function __construct(private readonly FormFactoryInterface $formFactory)
     {
-        $this->formFactory = $formFactory;
     }
 
     public function getFunctions()
     {
         return [
-            new TwigFunction('stepup_locale_switcher', [$this, 'getLocalePreferenceForm']),
+            new TwigFunction('stepup_locale_switcher', $this->getLocalePreferenceForm(...)),
         ];
     }
 

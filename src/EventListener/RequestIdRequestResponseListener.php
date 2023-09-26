@@ -28,19 +28,10 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  */
 class RequestIdRequestResponseListener
 {
-    const HEADER_NAME = 'X-Stepup-Request-Id';
+    final public const HEADER_NAME = 'X-Stepup-Request-Id';
 
-    /**
-     * @var RequestId
-     */
-    private $requestId;
-
-    /**
-     * @param RequestId $requestId
-     */
-    public function __construct(RequestId $requestId)
+    public function __construct(private readonly RequestId $requestId)
     {
-        $this->requestId = $requestId;
     }
 
     /**

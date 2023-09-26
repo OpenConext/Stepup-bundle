@@ -41,10 +41,8 @@ final class YubikeyPublicIdTest extends TestCase
      * @test
      * @group value
      * @dataProvider invalidTypeProvider
-     *
-     * @param mixed $nonString
      */
-    public function it_cannot_be_constructed_with_anything_but_a_string($nonString)
+    public function it_cannot_be_constructed_with_anything_but_a_string(mixed $nonString)
     {
         $this->expectExceptionMessage("Invalid Argument, parameter \"value\" should be of type \"string\"");
         $this->expectException(InvalidArgumentException::class);
@@ -69,10 +67,8 @@ final class YubikeyPublicIdTest extends TestCase
      * @test
      * @group value
      * @dataProvider invalidFormatProvider
-     *
-     * @param mixed $invalidFormat
      */
-    public function it_cannot_be_constructed_with_an_invalid_format($invalidFormat)
+    public function it_cannot_be_constructed_with_an_invalid_format(mixed $invalidFormat)
     {
         $this->expectException(InvalidArgumentException::class);
         new YubikeyPublicId($invalidFormat);

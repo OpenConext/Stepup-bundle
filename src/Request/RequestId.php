@@ -27,21 +27,12 @@ use LogicException;
 class RequestId
 {
     /**
-     * @var RequestIdGenerator
-     */
-    private $generator;
-
-    /**
      * @var string|null
      */
     private $requestId;
 
-    /**
-     * @param RequestIdGenerator $generator
-     */
-    public function __construct(RequestIdGenerator $generator)
+    public function __construct(private readonly RequestIdGenerator $generator)
     {
-        $this->generator = $generator;
     }
 
     /**

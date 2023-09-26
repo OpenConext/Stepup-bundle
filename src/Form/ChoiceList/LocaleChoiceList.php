@@ -26,18 +26,12 @@ final class LocaleChoiceList
     /**
      * @var string[]
      */
-    private $locales;
-
-    /**
-     * @var \Symfony\Component\HttpFoundation\RequestStack
-     */
-    private $requestStack;
+    private readonly array $locales;
 
     /**
      * @param string[] $locales
-     * @param RequestStack $requestStack
      */
-    public function __construct(array $locales, RequestStack $requestStack)
+    public function __construct(array $locales, private readonly RequestStack $requestStack)
     {
         foreach ($locales as $index => $locale) {
             if (!is_string($locale)) {
@@ -46,15 +40,12 @@ final class LocaleChoiceList
         }
 
         $this->locales = $locales;
-        $this->requestStack = $requestStack;
     }
 
     public function create()
     {
         return array_combine(
-            array_map(function ($locale) {
-                return 'locale.' . $locale;
-            }, $this->locales),
+            array_map(fn($locale) => 'locale.' . $locale, $this->locales),
             $this->locales
         );
     }

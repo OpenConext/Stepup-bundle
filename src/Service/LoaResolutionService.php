@@ -26,7 +26,7 @@ class LoaResolutionService
     /**
      * @var \Surfnet\StepupBundle\Value\Loa[]
      */
-    private $loas = [];
+    private array $loas = [];
 
     public function __construct(array $loaDefinitions)
     {
@@ -80,9 +80,6 @@ class LoaResolutionService
         return null;
     }
 
-    /**
-     * @param Loa $loa
-     */
     private function addLoaDefinition(Loa $loa)
     {
         foreach ($this->loas as $existingLoa) {

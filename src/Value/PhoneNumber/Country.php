@@ -18,29 +18,18 @@
 
 namespace Surfnet\StepupBundle\Value\PhoneNumber;
 
-final class Country
+final class Country implements \Stringable
 {
-    /**
-     * @var CountryCode
-     */
-    private $countryCode;
+    private readonly string $countryName;
 
     /**
-     * @var string
-     */
-    private $countryName;
-
-    /**
-     * @param CountryCode $countryCode
      * @param string $countryName
      */
-    public function __construct(CountryCode $countryCode, $countryName)
+    public function __construct(private readonly CountryCode $countryCode, $countryName)
     {
         if (!is_string($countryName)) {
             throw InvalidArgumentException::invalidType('string', 'countryName', $countryName);
         }
-
-        $this->countryCode = $countryCode;
         $this->countryName = $countryName;
     }
 
@@ -61,7 +50,6 @@ final class Country
     }
 
     /**
-     * @param self $other
      * @return bool
      */
     public function equals(self $other)
@@ -69,7 +57,7 @@ final class Country
         return $this->countryName === $other->name && $this->countryCode->equals($other->countryCode);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf('%s (%s)', $this->countryName, $this->countryCode);
     }

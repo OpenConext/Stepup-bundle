@@ -30,10 +30,8 @@ class PhoneNumberTest extends UnitTest
      * @test
      * @group value
      * @dataProvider invalidConstructorArgumentProvider
-     *
-     * @param mixed $invalidArgument
      */
-    public function a_phone_number_cannot_be_created_with_anything_but_a_string($invalidArgument)
+    public function a_phone_number_cannot_be_created_with_anything_but_a_string(mixed $invalidArgument)
     {
         $this->expectException(InvalidArgumentException::class);
 

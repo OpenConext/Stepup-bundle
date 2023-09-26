@@ -31,31 +31,6 @@ use Surfnet\StepupBundle\Tests\DateTimeHelper;
  */
 class SmsVerificationStateTest extends TestCase
 {
-    public function non_strings()
-    {
-        return [
-            'array'        => [array()],
-            'integer'      => [1],
-            'object'       => [new \stdClass()],
-            'null'         => [null],
-            'bool'         => [false],
-            'resource'     => [fopen('php://memory', 'w')],
-        ];
-    }
-
-    public function non_non_empty_strings()
-    {
-        return [
-            'empty string' => [''],
-            'array'        => [array()],
-            'integer'      => [1],
-            'object'       => [new \stdClass()],
-            'null'         => [null],
-            'bool'         => [false],
-            'resource'     => [fopen('php://memory', 'w')],
-        ];
-    }
-
     /**
      * @test
      * @group sms
@@ -66,37 +41,6 @@ class SmsVerificationStateTest extends TestCase
         $otp = $state->requestNewOtp('123');
 
         $this->assertTrue($state->verify($otp)->wasSuccessful(), 'OTP should have matched');
-    }
-
-    /**
-     * @test
-     * @group sms
-     * @dataProvider non_non_empty_strings
-     * @param mixed $nonString
-     */
-    public function it_accepts_only_string_phone_numbers($nonString)
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('phoneNumber');
-
-        $state = new SmsVerificationState(new DateInterval('PT15M'), 3);
-        $state->requestNewOtp($nonString);
-    }
-
-    /**
-     * @test
-     * @group sms
-     * @dataProvider non_strings
-     * @param mixed $nonString
-     */
-    public function it_verifies_only_string_otps($nonString)
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('userOtp');
-
-        $state = new SmsVerificationState(new DateInterval('PT15M'), 3);
-        $state->requestNewOtp('123');
-        $state->verify($nonString);
     }
 
     /**
@@ -165,7 +109,7 @@ class SmsVerificationStateTest extends TestCase
         $this->assertSame(0, $state->getOtpRequestsRemainingCount());
     }
 
-    public function lteZeroMaximumTries()
+    public function lteZeroMaximumTries(): array
     {
         return [[0], [-1], [-1000]];
     }
@@ -176,7 +120,7 @@ class SmsVerificationStateTest extends TestCase
      * @dataProvider lteZeroMaximumTries
      * @param int $maximumTries
      */
-    public function maximum_challenges_must_be_gte_1($maximumTries)
+    public function maximum_challenges_must_be_gte_1(int $maximumTries)
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('maximum OTP requests');

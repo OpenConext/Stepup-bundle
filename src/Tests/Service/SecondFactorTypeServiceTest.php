@@ -26,8 +26,8 @@ use Surfnet\StepupBundle\Value\VettingType;
 
 class SecondFactorTypeServiceTest extends TestCase
 {
-    private $vettingTypeSelfAsserted;
-    private $vettingTypeOnPremise;
+    private \Surfnet\StepupBundle\Value\VettingType $vettingTypeSelfAsserted;
+    private \Surfnet\StepupBundle\Value\VettingType $vettingTypeOnPremise;
 
     protected function setUp(): void
     {

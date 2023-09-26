@@ -23,36 +23,15 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class SessionSmsVerificationStateHandler implements SmsVerificationStateHandler
 {
-    /**
-     * @var SessionInterface
-     */
-    private $session;
-
-    /**
-     * @var string
-     */
-    private $sessionKey;
-
-    /**
-     * @var DateInterval
-     */
-    private $otpExpiryInterval;
-
-    /**
-     * @var int
-     */
-    private $otpRequestMaximum;
+    private readonly \DateInterval $otpExpiryInterval;
 
     public function __construct(
-        SessionInterface $session,
-        string $sessionKey,
+        private readonly SessionInterface $session,
+        private readonly string $sessionKey,
         int $otpExpiryInterval,
-        int $otpRequestMaximum
+        private readonly int $otpRequestMaximum
     ) {
-        $this->session = $session;
-        $this->sessionKey = $sessionKey;
         $this->otpExpiryInterval = new DateInterval(sprintf('PT%dS', $otpExpiryInterval));
-        $this->otpRequestMaximum = $otpRequestMaximum;
     }
 
     private function sessionKeyFrom(string $secondFactorId)

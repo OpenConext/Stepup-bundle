@@ -63,7 +63,6 @@ class ArtTest extends UnitTest
      * @group art
      * @dataProvider artCodeWithStrippedVariables
      *
-     * @param Exception $exception
      * @param int $expectedArtCode
      */
     public function exception_translates_to_art_code_with_variables_stripped(Exception $exception, $expectedArtCode)

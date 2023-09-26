@@ -33,20 +33,14 @@ use Symfony\Component\Translation\TranslatorInterface;
 class SecondFactorTypeTranslationService
 {
     /**
-     * @var ViewConfigCollection
-     */
-    private $gsspConfigCollection;
-
-    /**
      * @var TranslatorInterface
      */
     private $translator;
 
     public function __construct(
-        ViewConfigCollection $gsspConfigCollection,
+        private readonly ViewConfigCollection $gsspConfigCollection,
         TranslatorInterface $translator
     ) {
-        $this->gsspConfigCollection = $gsspConfigCollection;
         $this->translator = $translator;
     }
 

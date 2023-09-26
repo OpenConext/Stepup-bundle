@@ -18,7 +18,6 @@
 
 namespace Surfnet\StepupBundle\Service;
 
-
 use Surfnet\StepupBundle\Exception\DomainException;
 use Surfnet\StepupBundle\Value\GssfConfig;
 use Surfnet\StepupBundle\Value\Loa;

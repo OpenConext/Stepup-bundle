@@ -93,7 +93,8 @@ class SmsRecoveryTokenService
     {
         $challenge = $this->smsVerificationStateHandler->requestNewOtp(
             (string) $command->phoneNumber,
-            $command->recoveryTokenId)
+            $command->recoveryTokenId
+        )
         ;
 
         $smsCommand = new SendSmsCommand();

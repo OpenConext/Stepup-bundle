@@ -18,7 +18,6 @@
 
 namespace Surfnet\StepupBundle\Value;
 
-
 class GssfConfig
 {
     /**

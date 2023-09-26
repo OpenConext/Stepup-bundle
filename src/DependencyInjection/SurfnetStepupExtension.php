@@ -176,7 +176,6 @@ class SurfnetStepupExtension extends Extension
             ->getDefinition('surfnet_stepup.service.challenge_handler')
             ->replaceArgument(2, $config['sms']['otp_expiry_interval'])
             ->replaceArgument(3, $config['sms']['maximum_otp_requests']);
-
     }
 
     private function configureLocaleSelectionWidget(array $loaDefinitions, ContainerBuilder $container)

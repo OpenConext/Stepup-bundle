@@ -52,7 +52,9 @@ final class LocaleChoiceList
     public function create()
     {
         return array_combine(
-            array_map(function ($locale) { return 'locale.' . $locale; }, $this->locales),
+            array_map(function ($locale) {
+                return 'locale.' . $locale;
+            }, $this->locales),
             $this->locales
         );
     }

@@ -112,30 +112,24 @@ class ExceptionController extends FrameworkController
         if ($exception instanceof SignatureValidationFailedException) {
             $title = $translator->trans('stepup.error.signature_validation_failed.title');
             $description = $translator->trans('stepup.error.signature_validation_failed.description');
-
         } elseif ($exception instanceof UnsignedRequestException) {
             $title = $translator->trans('stepup.error.unsigned_request.title');
             $description = $translator->trans('stepup.error.unsigned_request.description');
-
         } elseif ($exception instanceof UnsupportedSignatureException) {
             $title = $translator->trans('stepup.error.unsupported_signature.title');
             $description = $translator->trans('stepup.error.unsupported_signature.description');
-
         } elseif ($exception instanceof UnknownServiceProviderException) {
             $title = $translator->trans('stepup.error.unknown_service_provider.title');
             $description = $exception->getMessage();
-
         } elseif ($exception instanceof AuthnFailedSamlResponseException) {
             $title = $translator->trans('stepup.error.authn_failed.title');
             $description = $translator->trans('stepup.error.authn_failed.description');
-
         } elseif ($exception instanceof MissingRequiredAttributeException) {
             $title = $translator->trans('stepup.error.missing_required_attributes.title');
             $description = $exception->getMessage();
         } elseif ($exception instanceof PreconditionNotMetException) {
             $title = $translator->trans('stepup.error.precondition_not_met.title');
             $description = $translator->trans('stepup.error.precondition_not_met.description');
-
         } elseif ($exception instanceof InvalidResponseException) {
             $title = $translator->trans('stepup.error.authentication_error.title');
             $description = $translator->trans('stepup.error.authentication_error.description');

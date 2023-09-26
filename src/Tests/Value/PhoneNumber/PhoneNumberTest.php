@@ -90,9 +90,9 @@ class PhoneNumberTest extends UnitTest
     {
         $base                        = new PhoneNumber('0612345678');
         $same                        = new PhoneNumber('0612345678');
-        $sameWithoutLeadingZero      = new PhoneNumber( '612345678');
+        $sameWithoutLeadingZero      = new PhoneNumber('612345678');
         $different                   = new PhoneNumber('0612345679');
-        $differentWithoutLeadingZero = new PhoneNumber( '612345679');
+        $differentWithoutLeadingZero = new PhoneNumber('612345679');
 
         $this->assertTrue($base->equals($same));
         $this->assertTrue($base->equals($sameWithoutLeadingZero));

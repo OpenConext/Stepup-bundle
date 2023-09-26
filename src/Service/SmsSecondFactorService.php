@@ -91,7 +91,8 @@ class SmsSecondFactorService implements SmsSecondFactorServiceInterface
     {
         $challenge = $this->smsVerificationStateHandler->requestNewOtp(
             (string) $command->phoneNumber,
-            $command->secondFactorId)
+            $command->secondFactorId
+        )
         ;
 
         $smsCommand = new SendSmsCommand();

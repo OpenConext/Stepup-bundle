@@ -39,6 +39,23 @@
         "squizlabs/php_codesniffer": "^3.7.1",
         "symfony/phpunit-bridge": "^5.4|^6.3"
     },
+    "scripts": {
+        "check": [
+            "@composer-validate",
+            "@phplint",
+            "@phpcpd",
+            "@phpcs",
+            "@phpmd",
+            "@test"
+        ],
+        "composer-validate": "./ci/qa/validate",
+        "phplint": "./ci/qa/phplint",
+        "phpcs": "./ci/qa/phpcs",
+        "phpcpd": "./ci/qa/phpcpd",
+        "phpmd": "./ci/qa/phpmd",
+        "test": "./ci/qa/phpunit",
+        "phpcbf": "./ci/qa/phpcbf"
+    },
     "config": {
         "sort-packages": true
     }

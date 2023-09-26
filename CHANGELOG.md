@@ -1,3 +1,12 @@
+# 6.0.0
+Allow for Symfony 6 packages and drop PHP7 support
+
+Other changes include:
+- GHA was put into place, Travis was laid to rest.
+- For test-integration and nightly sec-checks 
+- Ant task runner was replaced by Composer scripts to run the QA tests
+- By increasing type safety, some tests were removed that tested input validation
+
 # 5.0.2
 Allow for symfony 5 packages (as the package already advertised)
 

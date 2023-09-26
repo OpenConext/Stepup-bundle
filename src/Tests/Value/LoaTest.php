@@ -18,6 +18,7 @@
 
 namespace Surfnet\StepupBundle\Tests\Value;
 
+use Error;
 use PHPUnit\Framework\TestCase as UnitTest;
 use stdClass;
 use Surfnet\StepupBundle\Exception\DomainException;
@@ -35,7 +36,7 @@ class LoaTest extends UnitTest
      */
     public function it_cannot_be_created_with_a_wrong_loa_data_type($invalidLevel)
     {
-        $this->expectError();
+        self::expectException(Error::class);
 
         new Loa($invalidLevel, 'identifier');
     }
@@ -62,15 +63,15 @@ class LoaTest extends UnitTest
     {
         // Using a data provider causes PHP to type cast certain values. Resulting in false test results
         // For example. False was converted to 0.
-        $this->expectError();
+        self::expectException(Error::class);
         new Loa(Loa::LOA_1, 1);
-        $this->expectError();
+        self::expectException(Error::class);
         new Loa(Loa::LOA_1, 1.1);
-        $this->expectError();
+        self::expectException(Error::class);
         new Loa(Loa::LOA_1, false);
-        $this->expectError();
+        self::expectException(Error::class);
         new Loa(Loa::LOA_1, []);
-        $this->expectError();
+        self::expectException(Error::class);
         new Loa(Loa::LOA_1, new stdClass());
     }
 

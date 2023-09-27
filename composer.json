@@ -20,7 +20,6 @@
         "ext-openssl": "*",
         "guzzlehttp/guzzle": "^7.8",
         "monolog/monolog": "^3",
-        "sensio/framework-extra-bundle": "^5.4",
         "surfnet/stepup-saml-bundle": "^6.0",
         "symfony/config": "^5.4|^6.3",
         "symfony/dependency-injection": "^5.4|^6.3",

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -31,7 +33,7 @@ class RequestIdProcessor
      *
      * @return array
      */
-    public function __invoke(array $record)
+    public function __invoke(array $record): array
     {
         $record['extra']['request_id'] = $this->requestId->get();
 

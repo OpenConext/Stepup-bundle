@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -29,10 +32,7 @@ final class SmsVerificationState
      */
     public const MAXIMUM_VERIFICATION_ATTEMPTS = 10;
 
-    /**
-     * @var int
-     */
-    private $maximumOtpRequests;
+    private readonly int $maximumOtpRequests;
 
     /**
      * @var Otp[]
@@ -41,9 +41,6 @@ final class SmsVerificationState
 
     private int $verificationAttemptsMade;
 
-    /**
-     * @param int $maximumOtpRequests
-     */
     public function __construct(private readonly DateInterval $expiryInterval, int $maximumOtpRequests)
     {
         if ($maximumOtpRequests <= 0) {
@@ -66,7 +63,7 @@ final class SmsVerificationState
             );
         }
 
-        $this->otps = array_filter($this->otps, fn(Otp $otp) => $otp->hasPhoneNumber($phoneNumber));
+        $this->otps = array_filter($this->otps, fn(Otp $otp): bool => $otp->hasPhoneNumber($phoneNumber));
 
         $otp = OtpGenerator::generate(8);
         $this->otps[] = Otp::create($otp, $phoneNumber, $this->expiryInterval);

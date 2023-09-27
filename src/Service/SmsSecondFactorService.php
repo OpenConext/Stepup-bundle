@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -64,7 +66,7 @@ class SmsSecondFactorService implements SmsSecondFactorServiceInterface
         return $this->smsVerificationStateHandler->hasState($secondFactorId);
     }
 
-    public function clearSmsVerificationState(string $secondFactorId)
+    public function clearSmsVerificationState(string $secondFactorId): void
     {
         $this->smsVerificationStateHandler->clearState($secondFactorId);
     }

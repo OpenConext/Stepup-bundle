@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -21,6 +23,7 @@ namespace Surfnet\StepupBundle\Monolog\Handler;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\StreamHandler;
+use Monolog\LogRecord;
 use Surfnet\StepupBundle\Exception\CannotWriteToPrimaryLogException;
 
 /**
@@ -34,7 +37,7 @@ class PrimaryLogHandler implements HandlerInterface
      */
     private $streamHandler;
 
-    public function handle(array $record)
+    public function handle(LogRecord $record): bool
     {
         try {
             $this->streamHandler->handle($record);
@@ -47,33 +50,37 @@ class PrimaryLogHandler implements HandlerInterface
         }
     }
 
-    public function isHandling(array $record)
+    public function isHandling(LogRecord $record): bool
     {
         return $this->streamHandler->isHandling($record);
     }
 
-    public function handleBatch(array $records)
+    public function handleBatch(array $records): void
     {
-        return $this->streamHandler->handleBatch($records);
+        $this->streamHandler->handleBatch($records);
     }
 
-    public function pushProcessor($callback)
+    public function pushProcessor(callable $callback): HandlerInterface
     {
         return $this->streamHandler->pushProcessor($callback);
     }
 
-    public function popProcessor()
+    public function popProcessor(): callable
     {
         return $this->streamHandler->popProcessor();
     }
 
-    public function setFormatter(FormatterInterface $formatter)
+    public function setFormatter(FormatterInterface $formatter): HandlerInterface
     {
         return $this->streamHandler->setFormatter($formatter);
     }
 
-    public function getFormatter()
+    public function getFormatter(): FormatterInterface
     {
         return $this->streamHandler->getFormatter();
+    }
+
+    public function close(): void
+    {
     }
 }

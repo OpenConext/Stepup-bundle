@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -39,7 +41,7 @@ final class SecondFactorType implements JsonSerializable, \Stringable
     /**
      * @return bool
      */
-    public function equals(self $other)
+    public function equals(self $other): bool
     {
         return $this->type === $other->type;
     }
@@ -47,7 +49,7 @@ final class SecondFactorType implements JsonSerializable, \Stringable
     /**
      * @return bool
      */
-    public function isSms()
+    public function isSms(): bool
     {
         return $this->type === 'sms';
     }
@@ -55,7 +57,7 @@ final class SecondFactorType implements JsonSerializable, \Stringable
     /**
      * @return bool
      */
-    public function isYubikey()
+    public function isYubikey(): bool
     {
         return $this->type === 'yubikey';
     }
@@ -64,7 +66,7 @@ final class SecondFactorType implements JsonSerializable, \Stringable
      * @return bool
      * @deprecated u2f support is removed from StepUp in favour of the WebAuthn GSSP
      */
-    public function isU2f()
+    public function isU2f(): bool
     {
         return $this->type === 'u2f';
     }
@@ -72,7 +74,7 @@ final class SecondFactorType implements JsonSerializable, \Stringable
     /**
      * @return string
      */
-    public function getSecondFactorType()
+    public function getSecondFactorType(): string
     {
         return $this->type;
     }

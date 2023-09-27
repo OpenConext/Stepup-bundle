@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -34,7 +36,7 @@ final class SessionSmsVerificationStateHandler implements SmsVerificationStateHa
         $this->otpExpiryInterval = new DateInterval(sprintf('PT%dS', $otpExpiryInterval));
     }
 
-    private function sessionKeyFrom(string $secondFactorId)
+    private function sessionKeyFrom(string $secondFactorId): string
     {
         return sprintf("%s_%s", $this->sessionKey, $secondFactorId);
     }
@@ -44,7 +46,7 @@ final class SessionSmsVerificationStateHandler implements SmsVerificationStateHa
         return $this->session->has($this->sessionKeyFrom($secondFactorId));
     }
 
-    public function clearState(string $secondFactorId)
+    public function clearState(string $secondFactorId): void
     {
         $this->session->remove($this->sessionKeyFrom($secondFactorId));
     }
@@ -54,7 +56,7 @@ final class SessionSmsVerificationStateHandler implements SmsVerificationStateHa
         /** @var SmsVerificationState|null $state */
         $state = $this->session->get($this->sessionKeyFrom($secondFactorId));
 
-        if (!$state) {
+        if ($state === null) {
             $state = new SmsVerificationState($this->otpExpiryInterval, $this->otpRequestMaximum);
             $this->session->set($this->sessionKeyFrom($secondFactorId), $state);
         }
@@ -67,7 +69,7 @@ final class SessionSmsVerificationStateHandler implements SmsVerificationStateHa
         /** @var SmsVerificationState|null $state */
         $state = $this->session->get($this->sessionKeyFrom($secondFactorId));
 
-        return $state ? $state->getOtpRequestsRemainingCount() : $this->otpRequestMaximum;
+        return $state !== null ? $state->getOtpRequestsRemainingCount() : $this->otpRequestMaximum;
     }
 
     public function getMaximumOtpRequestsCount(): int
@@ -80,7 +82,7 @@ final class SessionSmsVerificationStateHandler implements SmsVerificationStateHa
         /** @var SmsVerificationState|null $state */
         $state = $this->session->get($this->sessionKeyFrom($secondFactorId));
 
-        if (!$state) {
+        if ($state === null) {
             return OtpVerification::matchExpired();
         }
 

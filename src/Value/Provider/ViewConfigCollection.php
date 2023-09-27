@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2018 SURFnet bv
  *
@@ -34,7 +36,7 @@ class ViewConfigCollection
     /**
      * @param $identifier
      */
-    public function addViewConfig(ViewConfigInterface $viewConfig, $identifier)
+    public function addViewConfig(ViewConfigInterface $viewConfig, $identifier): void
     {
         $this->collection[$identifier] = $viewConfig;
     }
@@ -61,7 +63,7 @@ class ViewConfigCollection
      * @param $identifier
      * @return bool
      */
-    public function isGssp($identifier)
+    public function isGssp($identifier): bool
     {
         return isset($this->collection[$identifier]);
     }

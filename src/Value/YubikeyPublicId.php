@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -24,7 +26,7 @@ final class YubikeyPublicId implements \Stringable
 {
     private readonly string $value;
 
-    public static function fromOtp(YubikeyOtp $otp)
+    public static function fromOtp(YubikeyOtp $otp): self
     {
         $hexadecimalId = strtr($otp->publicId, 'cbdefghijklnrtuv', '0123456789abcdef');
         $gmpId = gmp_init($hexadecimalId, 16);
@@ -57,17 +59,17 @@ final class YubikeyPublicId implements \Stringable
         $this->value = $value;
     }
 
-    public function getYubikeyPublicId()
+    public function getYubikeyPublicId(): string
     {
         return $this->value;
     }
 
-    public function equals(YubikeyPublicId $other)
+    public function equals(YubikeyPublicId $other): bool
     {
         return $this->value === $other->value;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return $this->value;
     }

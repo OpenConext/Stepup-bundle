@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -36,7 +38,7 @@ class BadJsonRequestException extends \RuntimeException
         $violationsRoot,
         array $errors,
         $message = 'JSON could not be reconstituted into valid object.'
-    ) {
+    ): self {
         $allErrors = array_merge(self::mapViolationsToErrorStrings($violations, $violationsRoot), $errors);
 
         return new self($allErrors, $message);
@@ -60,7 +62,7 @@ class BadJsonRequestException extends \RuntimeException
     /**
      * @return string[]
      */
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->errors;
     }
@@ -69,7 +71,7 @@ class BadJsonRequestException extends \RuntimeException
      * @param string $root
      * @return array
      */
-    private static function mapViolationsToErrorStrings(ConstraintViolationListInterface $violations, $root)
+    private static function mapViolationsToErrorStrings(ConstraintViolationListInterface $violations, $root): array
     {
         $errors = [];
 

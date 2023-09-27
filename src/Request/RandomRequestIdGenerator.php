@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -20,7 +22,7 @@ namespace Surfnet\StepupBundle\Request;
 
 class RandomRequestIdGenerator implements RequestIdGenerator
 {
-    public function generateRequestId()
+    public function generateRequestId(): string
     {
         return md5(openssl_random_pseudo_bytes(50));
     }

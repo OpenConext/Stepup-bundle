@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -31,7 +33,7 @@ class InternationalPhoneNumber implements \Stringable
      * @param string $string a well formatted "+{CountryCode} (0) {PhoneNumber}" international phone number
      * @return InternationalPhoneNumber
      */
-    public static function fromStringFormat($string)
+    public static function fromStringFormat($string): self
     {
         if (!is_string($string)) {
             throw InvalidArgumentException::invalidType('string', 'string', $string);
@@ -57,7 +59,7 @@ class InternationalPhoneNumber implements \Stringable
      *
      * @return string
      */
-    public function toMSISDN()
+    public function toMSISDN(): string
     {
         return $this->countryCode->getCountryCode() . $this->phoneNumber->formatAsMsisdnPart();
     }
@@ -65,7 +67,7 @@ class InternationalPhoneNumber implements \Stringable
     /**
      * @return bool
      */
-    public function equals(InternationalPhoneNumber $other)
+    public function equals(InternationalPhoneNumber $other): bool
     {
         return $this->countryCode->equals($other->countryCode)
                 && $this->phoneNumber->equals($other->phoneNumber);

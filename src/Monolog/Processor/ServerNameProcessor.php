@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -33,7 +35,7 @@ class ServerNameProcessor
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        if ($request === null) {
+        if (!$request instanceof \Symfony\Component\HttpFoundation\Request) {
             return $record;
         }
 

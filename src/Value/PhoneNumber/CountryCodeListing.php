@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -279,7 +281,7 @@ class CountryCodeListing
         'Zimbabwe (+263)'                                     => '263',
     ];
 
-    public static function asArray()
+    public static function asArray(): array
     {
         $countries = [];
 
@@ -294,7 +296,7 @@ class CountryCodeListing
     /**
      * @return bool
      */
-    public static function isPreferredChoice(Country $country)
+    public static function isPreferredChoice(Country $country): bool
     {
         return $country->getCountryCode()->equals(new CountryCode(self::PREFERRED_CHOICE));
     }
@@ -303,7 +305,7 @@ class CountryCodeListing
      * @param string $countryCode
      * @return bool
      */
-    public static function isValidCountryCode($countryCode)
+    public static function isValidCountryCode($countryCode): bool
     {
         return in_array($countryCode, self::$countries);
     }

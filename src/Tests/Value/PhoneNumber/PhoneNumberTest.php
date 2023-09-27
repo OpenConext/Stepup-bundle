@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -31,7 +33,7 @@ class PhoneNumberTest extends UnitTest
      * @group value
      * @dataProvider invalidConstructorArgumentProvider
      */
-    public function a_phone_number_cannot_be_created_with_anything_but_a_string(mixed $invalidArgument)
+    public function a_phone_number_cannot_be_created_with_anything_but_a_string(mixed $invalidArgument): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -42,10 +44,8 @@ class PhoneNumberTest extends UnitTest
      * @test
      * @group value
      * @dataProvider invalidStringArgumentProvider
-     *
-     * @param string $invalidArgument
      */
-    public function a_phone_number_can_only_be_created_if_the_string_contains_digits_only($invalidArgument)
+    public function a_phone_number_can_only_be_created_if_the_string_contains_digits_only(string $invalidArgument): void
     {
         $this->expectException(InvalidPhoneNumberFormatException::class);
 
@@ -56,7 +56,7 @@ class PhoneNumberTest extends UnitTest
      * @test
      * @group value
      */
-    public function the_original_phone_number_is_returned_upon_request()
+    public function the_original_phone_number_is_returned_upon_request(): void
     {
         $original = '0612345678';
 
@@ -69,11 +69,8 @@ class PhoneNumberTest extends UnitTest
      * @test
      * @group value
      * @dataProvider formatAsMsisdnPartProvider
-     *
-     * @param string $given
-     * @param string $expectedMsisdnPart
      */
-    public function format_as_msisdn_part_strips_exactly_one_leading_zero_if_it_has_one($given, $expectedMsisdnPart)
+    public function format_as_msisdn_part_strips_exactly_one_leading_zero_if_it_has_one(string $given, string $expectedMsisdnPart): void
     {
         $phoneNumber = new PhoneNumber($given);
 
@@ -84,7 +81,7 @@ class PhoneNumberTest extends UnitTest
      * @test
      * @group value
      */
-    public function phone_numbers_are_equal_if_the_given_numbers_match_as_msisdn_part()
+    public function phone_numbers_are_equal_if_the_given_numbers_match_as_msisdn_part(): void
     {
         $base                        = new PhoneNumber('0612345678');
         $same                        = new PhoneNumber('0612345678');
@@ -102,20 +99,17 @@ class PhoneNumberTest extends UnitTest
      * @test
      * @group value
      * @dataProvider toStringProvider
-     *
-     * @param string $given
-     * @param string $expected
      */
     public function as_string_the_phone_number_is_rendered_with_a_replaced_leading_zero_between_brackets(
-        $given,
-        $expected
-    ) {
+        string $given,
+        string $expected
+    ): void {
         $phoneNumber = new PhoneNumber($given);
 
         $this->assertEquals($expected, $phoneNumber->__toString());
     }
 
-    public function invalidConstructorArgumentProvider()
+    public function invalidConstructorArgumentProvider(): array
     {
         return [
             'int'           => [0],
@@ -127,7 +121,7 @@ class PhoneNumberTest extends UnitTest
         ];
     }
 
-    public function invalidStringArgumentProvider()
+    public function invalidStringArgumentProvider(): array
     {
         return [
             'with characters'     => ['06123AB78'],
@@ -138,7 +132,7 @@ class PhoneNumberTest extends UnitTest
         ];
     }
 
-    public function formatAsMsisdnPartProvider()
+    public function formatAsMsisdnPartProvider(): array
     {
         return [                    //given,        expected output
             'no leading zero'   => ['612345678',   '612345678'],
@@ -148,7 +142,7 @@ class PhoneNumberTest extends UnitTest
         ];
     }
 
-    public function toStringProvider()
+    public function toStringProvider(): array
     {
         return [                    //given,        expected output
             'no leading zero'   => ['612345678',   '(0) 612345678'],

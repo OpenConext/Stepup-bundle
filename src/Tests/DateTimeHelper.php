@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -29,7 +31,7 @@ class DateTimeHelper
      *
      * @param DateTime|null $now
      */
-    public static function setCurrentTime(DateTime $now = null)
+    public static function setCurrentTime(DateTime $now = null): void
     {
         $nowProperty = new ReflectionProperty(StepupDateTime::class, 'now');
         $nowProperty->setAccessible(true);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -22,7 +24,7 @@ use InvalidArgumentException as CoreInvalidArgumentException;
 
 class InvalidArgumentException extends CoreInvalidArgumentException
 {
-    public static function invalidType($expectedType, $parameter, $value)
+    public static function invalidType($expectedType, $parameter, $value): self
     {
         return new self(sprintf(
             'Invalid Argument, parameter "%s" should be of type "%s", "%s" given',

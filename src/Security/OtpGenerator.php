@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -45,7 +47,7 @@ final class OtpGenerator
      * @return string
      * @throws OtpGenerationRuntimeException
      */
-    public static function generate($length)
+    public static function generate($length): string
     {
         if (!is_int($length)) {
             throw InvalidArgumentException::invalidType('int', 'length', $length);

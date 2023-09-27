@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -42,10 +44,10 @@ final class LocaleChoiceList
         $this->locales = $locales;
     }
 
-    public function create()
+    public function create(): array
     {
         return array_combine(
-            array_map(fn($locale) => 'locale.' . $locale, $this->locales),
+            array_map(fn($locale): string => 'locale.' . $locale, $this->locales),
             $this->locales
         );
     }

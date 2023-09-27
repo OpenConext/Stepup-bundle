@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2018 SURFnet bv
  *
@@ -45,7 +47,7 @@ class SmsSecondFactorService implements SmsSecondFactorServiceInterface
         return false;
     }
 
-    public function clearSmsVerificationState(string $secondFactorId)
+    public function clearSmsVerificationState(string $secondFactorId): void
     {
         // NOOP
     }

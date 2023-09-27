@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2017 SURFnet bv
  *
@@ -27,15 +29,16 @@ class GssfConfig
     /**
      * @return array
      */
-    public function getSecondFactorTypes()
+    public function getSecondFactorTypes(): array
     {
         return array_keys($this->config);
     }
 
     /**
      * Flattens the config and returns key value pairs where the key is the SF type and the value is the LOA level
+     * @return mixed[]
      */
-    public function getLoaMap()
+    public function getLoaMap(): array
     {
         $loaMap = [];
         foreach ($this->config as $key => $config) {

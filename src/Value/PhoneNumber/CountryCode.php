@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -49,7 +51,7 @@ class CountryCode implements \Stringable
     /**
      * @return string
      */
-    public function getCountryCode()
+    public function getCountryCode(): string
     {
         return $this->countryCode;
     }
@@ -57,7 +59,7 @@ class CountryCode implements \Stringable
     /**
      * @return bool
      */
-    public function equals(CountryCode $other)
+    public function equals(CountryCode $other): bool
     {
         return $this->countryCode === $other->countryCode;
     }

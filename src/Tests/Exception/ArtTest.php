@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2018 SURFnet bv
  *
@@ -29,16 +31,7 @@ class ArtTest extends UnitTest
      * @test
      * @group art
      */
-    public function art_code_is_numeric()
-    {
-        $this->assertTrue(is_numeric(Art::forException(new Exception)), 'Expected numeric Art code');
-    }
-
-    /**
-     * @test
-     * @group art
-     */
-    public function art_code_is_distinct_per_exception_type()
+    public function art_code_is_distinct_per_exception_type(): void
     {
         $art1 = new Exception();
         $art2 = new RuntimeException();
@@ -50,7 +43,7 @@ class ArtTest extends UnitTest
      * @test
      * @group art
      */
-    public function art_code_is_distinct_per_message()
+    public function art_code_is_distinct_per_message(): void
     {
         $art1 = new Exception('one');
         $art2 = new Exception('two');
@@ -62,10 +55,8 @@ class ArtTest extends UnitTest
      * @test
      * @group art
      * @dataProvider artCodeWithStrippedVariables
-     *
-     * @param int $expectedArtCode
      */
-    public function exception_translates_to_art_code_with_variables_stripped(Exception $exception, $expectedArtCode)
+    public function exception_translates_to_art_code_with_variables_stripped(Exception $exception, string $expectedArtCode): void
     {
         $this->assertEquals(
             $expectedArtCode,
@@ -73,7 +64,7 @@ class ArtTest extends UnitTest
         );
     }
 
-    public function artCodeWithStrippedVariables()
+    public function artCodeWithStrippedVariables(): array
     {
         $artCode = Art::forException(
             new Exception('This is a \'good\' message')

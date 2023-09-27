@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2022 SURFnet bv
  *
@@ -66,7 +68,7 @@ class SmsRecoveryTokenService
         return $this->smsVerificationStateHandler->hasState($recoveryTokenId);
     }
 
-    public function clearSmsVerificationState(string $recoveryTokenId)
+    public function clearSmsVerificationState(string $recoveryTokenId): void
     {
         $this->smsVerificationStateHandler->clearState($recoveryTokenId);
     }

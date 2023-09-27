@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2017 SURFnet bv
  *
@@ -56,7 +58,7 @@ class SecondFactorTypeService
     /**
      * @return string[]
      */
-    public function getAvailableSecondFactorTypes()
+    public function getAvailableSecondFactorTypes(): array
     {
         return array_merge(
             $this->getAvailableGssfSecondFactorTypes(),
@@ -67,7 +69,7 @@ class SecondFactorTypeService
     /**
      * @return string[]
      */
-    private function getAvailableGssfSecondFactorTypes()
+    private function getAvailableGssfSecondFactorTypes(): array
     {
         return $this->gssfConfig->getSecondFactorTypes();
     }
@@ -124,7 +126,7 @@ class SecondFactorTypeService
         );
     }
 
-    public function isGssf(SecondFactorType $secondFactorType)
+    public function isGssf(SecondFactorType $secondFactorType): bool
     {
         return in_array($secondFactorType->__toString(), $this->getAvailableGssfSecondFactorTypes());
     }

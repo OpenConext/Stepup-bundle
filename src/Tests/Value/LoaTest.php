@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -32,7 +34,7 @@ class LoaTest extends UnitTest
      * @group        value
      * @dataProvider wrongTypeLevelProvider
      */
-    public function it_cannot_be_created_with_a_wrong_loa_data_type(mixed $invalidLevel)
+    public function it_cannot_be_created_with_a_wrong_loa_data_type(mixed $invalidLevel): void
     {
         self::expectException(Error::class);
 
@@ -44,7 +46,7 @@ class LoaTest extends UnitTest
      * @group        value
      * @dataProvider invalidLevelProvider
      */
-    public function it_cannot_be_created_with_an_invalid_loa_type(mixed $invalidLevel)
+    public function it_cannot_be_created_with_an_invalid_loa_type(mixed $invalidLevel): void
     {
         $this->expectException(DomainException::class);
 
@@ -55,7 +57,7 @@ class LoaTest extends UnitTest
      * @test
      * @group value
      */
-    public function it_cannot_be_created_when_the_identifier_is_not_a_string()
+    public function it_cannot_be_created_when_the_identifier_is_not_a_string(): void
     {
         // Using a data provider causes PHP to type cast certain values. Resulting in false test results
         // For example. False was converted to 0.
@@ -75,7 +77,7 @@ class LoaTest extends UnitTest
      * @test
      * @group value
      */
-    public function the_loa_can_be_asked_whether_or_not_it_has_a_particular_identifier()
+    public function the_loa_can_be_asked_whether_or_not_it_has_a_particular_identifier(): void
     {
         $correctIdentifier = 'correct identifier';
         $otherIdentifier = 'Not the correct identifier';
@@ -90,7 +92,7 @@ class LoaTest extends UnitTest
      * @test
      * @group value
      */
-    public function it_correctly_compares_lower_or_equal_to_level()
+    public function it_correctly_compares_lower_or_equal_to_level(): void
     {
         $loa = new Loa(Loa::LOA_2, 'a');
 
@@ -104,7 +106,7 @@ class LoaTest extends UnitTest
      * @test
      * @group value
      */
-    public function it_correctly_compares_higher_or_equal_to_level()
+    public function it_correctly_compares_higher_or_equal_to_level(): void
     {
         $loa = new Loa(Loa::LOA_2, 'a');
 
@@ -118,7 +120,7 @@ class LoaTest extends UnitTest
      * @test
      * @group value
      */
-    public function in_order_to_be_able_to_satisfy_a_loa_the_loa_must_have_a_level_higher_or_equal_to_the_other_level()
+    public function in_order_to_be_able_to_satisfy_a_loa_the_loa_must_have_a_level_higher_or_equal_to_the_other_level(): void
     {
         $loa1 = new Loa(Loa::LOA_1, '1');
         $loaSelfAsserted = new Loa(Loa::LOA_SELF_VETTED, 'loa_self_asserted');
@@ -135,7 +137,7 @@ class LoaTest extends UnitTest
      * @test
      * @group value
      */
-    public function it_can_check_whether_or_not_it_is_of_a_particuler_level()
+    public function it_can_check_whether_or_not_it_is_of_a_particuler_level(): void
     {
         $loa = new Loa(Loa::LOA_2, '2');
 
@@ -145,7 +147,7 @@ class LoaTest extends UnitTest
         $this->assertFalse($loa->isOfLevel(Loa::LOA_3), 'Loa 2 is not of level 3');
     }
 
-    public function invalidLevelProvider()
+    public function invalidLevelProvider(): array
     {
         return [
             'unknown level' => [4],
@@ -153,7 +155,7 @@ class LoaTest extends UnitTest
         ];
     }
 
-    public function wrongTypeLevelProvider()
+    public function wrongTypeLevelProvider(): array
     {
         return [
             'string' => ['a'],

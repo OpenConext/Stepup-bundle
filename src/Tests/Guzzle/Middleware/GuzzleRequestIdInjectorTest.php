@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2016 SURFnet bv
  *
@@ -38,7 +40,7 @@ class GuzzleRequestIdInjectorTest extends UnitTest
     /**
      * @group Guzzle
      */
-    public function testItSetsTheRequestIdAsHeader()
+    public function testItSetsTheRequestIdAsHeader(): void
     {
         $expectedRequestId = 'my-request-id';
 

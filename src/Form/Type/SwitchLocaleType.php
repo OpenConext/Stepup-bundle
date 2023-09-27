@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -33,7 +35,7 @@ final class SwitchLocaleType extends AbstractType
     {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->setAction($this->urlGenerator->generate($options['route'], $options['route_parameters']));
         $builder->setMethod(\Symfony\Component\HttpFoundation\Request::METHOD_POST);
@@ -49,7 +51,7 @@ final class SwitchLocaleType extends AbstractType
         ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'route'            => null,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -21,7 +23,6 @@ namespace Surfnet\StepupBundle\Tests\Request;
 use Hamcrest\Matchers;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Surfnet\StepupBundle\Exception\BadJsonRequestException;
 use Surfnet\StepupBundle\Request\JsonConvertibleParamConverter;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -34,7 +35,7 @@ class JsonConvertibleParamConverterTest extends TestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    public function testItThrowsABadJsonRequestExceptionWhenTheParameterIsMissing()
+    public function testItThrowsABadJsonRequestExceptionWhenTheParameterIsMissing(): void
     {
         $this->expectException(BadJsonRequestException::class);
 
@@ -45,7 +46,7 @@ class JsonConvertibleParamConverterTest extends TestCase
         $paramConverter->apply($request, new ParamConverter(['name' => 'parameter', 'class' => 'Irrelevant']));
     }
 
-    public function testItThrowsABadJsonRequestExceptionWhenUnknownPropertiesAreSent()
+    public function testItThrowsABadJsonRequestExceptionWhenUnknownPropertiesAreSent(): void
     {
         $this->expectException(BadJsonRequestException::class);
 
@@ -60,7 +61,7 @@ class JsonConvertibleParamConverterTest extends TestCase
         $paramConverter->apply($request, $configuration);
     }
 
-    public function testItThrowsABadJsonRequestExceptionWithErrorsWhenTheConvertedObjectDoesntValidate()
+    public function testItThrowsABadJsonRequestExceptionWithErrorsWhenTheConvertedObjectDoesntValidate(): void
     {
         $this->expectException(BadJsonRequestException::class);
 
@@ -81,7 +82,7 @@ class JsonConvertibleParamConverterTest extends TestCase
         $paramConverter->apply($request, $configuration);
     }
 
-    public function testItConvertsAParameter()
+    public function testItConvertsAParameter(): void
     {
         $validator = m::mock(ValidatorInterface::class)
             ->shouldReceive('validate')->andReturn(new ConstraintViolationList([]))
@@ -102,7 +103,7 @@ class JsonConvertibleParamConverterTest extends TestCase
         $paramConverter->apply($request, $configuration);
     }
 
-    public function testItConvertsASnakeCasedParameter()
+    public function testItConvertsASnakeCasedParameter(): void
     {
         $validator = m::mock(ValidatorInterface::class)
             ->shouldReceive('validate')->andReturn(new ConstraintViolationList([]))
@@ -128,10 +129,8 @@ class JsonConvertibleParamConverterTest extends TestCase
      */
     private function createJsonRequest(mixed $object)
     {
-        $request = m::mock(Request::class)
+        return m::mock(Request::class)
             ->shouldReceive('getContent')->andReturn(json_encode($object, JSON_THROW_ON_ERROR))
             ->getMock();
-
-        return $request;
     }
 }

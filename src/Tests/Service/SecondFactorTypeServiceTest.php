@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2017 SURFnet bv
  *
@@ -38,7 +40,7 @@ class SecondFactorTypeServiceTest extends TestCase
     /**
      * @group service
      */
-    public function testItCanBeCreated()
+    public function testItCanBeCreated(): void
     {
         $service = new SecondFactorTypeService([]);
         $this->assertInstanceOf(SecondFactorTypeService::class, $service);
@@ -47,7 +49,7 @@ class SecondFactorTypeServiceTest extends TestCase
     /**
      * @group service
      */
-    public function testItCanBeAskedForEnabledSecondFactorTypes()
+    public function testItCanBeAskedForEnabledSecondFactorTypes(): void
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
         $types = $service->getAvailableSecondFactorTypes();
@@ -61,7 +63,7 @@ class SecondFactorTypeServiceTest extends TestCase
     /**
      * @group service
      */
-    public function testGetLevel()
+    public function testGetLevel(): void
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
         $this->assertEquals(2, $service->getLevel(new SecondFactorType('sms'), $this->vettingTypeOnPremise));
@@ -70,7 +72,7 @@ class SecondFactorTypeServiceTest extends TestCase
     /**
      * @group service
      */
-    public function testGetLevelSubtractedOnSelfAssertedRegistration()
+    public function testGetLevelSubtractedOnSelfAssertedRegistration(): void
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
         $this->assertEquals(1.5, $service->getLevel(new SecondFactorType('sms'), $this->vettingTypeSelfAsserted));
@@ -79,7 +81,7 @@ class SecondFactorTypeServiceTest extends TestCase
     /**
      * @group service
      */
-    public function testGetLevelCannotGetLevelOfNonExistingSecondFactorType()
+    public function testGetLevelCannotGetLevelOfNonExistingSecondFactorType(): void
     {
         $this->expectExceptionMessage("The Loa level of this type: u3f can't be retrieved.");
         $this->expectException(\Surfnet\StepupBundle\Exception\DomainException::class);
@@ -91,7 +93,7 @@ class SecondFactorTypeServiceTest extends TestCase
     /**
      * @group service
      */
-    public function testItRejectsInvalidVettingType()
+    public function testItRejectsInvalidVettingType(): void
     {
         $this->expectExceptionMessage('The provided vetting type "self-righteous-registration" is not permitted. Use one of on-premise, self-asserted-registration, self-vet, unknown');
         $this->expectException(\Surfnet\StepupBundle\Exception\InvalidArgumentException::class);
@@ -103,7 +105,7 @@ class SecondFactorTypeServiceTest extends TestCase
     /**
      * @group service
      */
-    public function testItCanBeAskedForEnabledSecondFactorTypesWhenNoGssfSet()
+    public function testItCanBeAskedForEnabledSecondFactorTypesWhenNoGssfSet(): void
     {
         $service = new SecondFactorTypeService([]);
         $types = $service->getAvailableSecondFactorTypes();
@@ -116,7 +118,7 @@ class SecondFactorTypeServiceTest extends TestCase
     /**
      * @group service
      */
-    public function testItCanTestForSatisfactoryLoaLevel()
+    public function testItCanTestForSatisfactoryLoaLevel(): void
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
         $loa1 = new Loa(1, 'level-1');
@@ -141,7 +143,7 @@ class SecondFactorTypeServiceTest extends TestCase
     /**
      * @group service
      */
-    public function testIsSatisfiedBy()
+    public function testIsSatisfiedBy(): void
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
         $loa1 = new Loa(1, 'level-1');
@@ -167,7 +169,7 @@ class SecondFactorTypeServiceTest extends TestCase
     /**
      * @group service
      */
-    public function testHasEqualOrHigherLoaComparedTo()
+    public function testHasEqualOrHigherLoaComparedTo(): void
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
         $yubikey = new SecondFactorType('yubikey');
@@ -203,7 +205,7 @@ class SecondFactorTypeServiceTest extends TestCase
     /**
      * @group service
      */
-    public function testHasEqualOrLowerLoaComparedTo()
+    public function testHasEqualOrLowerLoaComparedTo(): void
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
         $yubikey = new SecondFactorType('yubikey');
@@ -239,7 +241,7 @@ class SecondFactorTypeServiceTest extends TestCase
     /**
      * @group service
      */
-    public function testItCanDetermineSecondFactorTypeIsGssf()
+    public function testItCanDetermineSecondFactorTypeIsGssf(): void
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
 
@@ -252,7 +254,7 @@ class SecondFactorTypeServiceTest extends TestCase
         $this->assertFalse($service->isGssf($bogus), 'Expected Bogus token not to be Gssf');
     }
 
-    private function getAvailableSecondFactorTypes()
+    private function getAvailableSecondFactorTypes(): array
     {
         return [
             'biometric' => [

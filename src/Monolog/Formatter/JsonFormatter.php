@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -26,22 +28,22 @@ use Monolog\Formatter\JsonFormatter as MonologJsonFormatter;
  */
 class JsonFormatter extends MonologJsonFormatter
 {
-    public function format(array $record)
+    public function format(array $record): string
     {
         return parent::format($this->mapRecord($record));
     }
 
-    public function formatBatch(array $records)
+    public function formatBatch(array $records): string
     {
         return parent::formatBatch(
             array_map(
-                fn(array $record) => $this->mapRecord($record),
+                fn(array $record): array => $this->mapRecord($record),
                 $records
             )
         );
     }
 
-    private function mapRecord(array $record)
+    private function mapRecord(array $record): array
     {
         return [
             'channel' => $record['channel'],

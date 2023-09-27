@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -31,7 +33,7 @@ class CountryCodeTest extends UnitTest
      * @group value
      * @dataProvider invalidConstructorArgumentProvider
      */
-    public function a_country_code_cannot_be_constructed_with_anything_but_a_string(mixed $invalidArgument)
+    public function a_country_code_cannot_be_constructed_with_anything_but_a_string(mixed $invalidArgument): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -42,10 +44,8 @@ class CountryCodeTest extends UnitTest
      * @test
      * @group        value
      * @dataProvider invalidStringArgumentProvider
-     *
-     * @param string $invalidArgument
      */
-    public function a_phone_number_can_only_be_created_if_the_string_contains_digits_only($invalidArgument)
+    public function a_phone_number_can_only_be_created_if_the_string_contains_digits_only(string $invalidArgument): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -56,7 +56,7 @@ class CountryCodeTest extends UnitTest
      * @test
      * @group value
      */
-    public function a_country_code_cannot_be_created_with_a_country_code_that_does_not_exist()
+    public function a_country_code_cannot_be_created_with_a_country_code_that_does_not_exist(): void
     {
         $this->expectException(UnknownCountryCodeException::class);
 
@@ -67,7 +67,7 @@ class CountryCodeTest extends UnitTest
      * @test
      * @group value
      */
-    public function the_country_code_returns_the_country_code_upon_request()
+    public function the_country_code_returns_the_country_code_upon_request(): void
     {
         $definition = '1649';
         $countryCode = new CountryCode($definition);
@@ -79,7 +79,7 @@ class CountryCodeTest extends UnitTest
      * @test
      * @group value
      */
-    public function country_codes_are_equal_when_the_given_country_code_is_equal()
+    public function country_codes_are_equal_when_the_given_country_code_is_equal(): void
     {
         $base      = new CountryCode('1787');
         $same      = new CountryCode('1787');
@@ -93,17 +93,14 @@ class CountryCodeTest extends UnitTest
      * @test
      * @group value
      * @dataProvider toStringProvider
-     *
-     * @param string $definition
-     * @param string $stringRepresentation
      */
-    public function to_string_renders_a_correctly_formattted_string_representation($definition, $stringRepresentation)
+    public function to_string_renders_a_correctly_formattted_string_representation(string $definition, string $stringRepresentation): void
     {
         $countryCode = new CountryCode($definition);
         $this->assertSame($stringRepresentation, $countryCode->__toString());
     }
 
-    public function invalidConstructorArgumentProvider()
+    public function invalidConstructorArgumentProvider(): array
     {
         return [
             'int'           => [0],
@@ -115,7 +112,7 @@ class CountryCodeTest extends UnitTest
         ];
     }
 
-    public function toStringProvider()
+    public function toStringProvider(): array
     {
         return [
             '4 digits'      => ['1787', '+1 787'],
@@ -127,7 +124,7 @@ class CountryCodeTest extends UnitTest
         ];
     }
 
-    public function invalidStringArgumentProvider()
+    public function invalidStringArgumentProvider(): array
     {
         return [
             'with characters'     => ['3AB8'],

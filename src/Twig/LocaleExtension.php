@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -51,7 +53,7 @@ final class LocaleExtension extends AbstractExtension
         return $form->createView();
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'stepup_locale';
     }

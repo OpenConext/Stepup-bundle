@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -60,7 +62,7 @@ class RequestId
      * @param string $requestId
      * @param bool   $allowOverwrite
      */
-    public function set($requestId, $allowOverwrite = false)
+    public function set($requestId, $allowOverwrite = false): void
     {
         if ($this->requestId !== null && !$allowOverwrite) {
             throw new LogicException('May not overwrite request ID.');

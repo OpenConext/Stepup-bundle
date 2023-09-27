@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -42,7 +44,7 @@ class YubikeyOtp
      * @return YubikeyOtp
      * @throws InvalidArgumentException Thrown when the given string is not an OTP.
      */
-    public static function fromString($string)
+    public static function fromString($string): self
     {
         $otp = new self;
 
@@ -72,7 +74,7 @@ class YubikeyOtp
      * @param string $string
      * @return bool
      */
-    public static function isValid($string)
+    public static function isValid($string): bool
     {
         $matches = [];
         return preg_match(self::OTP_REGEXP_QWERTY, $string, $matches)

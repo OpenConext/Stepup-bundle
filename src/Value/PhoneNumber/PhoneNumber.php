@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -47,7 +49,7 @@ class PhoneNumber implements \Stringable
      *
      * @return string
      */
-    public function formatAsMsisdnPart()
+    public function formatAsMsisdnPart(): string
     {
         $number = $this->number;
         // we may only strip a single leading zero
@@ -61,7 +63,7 @@ class PhoneNumber implements \Stringable
     /**
      * @return string
      */
-    public function getNumber()
+    public function getNumber(): string
     {
         return $this->number;
     }
@@ -69,7 +71,7 @@ class PhoneNumber implements \Stringable
     /**
      * @return bool
      */
-    public function equals(PhoneNumber $other)
+    public function equals(PhoneNumber $other): bool
     {
         return $this->formatAsMsisdnPart() === $other->formatAsMsisdnPart();
     }

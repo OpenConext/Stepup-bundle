@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -25,22 +27,22 @@ final class OtpVerification
     public const STATUS_FOUND_MATCH = 2;
     public const STATUS_TOO_MANY_ATTEMPTS = 3;
 
-    public static function noMatch()
+    public static function noMatch(): self
     {
         return new self(self::STATUS_NO_MATCH);
     }
 
-    public static function matchExpired()
+    public static function matchExpired(): self
     {
         return new self(self::STATUS_MATCH_EXPIRED);
     }
 
-    public static function foundMatch($phoneNumber)
+    public static function foundMatch($phoneNumber): self
     {
         return new self(self::STATUS_FOUND_MATCH, $phoneNumber);
     }
 
-    public static function tooManyAttempts()
+    public static function tooManyAttempts(): self
     {
         return new self(self::STATUS_TOO_MANY_ATTEMPTS);
     }
@@ -56,7 +58,7 @@ final class OtpVerification
     /**
      * @return bool
      */
-    public function wasSuccessful()
+    public function wasSuccessful(): bool
     {
         return $this->status === self::STATUS_FOUND_MATCH;
     }
@@ -64,14 +66,14 @@ final class OtpVerification
     /**
      * @return bool
      */
-    public function didOtpMatch()
+    public function didOtpMatch(): bool
     {
         return $this->status === self::STATUS_FOUND_MATCH || $this->status === self::STATUS_MATCH_EXPIRED;
     }
     /**
      * @return bool
      */
-    public function didOtpExpire()
+    public function didOtpExpire(): bool
     {
         return $this->status === self::STATUS_MATCH_EXPIRED;
     }
@@ -79,7 +81,7 @@ final class OtpVerification
     /**
      * @return bool
      */
-    public function wasAttemptedTooManyTimes()
+    public function wasAttemptedTooManyTimes(): bool
     {
         return $this->status === self::STATUS_TOO_MANY_ATTEMPTS;
     }

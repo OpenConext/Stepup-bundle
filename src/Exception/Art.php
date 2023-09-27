@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -26,17 +28,16 @@ class Art
     /**
      * @return string
      */
-    public static function forException(Exception $exception)
+    public static function forException(Exception $exception): string
     {
         return self::calculateArt($exception::class, $exception->getMessage());
     }
 
     /**
-     * @param string $className
      * @param string $message
      * @return string
      */
-    private static function calculateArt($className, $message)
+    private static function calculateArt(string $className, $message): string
     {
         $message = self::stripVariableArgumentsFromMessage($message);
 
@@ -58,7 +59,7 @@ class Art
      * @param $message
      * @return string
      */
-    private static function stripVariableArgumentsFromMessage($message)
+    private static function stripVariableArgumentsFromMessage($message): ?string
     {
         return preg_replace('#".*"|\'.*\'#', '', (string) $message);
     }

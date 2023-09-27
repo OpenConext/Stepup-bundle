@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -27,7 +29,7 @@ final class OtpGeneratorTest extends TestCase
      * @test
      * @group security
      */
-    public function it_generates_eight_character_otp_strings()
+    public function it_generates_eight_character_otp_strings(): void
     {
         $otp = OtpGenerator::generate(8);
 
@@ -35,7 +37,7 @@ final class OtpGeneratorTest extends TestCase
         $this->assertSame(8, strlen($otp), 'OTP is not eight characters long');
     }
 
-    public function nonPositiveIntegers()
+    public function nonPositiveIntegers(): array
     {
         return [
             'null' => [null],
@@ -54,7 +56,7 @@ final class OtpGeneratorTest extends TestCase
      * @group security
      * @dataProvider nonPositiveIntegers
      */
-    public function it_cannot_generate_otp_strings_of_negative_or_non_integer_length(mixed $length)
+    public function it_cannot_generate_otp_strings_of_negative_or_non_integer_length(mixed $length): void
     {
         $this->expectException(InvalidArgumentException::class);
 

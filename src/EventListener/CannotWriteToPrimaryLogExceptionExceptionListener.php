@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Surfnet\StepupBundle\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -19,7 +21,7 @@ class CannotWriteToPrimaryLogExceptionExceptionListener implements EventSubscrib
      *
      * @param GetResponseForExceptionEvent $event
      */
-    public function onKernelException(GetResponseForExceptionEvent $event)
+    public function onKernelException(GetResponseForExceptionEvent $event): void
     {
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -35,7 +37,7 @@ class GatewayApiSmsService implements SmsService
     {
     }
 
-    public function sendSms(SendSmsCommand $command)
+    public function sendSms(SendSmsCommand $command): bool
     {
         $this->logger->info('Requesting Gateway to send SMS');
 

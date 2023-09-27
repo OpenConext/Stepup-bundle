@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -35,7 +37,7 @@ class SmsVerificationStateTest extends TestCase
      * @test
      * @group sms
      */
-    public function it_can_be_matched()
+    public function it_can_be_matched(): void
     {
         $state = new SmsVerificationState(new DateInterval('PT15M'), 3);
         $otp = $state->requestNewOtp('123');
@@ -47,7 +49,7 @@ class SmsVerificationStateTest extends TestCase
      * @test
      * @group sms
      */
-    public function it_can_expire()
+    public function it_can_expire(): void
     {
         DateTimeHelper::setCurrentTime(new DateTime('@0'));
         $state = new SmsVerificationState(new DateInterval('PT1S'), 3);
@@ -65,7 +67,7 @@ class SmsVerificationStateTest extends TestCase
      * @test
      * @group sms
      */
-    public function the_expiration_time_is_pushed_back_with_each_new_otp()
+    public function the_expiration_time_is_pushed_back_with_each_new_otp(): void
     {
         // Set a challenge
         DateTimeHelper::setCurrentTime(new DateTime('@0'));
@@ -88,7 +90,7 @@ class SmsVerificationStateTest extends TestCase
      * @test
      * @group sms
      */
-    public function the_consumer_can_request_too_many_otps_but_can_keep_track_of_remaining_requests()
+    public function the_consumer_can_request_too_many_otps_but_can_keep_track_of_remaining_requests(): void
     {
         $state = new SmsVerificationState(new DateInterval('PT10S'), 3);
         $this->assertSame(3, $state->getOtpRequestsRemainingCount());
@@ -118,9 +120,8 @@ class SmsVerificationStateTest extends TestCase
      * @test
      * @group sms
      * @dataProvider lteZeroMaximumTries
-     * @param int $maximumTries
      */
-    public function maximum_challenges_must_be_gte_1(int $maximumTries)
+    public function maximum_challenges_must_be_gte_1(int $maximumTries): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('maximum OTP requests');
@@ -132,7 +133,7 @@ class SmsVerificationStateTest extends TestCase
      * @test
      * @group sms
      */
-    public function a_previous_otp_can_be_matched()
+    public function a_previous_otp_can_be_matched(): void
     {
         DateTimeHelper::setCurrentTime(new DateTime('@0'));
         $state = new SmsVerificationState(new DateInterval('PT5S'), 3);
@@ -147,7 +148,7 @@ class SmsVerificationStateTest extends TestCase
      * @test
      * @group sms
      */
-    public function otp_matching_is_case_insensitive()
+    public function otp_matching_is_case_insensitive(): void
     {
         DateTimeHelper::setCurrentTime(new DateTime('@0'));
         $state = new SmsVerificationState(new DateInterval('PT5S'), 3);
@@ -161,7 +162,7 @@ class SmsVerificationStateTest extends TestCase
      * @test
      * @group sms
      */
-    public function no_more_than_10_attempts_can_be_made_overall()
+    public function no_more_than_10_attempts_can_be_made_overall(): void
     {
         $state = new SmsVerificationState(new DateInterval('PT5S'), 3);
         $state->requestNewOtp('237894');
@@ -178,7 +179,7 @@ class SmsVerificationStateTest extends TestCase
      * @test
      * @group sms
      */
-    public function no_more_than_10_attempts_can_be_made_overall_even_when_multiple_otps_requested()
+    public function no_more_than_10_attempts_can_be_made_overall_even_when_multiple_otps_requested(): void
     {
         $state = new SmsVerificationState(new DateInterval('PT5S'), 99999);
         $state->requestNewOtp('237894');
@@ -196,7 +197,7 @@ class SmsVerificationStateTest extends TestCase
      * @test
      * @group sms
      */
-    public function no_more_than_10_attempts_can_be_made_overall_even_when_no_otp_requested()
+    public function no_more_than_10_attempts_can_be_made_overall_even_when_no_otp_requested(): void
     {
         $state = new SmsVerificationState(new DateInterval('PT5S'), 3);
 
@@ -212,7 +213,7 @@ class SmsVerificationStateTest extends TestCase
      * @test
      * @group sms
      */
-    public function requesting_an_otp_with_a_different_phone_number_clears_otps_for_other_phone_numbers()
+    public function requesting_an_otp_with_a_different_phone_number_clears_otps_for_other_phone_numbers(): void
     {
         $state = new SmsVerificationState(new DateInterval('PT5S'), 3);
 

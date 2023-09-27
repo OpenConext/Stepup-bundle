@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -20,6 +22,7 @@ namespace Surfnet\StepupBundle\Value\PhoneNumber;
 
 final class Country implements \Stringable
 {
+    public $name;
     private readonly string $countryName;
 
     /**
@@ -36,7 +39,7 @@ final class Country implements \Stringable
     /**
      * @return CountryCode
      */
-    public function getCountryCode()
+    public function getCountryCode(): \Surfnet\StepupBundle\Value\PhoneNumber\CountryCode
     {
         return $this->countryCode;
     }
@@ -44,7 +47,7 @@ final class Country implements \Stringable
     /**
      * @return string
      */
-    public function getCountryName()
+    public function getCountryName(): string
     {
         return $this->countryName;
     }
@@ -52,7 +55,7 @@ final class Country implements \Stringable
     /**
      * @return bool
      */
-    public function equals(self $other)
+    public function equals(self $other): bool
     {
         return $this->countryName === $other->name && $this->countryCode->equals($other->countryCode);
     }

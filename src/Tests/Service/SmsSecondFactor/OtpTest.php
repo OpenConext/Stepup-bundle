@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -25,7 +27,7 @@ use Surfnet\StepupBundle\Service\SmsSecondFactor\Otp;
 
 class OtpTest extends TestCase
 {
-    public function non_strings()
+    public function non_strings(): array
     {
         return [
             'array'        => [[]],
@@ -37,7 +39,7 @@ class OtpTest extends TestCase
         ];
     }
 
-    public function non_non_empty_strings()
+    public function non_non_empty_strings(): array
     {
         return [
             'empty string' => [''],
@@ -54,7 +56,7 @@ class OtpTest extends TestCase
      * @test
      * @group sms
      */
-    public function can_be_created()
+    public function can_be_created(): void
     {
         $otp = Otp::create('ABCDEFG', '123', new DateInterval('PT5M'));
 
@@ -66,7 +68,7 @@ class OtpTest extends TestCase
      * @group sms
      * @dataProvider non_non_empty_strings
      */
-    public function only_accepts_string_otps(mixed $nonString)
+    public function only_accepts_string_otps(mixed $nonString): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('otpString');
@@ -79,7 +81,7 @@ class OtpTest extends TestCase
      * @group sms
      * @dataProvider non_non_empty_strings
      */
-    public function only_accepts_string_phone_numbers(mixed $nonString)
+    public function only_accepts_string_phone_numbers(mixed $nonString): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('phoneNumber');
@@ -92,7 +94,7 @@ class OtpTest extends TestCase
      * @group sms
      * @dataProvider non_strings
      */
-    public function it_verifies_only_string_otps(mixed $nonString)
+    public function it_verifies_only_string_otps(mixed $nonString): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('otpString');

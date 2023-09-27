@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2018 SURFnet bv
  *
@@ -26,6 +28,8 @@ use Symfony\Component\HttpKernel\EventListener\ExceptionListener as CoreExceptio
  */
 class ExceptionListener extends CoreExceptionListener
 {
+    public $controller;
+    public $logger;
     /**
      * Clones the request for the exception.
      *

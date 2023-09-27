@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -24,7 +26,7 @@ use Surfnet\StepupBundle\Value\YubikeyOtp;
 
 class YubikeyOtpTest extends TestCase
 {
-    public function otpStrings()
+    public function otpStrings(): array
     {
         return [
             'Regular OTP' => [
@@ -81,9 +83,8 @@ class YubikeyOtpTest extends TestCase
 
     /**
      * @dataProvider otpStrings
-     * @param string $string
      */
-    public function testItParsesFromString($string, $otpString, $password, $publicId, $cipherText)
+    public function testItParsesFromString(string $string, string $otpString, string $password, string $publicId, string $cipherText): void
     {
         $otp = YubikeyOtp::fromString($string);
 
@@ -95,9 +96,8 @@ class YubikeyOtpTest extends TestCase
 
     /**
      * @dataProvider otpStrings
-     * @param string $string
      */
-    public function testItValidatesCorrectOtps($string)
+    public function testItValidatesCorrectOtps(string $string): void
     {
         $this->assertTrue(YubikeyOtp::isValid($string));
     }
@@ -105,7 +105,7 @@ class YubikeyOtpTest extends TestCase
     /**
      * @dataProvider nonStrings
      */
-    public function testItThrowsAnExceptionWhenGivenArgumentIsNotAString(mixed $nonString)
+    public function testItThrowsAnExceptionWhenGivenArgumentIsNotAString(mixed $nonString): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('not a string');
@@ -116,7 +116,7 @@ class YubikeyOtpTest extends TestCase
     /**
      * @return array
      */
-    public function nonStrings()
+    public function nonStrings(): array
     {
         return [
             'integer' => [1],
@@ -131,7 +131,7 @@ class YubikeyOtpTest extends TestCase
     /**
      * @dataProvider nonOtpStrings
      */
-    public function testItThrowsAnExceptionWhenGivenStringIsNotAnOtpString(mixed $nonOtpString)
+    public function testItThrowsAnExceptionWhenGivenStringIsNotAnOtpString(mixed $nonOtpString): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('not a valid OTP');
@@ -141,14 +141,13 @@ class YubikeyOtpTest extends TestCase
 
     /**
      * @dataProvider nonOtpStrings
-     * @param string $string
      */
-    public function testItDoesntAcceptInvalidOtps($string)
+    public function testItDoesntAcceptInvalidOtps(string $string): void
     {
         $this->assertFalse(YubikeyOtp::isValid($string));
     }
 
-    public function nonOtpStrings()
+    public function nonOtpStrings(): array
     {
         return [
             'Has invalid characters' => ['abcdefghijklmnopqrstuvwxyz123456789'],

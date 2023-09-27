@@ -32,5 +32,4 @@
         <exclude name="LongVariable" />
         <exclude name="LongClassName" />
     </rule>
-    <exclude-pattern>*/Tests/*</exclude-pattern>
 </ruleset>

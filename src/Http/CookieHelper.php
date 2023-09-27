@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -25,9 +27,9 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Read and write a given cookie from HTTP Requests/Responses.
  */
-final class CookieHelper
+final readonly class CookieHelper
 {
-    public function __construct(private readonly Cookie $cookieSettings)
+    public function __construct(private Cookie $cookieSettings)
     {
     }
 
@@ -37,7 +39,7 @@ final class CookieHelper
      * @param string $value
      * @return Cookie
      */
-    public function write(Response $response, $value)
+    public function write(Response $response, $value): \Symfony\Component\HttpFoundation\Cookie
     {
         $cookie = $this->createCookieWithValue($value);
         $response->headers->setCookie($cookie);
@@ -51,7 +53,7 @@ final class CookieHelper
      *
      * @return null|Cookie
      */
-    public function read(Request $request)
+    public function read(Request $request): ?\Symfony\Component\HttpFoundation\Cookie
     {
         if (!$request->cookies->has($this->cookieSettings->getName())) {
             return null;
@@ -68,7 +70,7 @@ final class CookieHelper
      * @param $value
      * @return Cookie
      */
-    private function createCookieWithValue($value)
+    private function createCookieWithValue($value): \Symfony\Component\HttpFoundation\Cookie
     {
         return new Cookie(
             $this->cookieSettings->getName(),

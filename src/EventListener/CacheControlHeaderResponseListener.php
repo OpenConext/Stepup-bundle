@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -22,7 +24,7 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 class CacheControlHeaderResponseListener
 {
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(FilterResponseEvent $event): void
     {
         $responseHeaders = $event->getResponse()->headers;
 

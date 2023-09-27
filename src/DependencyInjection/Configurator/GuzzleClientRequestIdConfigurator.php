@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 /**
  * Copyright 2016 SURFnet bv
  *
@@ -20,13 +23,13 @@ namespace Surfnet\StepupBundle\DependencyInjection\Configurator;
 use GuzzleHttp\Client;
 use Surfnet\StepupBundle\Guzzle\Middleware\GuzzleRequestIdInjector;
 
-final class GuzzleClientRequestIdConfigurator
+final readonly class GuzzleClientRequestIdConfigurator
 {
-    public function __construct(private readonly GuzzleRequestIdInjector $guzzleRequestIdInjector)
+    public function __construct(private GuzzleRequestIdInjector $guzzleRequestIdInjector)
     {
     }
 
-    public function configure(Client $client)
+    public function configure(Client $client): void
     {
         $handlerStack = $client->getConfig('handler');
         $handlerStack->push($this->guzzleRequestIdInjector);

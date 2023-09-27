@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -39,7 +41,7 @@ class RequestIdRequestResponseListener
      *
      * @param GetResponseEvent $event
      */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(GetResponseEvent $event): void
     {
         $headers = $event->getRequest()->headers;
 
@@ -55,7 +57,7 @@ class RequestIdRequestResponseListener
      *
      * @param FilterResponseEvent $event
      */
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(FilterResponseEvent $event): void
     {
         $event->getResponse()->headers->set(self::HEADER_NAME, $this->requestId->get());
     }

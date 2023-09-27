@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -39,7 +41,7 @@ class ApplicationNameProcessor
     /**
      * @return array
      */
-    public function __invoke(array $record)
+    public function __invoke(array $record): array
     {
         $record['extra']['application'] = $this->applicationName;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Surfnet\Stepup\Tests\Helper;
 
 use PHPUnit\Framework\TestCase ;
@@ -16,7 +18,7 @@ class JsonHelperTest extends TestCase
      * @dataProvider nonStringProvider
      * @param $nonString
      */
-    public function jsonHelperCanOnlyDecodeStrings($nonString)
+    public function jsonHelperCanOnlyDecodeStrings(null|bool|array|int|float|\StdClass $nonString): void
     {
         $this->expectException(InvalidArgumentException::class);
         JsonHelper::decode($nonString);
@@ -26,7 +28,7 @@ class JsonHelperTest extends TestCase
      * @test
      * @group json
      */
-    public function jsonHelperDecodesStringsToArrays()
+    public function jsonHelperDecodesStringsToArrays(): void
     {
         $expectedDecodedResult = ['hello' => 'world'];
         $json                  = '{ "hello" : "world" }';
@@ -38,14 +40,14 @@ class JsonHelperTest extends TestCase
      * @test
      * @group json
      */
-    public function jsonHelperThrowsAnExceptionWhenThereIsASyntaxError()
+    public function jsonHelperThrowsAnExceptionWhenThereIsASyntaxError(): void
     {
         $this->expectException(JsonException::class);
         $jsonWithMissingDoubleQuotes = '{ hello : world }';
         JsonHelper::decode($jsonWithMissingDoubleQuotes);
     }
 
-    public function nonStringProvider()
+    public function nonStringProvider(): array
     {
         return [
             'null'    => [null],

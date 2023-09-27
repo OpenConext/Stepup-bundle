@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2016 SURFnet bv
  *
@@ -32,7 +34,7 @@ class GuzzleClientRequestIdConfiguratorTest extends UnitTest
      * @group Configurator
      * @group Guzzle
      */
-    public function testTheRequestIdInjectorIsAttachedToTheGuzzleClient()
+    public function testTheRequestIdInjectorIsAttachedToTheGuzzleClient(): void
     {
         $requestIdInjector = m::mock(GuzzleRequestIdInjector::class);
         $guzzleClientRequestIdConfigurator = new GuzzleClientRequestIdConfigurator($requestIdInjector);

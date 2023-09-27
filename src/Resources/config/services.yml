@@ -7,14 +7,12 @@ services:
         alias: 'monolog.logger'
         public: true
 
-    surfnet_stepup.json_convertible_param_converter:
-        class: Surfnet\StepupBundle\Request\JsonConvertibleParamConverter
+    Surfnet\StepupBundle\Request\JsonConvertibleResolver:
+        class: Surfnet\StepupBundle\Request\JsonConvertibleResolver
         arguments:
             - "@validator"
         tags:
-            - { name: request.param_converter, priority: -1, converter: surfnet_stepup.json_convertible }
-    Surfnet\StepupBundle\Request\JsonConvertibleParamConverter:
-        alias: surfnet_stepup.json_convertible_param_converter
+            - { name: controller.argument_value_resolver, priority: -1, converter: surfnet_stepup.json_convertible }
 
     surfnet_stepup.listener.bad_json_request_exception_listener:
         class: Surfnet\StepupBundle\EventListener\BadJsonRequestExceptionListener

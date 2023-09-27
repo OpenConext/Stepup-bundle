@@ -24,46 +24,49 @@ use Hamcrest\Matchers;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use Surfnet\StepupBundle\Exception\BadJsonRequestException;
-use Surfnet\StepupBundle\Request\JsonConvertibleParamConverter;
+use Surfnet\StepupBundle\Request\JsonConvertibleResolver;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class JsonConvertibleParamConverterTest extends TestCase
+class JsonConvertibleResolverTest extends TestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
     public function testItThrowsABadJsonRequestExceptionWhenTheParameterIsMissing(): void
     {
         $this->expectException(BadJsonRequestException::class);
+        $this->expectExceptionMessage('JSON could not be reconstituted into valid object.');
 
         $request = $this->createJsonRequest((object) []);
         $validator = m::mock(ValidatorInterface::class);
 
-        $paramConverter = new JsonConvertibleParamConverter($validator);
-        $paramConverter->apply($request, new ParamConverter(['name' => 'parameter', 'class' => 'Irrelevant']));
+        $paramResolver = new JsonConvertibleResolver($validator);
+        $paramResolver->resolve($request, new ArgumentMetadata('parameter', 'Irrelevant', false, false, null));
     }
 
     public function testItThrowsABadJsonRequestExceptionWhenUnknownPropertiesAreSent(): void
     {
         $this->expectException(BadJsonRequestException::class);
+        $this->expectExceptionMessage('JSON could not be reconstituted into valid object.');
 
         $validator = m::mock(ValidatorInterface::class)
             ->shouldReceive('validate')->andReturn(new ConstraintViolationList([]))
             ->getMock();
 
         $request = $this->createJsonRequest((object) ['foo' => ['unknown' => 'prop']]);
-        $configuration = new ParamConverter(['name' => 'foo', 'class' => Foo::class]);
 
-        $paramConverter = new JsonConvertibleParamConverter($validator);
-        $paramConverter->apply($request, $configuration);
+        $paramResolver = new JsonConvertibleResolver($validator);
+        $paramResolver->resolve($request, new ArgumentMetadata('parameter', Foo::class, false, false, null));
     }
 
     public function testItThrowsABadJsonRequestExceptionWithErrorsWhenTheConvertedObjectDoesntValidate(): void
     {
         $this->expectException(BadJsonRequestException::class);
+        $this->expectExceptionMessage('JSON could not be reconstituted into valid object.');
 
         $validator = m::mock(ValidatorInterface::class)
             ->shouldReceive('validate')->once()->andReturn(
@@ -76,10 +79,10 @@ class JsonConvertibleParamConverterTest extends TestCase
 
 
         $request = $this->createJsonRequest((object) ['foo' => ['bar' => '']]);
-        $configuration = new ParamConverter(['name' => 'foo', 'class' => Foo::class]);
+        $configuration = new ArgumentMetadata('foo', Foo::class, false, false, null);
 
-        $paramConverter = new JsonConvertibleParamConverter($validator);
-        $paramConverter->apply($request, $configuration);
+        $paramResolver = new JsonConvertibleResolver($validator);
+        $paramResolver->resolve($request, $configuration);
     }
 
     public function testItConvertsAParameter(): void
@@ -88,7 +91,7 @@ class JsonConvertibleParamConverterTest extends TestCase
             ->shouldReceive('validate')->andReturn(new ConstraintViolationList([]))
             ->getMock();
 
-        $paramConverter = new JsonConvertibleParamConverter($validator);
+        $paramResolver = new JsonConvertibleResolver($validator);
 
         $foo = new Foo();
         $foo->bar = 'baz';
@@ -99,8 +102,15 @@ class JsonConvertibleParamConverterTest extends TestCase
             ->shouldReceive('set')->once()->with('foo', Matchers::equalTo($foo))
             ->getMock();
 
-        $configuration = new ParamConverter(['name' => 'foo', 'class' => Foo::class]);
-        $paramConverter->apply($request, $configuration);
+        $configuration = new ArgumentMetadata('foo', Foo::class, false, false, null);
+        $result = $paramResolver->resolve($request, $configuration);
+        self::assertEquals(
+            [
+                'bar' => 'baz',
+                'camelCased' => 'yeah'
+            ],
+            $result
+        );
     }
 
     public function testItConvertsASnakeCasedParameter(): void
@@ -109,7 +119,7 @@ class JsonConvertibleParamConverterTest extends TestCase
             ->shouldReceive('validate')->andReturn(new ConstraintViolationList([]))
             ->getMock();
 
-        $paramConverter = new JsonConvertibleParamConverter($validator);
+        $paramResolver = new JsonConvertibleResolver($validator);
 
         $foo = new Foo();
         $foo->bar = 'baz';
@@ -120,14 +130,19 @@ class JsonConvertibleParamConverterTest extends TestCase
             ->shouldReceive('set')->once()->with('fooBar', Matchers::equalTo($foo))
             ->getMock();
 
-        $configuration = new ParamConverter(['name' => 'fooBar', 'class' => Foo::class]);
-        $paramConverter->apply($request, $configuration);
+        $configuration = new ArgumentMetadata('fooBar', Foo::class, false, false, null);
+
+        $result = $paramResolver->resolve($request, $configuration);
+        self::assertEquals(
+            [
+                'bar' => 'baz',
+                'camelCased' => 'yeah'
+            ],
+            $result
+        );
     }
 
-    /**
-     * @return \Request
-     */
-    private function createJsonRequest(mixed $object)
+    private function createJsonRequest(mixed $object): Request
     {
         return m::mock(Request::class)
             ->shouldReceive('getContent')->andReturn(json_encode($object, JSON_THROW_ON_ERROR))

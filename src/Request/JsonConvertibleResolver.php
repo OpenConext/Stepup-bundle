@@ -20,10 +20,10 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Request;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Surfnet\StepupBundle\Exception\BadJsonRequestException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
+use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -33,20 +33,17 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * @SuppressWarnings(PHPMD.MissingImport)
  * @see JsonConvertible
  */
-class JsonConvertibleParamConverter implements ParamConverterInterface
+class JsonConvertibleResolver implements ValueResolverInterface
 {
     public function __construct(private readonly ValidatorInterface $validator)
     {
     }
 
-    /**
-     * @SuppressWarnings(PHPMD.MissingImport) - Unable to import the dynamic class creation at line 63
-     */
-    public function apply(Request $request, ParamConverter $configuration): void
+    public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        $name = $configuration->getName();
+        $name = $argument->getName();
         $snakeCasedName = $this->camelCaseToSnakeCase($name);
-        $class = $configuration->getClass();
+        $class = $argument->getType();
 
         $json = $request->getContent();
         $object = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
@@ -79,22 +76,9 @@ class JsonConvertibleParamConverter implements ParamConverterInterface
         }
 
         $request->attributes->set($name, $convertedObject);
+        return (array) $convertedObject;
     }
 
-    public function supports(ParamConverter $configuration): ?bool
-    {
-        $class = $configuration->getClass();
-
-        if (!is_string($class)) {
-            return null;
-        }
-
-        return is_subclass_of($class, JsonConvertible::class);
-    }
-
-    /**
-     * @return string
-     */
     private function camelCaseToSnakeCase(string $camelCase): string
     {
         $snakeCase = '';

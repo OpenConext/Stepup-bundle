@@ -21,6 +21,7 @@ declare(strict_types = 1);
 namespace Surfnet\StepupBundle\Controller;
 
 use DateTime;
+use DateTimeInterface;
 use Exception;
 use SAML2\Response\Exception\InvalidResponseException;
 use SAML2\Response\Exception\PreconditionNotMetException;
@@ -30,6 +31,7 @@ use Surfnet\SamlBundle\Http\Exception\UnknownServiceProviderException;
 use Surfnet\SamlBundle\Http\Exception\UnsignedRequestException;
 use Surfnet\SamlBundle\Http\Exception\UnsupportedSignatureException;
 use Surfnet\StepupBundle\Exception\Art;
+use Surfnet\StepupBundle\Exception\MissingRequiredAttributeException;
 use Surfnet\StepupBundle\Request\RequestId;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as FrameworkController;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,7 +67,7 @@ class ExceptionController extends FrameworkController
 
         $response = new Response('', $statusCode);
 
-        $timestamp = (new DateTime)->format(DateTime::ISO8601);
+        $timestamp = (new DateTime)->format(DateTimeInterface::ATOM);
         $hostname  = $request->getHost();
         $requestId = $this->requestId;
         $errorCode = Art::forException($exception);
@@ -91,14 +93,12 @@ class ExceptionController extends FrameworkController
      */
     protected function getStatusCode(Exception $exception): int
     {
-        if ($exception instanceof AuthenticationException ||
-            $exception instanceof InvalidResponseException) {
-            return Response::HTTP_UNAUTHORIZED;
+        if ($exception instanceof PreconditionNotMetException || $exception instanceof AccessDeniedException) {
+            return Response::HTTP_FORBIDDEN;
         }
 
-        if ($exception instanceof AccessDeniedException ||
-            $exception instanceof PreconditionNotMetException) {
-            return Response::HTTP_FORBIDDEN;
+        if ($exception instanceof AuthenticationException || $exception instanceof InvalidResponseException) {
+            return Response::HTTP_UNAUTHORIZED;
         }
 
         if ($exception instanceof HttpExceptionInterface) {
@@ -155,9 +155,6 @@ class ExceptionController extends FrameworkController
         ];
     }
 
-    /**
-     * @return TranslatorInterface
-     */
     protected function getTranslator(): TranslatorInterface
     {
         return $this->translator;

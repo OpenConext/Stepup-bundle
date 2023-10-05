@@ -20,6 +20,8 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Exception;
 
+use Exception;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 /**
@@ -31,7 +33,6 @@ class BadJsonRequestException extends \RuntimeException
      * @param string $violationsRoot The name of the object that was validated.
      * @param string[] $errors
      * @param string $message
-     * @return self
      */
     public static function createForViolationsAndErrors(
         ConstraintViolationListInterface $violations,
@@ -48,13 +49,13 @@ class BadJsonRequestException extends \RuntimeException
      * @param string[] $errors
      * @param string $message
      * @param int $code
-     * @param \Exception|null $previous
+     * @param Exception|null $previous
      */
     public function __construct(
         private readonly array $errors,
         $message = 'JSON could not be reconstituted into valid object.',
         $code = 0,
-        \Exception $previous = null
+        Exception $previous = null
     ) {
         parent::__construct($message, $code, $previous);
     }
@@ -69,7 +70,6 @@ class BadJsonRequestException extends \RuntimeException
 
     /**
      * @param string $root
-     * @return array
      */
     private static function mapViolationsToErrorStrings(ConstraintViolationListInterface $violations, $root): array
     {

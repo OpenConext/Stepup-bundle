@@ -38,9 +38,6 @@ class ApplicationNameProcessor
         $this->applicationName = $applicationName;
     }
 
-    /**
-     * @return array
-     */
     public function __invoke(array $record): array
     {
         $record['extra']['application'] = $this->applicationName;

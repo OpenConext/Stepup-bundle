@@ -21,8 +21,8 @@ declare(strict_types = 1);
 namespace Surfnet\StepupBundle\Tests;
 
 use DateTime;
-use Surfnet\StepupBundle\DateTime\DateTime as StepupDateTime;
 use ReflectionProperty;
+use Surfnet\StepupBundle\DateTime\DateTime as StepupDateTime;
 
 class DateTimeHelper
 {

@@ -28,13 +28,11 @@ interface SmsSecondFactorServiceInterface
 {
     /**
      * The remaining number of requests as an integer value.
-     * @return int
      */
     public function getOtpRequestsRemainingCount(string $secondFactorId): int;
 
     /**
      * Return the number of OTP requests that can be taken as an integer value.
-     * @return int
      */
     public function getMaximumOtpRequestsCount(): int;
 

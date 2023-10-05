@@ -25,7 +25,6 @@ use Surfnet\StepupBundle\Command\SendSmsCommand;
 interface SmsService
 {
     /**
-     * @param SendSmsCommand $command
      * @return bool
      */
     public function sendSms(SendSmsCommand $command);

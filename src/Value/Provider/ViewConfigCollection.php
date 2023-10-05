@@ -33,20 +33,15 @@ class ViewConfigCollection
      */
     private array $collection = [];
 
-    /**
-     * @param $identifier
-     */
-    public function addViewConfig(ViewConfigInterface $viewConfig, $identifier): void
+    public function addViewConfig(ViewConfigInterface $viewConfig, string $identifier): void
     {
         $this->collection[$identifier] = $viewConfig;
     }
 
     /**
-     * @param $identifier
-     * @return ViewConfigInterface
      * @throws InvalidArgumentException
      */
-    public function getByIdentifier($identifier)
+    public function getByIdentifier(string $identifier): ViewConfigInterface
     {
         if (isset($this->collection[$identifier])) {
             return $this->collection[$identifier];
@@ -59,11 +54,7 @@ class ViewConfigCollection
         );
     }
 
-    /**
-     * @param $identifier
-     * @return bool
-     */
-    public function isGssp($identifier): bool
+    public function isGssp(string $identifier): bool
     {
         return isset($this->collection[$identifier]);
     }

@@ -22,6 +22,9 @@ namespace Surfnet\StepupBundle\Value;
 
 class GssfConfig
 {
+    /**
+     * @param array $config
+     */
     public function __construct(private readonly array $config = [])
     {
     }
@@ -36,7 +39,7 @@ class GssfConfig
 
     /**
      * Flattens the config and returns key value pairs where the key is the SF type and the value is the LOA level
-     * @return mixed[]
+     * @return array
      */
     public function getLoaMap(): array
     {

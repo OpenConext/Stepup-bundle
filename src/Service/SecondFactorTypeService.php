@@ -48,7 +48,7 @@ class SecondFactorTypeService
         VettingType::TYPE_SELF_ASSERTED_REGISTRATION => Loa::LOA_SELF_VETTED
     ];
 
-    private readonly \Surfnet\StepupBundle\Value\GssfConfig $gssfConfig;
+    private readonly GssfConfig $gssfConfig;
 
     public function __construct(array $gssfConfig)
     {

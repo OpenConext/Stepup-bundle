@@ -20,6 +20,7 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Security;
 
+use Exception;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Security\Exception\OtpGenerationRuntimeException;
 
@@ -44,7 +45,6 @@ final class OtpGenerator
      * Based on https://gist.github.com/pmeulen/3dff8bab3227ed340dd1
      *
      * @param int $length The length of the OTP to generate
-     * @return string
      * @throws OtpGenerationRuntimeException
      */
     public static function generate($length): string
@@ -60,14 +60,13 @@ final class OtpGenerator
         $bitsPerValue = self::BITS_PER_CHARACTER;
         $randomBytesRequired = (int) ceil($length * $bitsPerValue / 8);
         $cryptoStrong = false;
-        $randomBytes = openssl_random_pseudo_bytes($randomBytesRequired, $cryptoStrong); // Generate random bytes
-
+        try {
+            $randomBytes = openssl_random_pseudo_bytes($randomBytesRequired, $cryptoStrong); // Generate random bytes
+        } catch (Exception $e) {
+            throw new OtpGenerationRuntimeException('openssl_random_pseudo_bytes() failed', 0, $e);
+        }
         if ($cryptoStrong === false) {
             throw new OtpGenerationRuntimeException('openssl_random_pseudo_bytes() is not cryptographically strong');
-        }
-
-        if ($randomBytes === false) {
-            throw new OtpGenerationRuntimeException('openssl_random_pseudo_bytes() failed');
         }
 
         // Transform each byte $random_bytes into $random_bits where each byte

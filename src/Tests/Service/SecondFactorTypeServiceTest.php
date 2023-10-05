@@ -20,7 +20,9 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Tests\Service;
 
-use PHPUnit\Framework\TestCase ;
+use PHPUnit\Framework\TestCase;
+use Surfnet\StepupBundle\Exception\DomainException;
+use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Service\SecondFactorTypeService;
 use Surfnet\StepupBundle\Value\Loa;
 use Surfnet\StepupBundle\Value\SecondFactorType;
@@ -28,8 +30,8 @@ use Surfnet\StepupBundle\Value\VettingType;
 
 class SecondFactorTypeServiceTest extends TestCase
 {
-    private \Surfnet\StepupBundle\Value\VettingType $vettingTypeSelfAsserted;
-    private \Surfnet\StepupBundle\Value\VettingType $vettingTypeOnPremise;
+    private VettingType $vettingTypeSelfAsserted;
+    private VettingType $vettingTypeOnPremise;
 
     protected function setUp(): void
     {
@@ -84,7 +86,7 @@ class SecondFactorTypeServiceTest extends TestCase
     public function testGetLevelCannotGetLevelOfNonExistingSecondFactorType(): void
     {
         $this->expectExceptionMessage("The Loa level of this type: u3f can't be retrieved.");
-        $this->expectException(\Surfnet\StepupBundle\Exception\DomainException::class);
+        $this->expectException(DomainException::class);
 
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
         $service->getLevel(new SecondFactorType('u3f'), $this->vettingTypeOnPremise);
@@ -96,7 +98,7 @@ class SecondFactorTypeServiceTest extends TestCase
     public function testItRejectsInvalidVettingType(): void
     {
         $this->expectExceptionMessage('The provided vetting type "self-righteous-registration" is not permitted. Use one of on-premise, self-asserted-registration, self-vet, unknown');
-        $this->expectException(\Surfnet\StepupBundle\Exception\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
         $service->getLevel(new SecondFactorType('yubikey'), new VettingType('self-righteous-registration'));

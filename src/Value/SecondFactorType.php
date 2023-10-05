@@ -21,9 +21,10 @@ declare(strict_types = 1);
 namespace Surfnet\StepupBundle\Value;
 
 use JsonSerializable;
+use Stringable;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
-final class SecondFactorType implements JsonSerializable, \Stringable
+final class SecondFactorType implements JsonSerializable, Stringable
 {
     private readonly string $type;
 
@@ -38,32 +39,22 @@ final class SecondFactorType implements JsonSerializable, \Stringable
         $this->type = $type;
     }
 
-    /**
-     * @return bool
-     */
     public function equals(self $other): bool
     {
         return $this->type === $other->type;
     }
 
-    /**
-     * @return bool
-     */
     public function isSms(): bool
     {
         return $this->type === 'sms';
     }
 
-    /**
-     * @return bool
-     */
     public function isYubikey(): bool
     {
         return $this->type === 'yubikey';
     }
 
     /**
-     * @return bool
      * @deprecated u2f support is removed from StepUp in favour of the WebAuthn GSSP
      */
     public function isU2f(): bool
@@ -71,23 +62,17 @@ final class SecondFactorType implements JsonSerializable, \Stringable
         return $this->type === 'u2f';
     }
 
-    /**
-     * @return string
-     */
     public function getSecondFactorType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->type;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->type;
     }

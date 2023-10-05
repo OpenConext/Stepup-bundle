@@ -23,7 +23,7 @@ namespace Surfnet\StepupBundle\DependencyInjection\Configurator;
 use GuzzleHttp\Client;
 use Surfnet\StepupBundle\Guzzle\Middleware\GuzzleRequestIdInjector;
 
-final readonly class GuzzleClientRequestIdConfigurator
+final class GuzzleClientRequestIdConfigurator
 {
     public function __construct(private GuzzleRequestIdInjector $guzzleRequestIdInjector)
     {

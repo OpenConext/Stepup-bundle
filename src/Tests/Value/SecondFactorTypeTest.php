@@ -20,7 +20,7 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Tests\Value;
 
-use PHPUnit\Framework\TestCase ;
+use PHPUnit\Framework\TestCase;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\SecondFactorType;
 

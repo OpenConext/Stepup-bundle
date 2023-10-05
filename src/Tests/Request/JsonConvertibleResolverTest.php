@@ -20,6 +20,7 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Tests\Request;
 
+use ArrayIterator;
 use Hamcrest\Matchers;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
@@ -72,7 +73,7 @@ class JsonConvertibleResolverTest extends TestCase
             ->shouldReceive('validate')->once()->andReturn(
                 m::mock(ConstraintViolationListInterface::class)
                     ->shouldReceive('count')->once()->andReturn(1)
-                    ->shouldReceive('getIterator')->andReturn(new \ArrayIterator)
+                    ->shouldReceive('getIterator')->andReturn(new ArrayIterator)
                     ->getMock()
             )
             ->getMock();

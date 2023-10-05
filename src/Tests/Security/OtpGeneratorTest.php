@@ -20,7 +20,8 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Security;
 
-use PHPUnit\Framework\TestCase ;
+use PHPUnit\Framework\TestCase;
+use stdClass;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
 final class OtpGeneratorTest extends TestCase
@@ -44,7 +45,7 @@ final class OtpGeneratorTest extends TestCase
             'false' => [false],
             'true' => [true],
             'string' => ['8'],
-            'object' => [new \stdClass()],
+            'object' => [new stdClass()],
             'array' => [['foo', 'bar']],
             'negative integer' => [-1],
             'zero' => [0],

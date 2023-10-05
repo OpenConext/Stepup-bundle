@@ -144,7 +144,7 @@ services:
         class: Surfnet\StepupBundle\Form\ChoiceList\LocaleChoiceList
         arguments:
             - [] # See Extension
-            - "@request_stack"
+
     Surfnet\StepupBundle\Form\ChoiceList\LocaleChoiceList:
         alias: surfnet_stepup.form.choice_list.locales
 

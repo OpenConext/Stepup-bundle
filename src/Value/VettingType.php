@@ -29,6 +29,9 @@ final class VettingType
     public const TYPE_SELF_ASSERTED_REGISTRATION = 'self-asserted-registration';
     public const TYPE_UNKNOWN = 'unknown';
 
+    /**
+     * @var string[]
+     */
     private static array $allowedTypes = [
         self::TYPE_ON_PREMISE,
         self::TYPE_SELF_ASSERTED_REGISTRATION,

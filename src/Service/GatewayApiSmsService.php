@@ -22,6 +22,7 @@ namespace Surfnet\StepupBundle\Service;
 
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Surfnet\StepupBundle\Command\SendSmsCommand;
 use Surfnet\StepupBundle\Http\JsonHelper;
 
@@ -55,7 +56,7 @@ class GatewayApiSmsService implements SmsService
         if ($statusCode != 200) {
             $this->logger->error(
                 sprintf('SMS sending failed, error: [%s] %s', $response->getStatusCode(), $response->getReasonPhrase()),
-                ['http-body' => $response->getBody() ? $response->getBody()->getContents() : '',]
+                ['http-body' => ($response->getBody()->getSize() ? $response->getBody()->getContents() : ''),]
             );
 
             return false;
@@ -63,7 +64,7 @@ class GatewayApiSmsService implements SmsService
 
         try {
             $result = JsonHelper::decode((string) $response->getBody());
-        } catch (\RuntimeException) {
+        } catch (RuntimeException) {
             $this->logger->error('SMS sending failed; server responded with malformed JSON.');
 
             return false;

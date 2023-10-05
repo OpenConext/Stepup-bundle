@@ -31,7 +31,6 @@ class RequestIdProcessor
     /**
      * Adds the request ID onto the record's extra data.
      *
-     * @return array
      */
     public function __invoke(array $record): array
     {

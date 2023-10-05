@@ -22,7 +22,7 @@ namespace Surfnet\StepupBundle\Tests\Service\SmsSecondFactor;
 
 use DateInterval;
 use DateTime;
-use PHPUnit\Framework\TestCase ;
+use PHPUnit\Framework\TestCase;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Service\Exception\TooManyChallengesRequestedException;
 use Surfnet\StepupBundle\Service\SmsSecondFactor\SmsVerificationState;

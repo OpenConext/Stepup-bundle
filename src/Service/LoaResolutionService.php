@@ -26,7 +26,7 @@ use Surfnet\StepupBundle\Value\Loa;
 class LoaResolutionService
 {
     /**
-     * @var \Surfnet\StepupBundle\Value\Loa[]
+     * @var Loa[]
      */
     private array $loas = [];
 
@@ -39,7 +39,6 @@ class LoaResolutionService
 
     /**
      * @param string $loaIdentifier
-     * @return bool
      */
     public function hasLoa($loaIdentifier): bool
     {

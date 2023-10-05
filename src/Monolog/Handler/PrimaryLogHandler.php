@@ -25,6 +25,7 @@ use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\StreamHandler;
 use Monolog\LogRecord;
 use Surfnet\StepupBundle\Exception\CannotWriteToPrimaryLogException;
+use UnexpectedValueException;
 
 /**
  * Represents StepUp's primary log handler. Transforms the exception thrown by StreamHandlers when the stream cannot be
@@ -32,16 +33,13 @@ use Surfnet\StepupBundle\Exception\CannotWriteToPrimaryLogException;
  */
 class PrimaryLogHandler implements HandlerInterface
 {
-    /**
-     * @var StreamHandler
-     */
-    private $streamHandler;
+    private StreamHandler $streamHandler;
 
     public function handle(LogRecord $record): bool
     {
         try {
-            $this->streamHandler->handle($record);
-        } catch (\UnexpectedValueException $e) {
+            return $this->streamHandler->handle($record);
+        } catch (UnexpectedValueException $e) {
             throw new CannotWriteToPrimaryLogException(
                 sprintf('Cannot write to primary log: %s', $e->getMessage()),
                 0,

@@ -20,10 +20,11 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Value\PhoneNumber;
 
+use Stringable;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\Exception\InvalidPhoneNumberFormatException;
 
-class PhoneNumber implements \Stringable
+class PhoneNumber implements Stringable
 {
     private string $number;
 
@@ -47,7 +48,6 @@ class PhoneNumber implements \Stringable
      * Returns the part of the MSISN formatted as representing the [NDC|NPA] + SN part
      * @see http://en.wikipedia.org/wiki/MSISDN#MSISDN_Format
      *
-     * @return string
      */
     public function formatAsMsisdnPart(): string
     {
@@ -60,17 +60,11 @@ class PhoneNumber implements \Stringable
         return $number;
     }
 
-    /**
-     * @return string
-     */
     public function getNumber(): string
     {
         return $this->number;
     }
 
-    /**
-     * @return bool
-     */
     public function equals(PhoneNumber $other): bool
     {
         return $this->formatAsMsisdnPart() === $other->formatAsMsisdnPart();

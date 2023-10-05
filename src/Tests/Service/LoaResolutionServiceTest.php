@@ -27,7 +27,7 @@ use Surfnet\StepupBundle\Value\Loa;
 class LoaResolutionServiceTest extends UnitTest
 {
     /**
-     * @var \Surfnet\StepupBundle\Value\Loa[]
+     * @var Loa[]
      */
     private ?array $loas = null;
 

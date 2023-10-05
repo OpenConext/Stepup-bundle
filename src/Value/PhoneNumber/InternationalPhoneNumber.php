@@ -20,10 +20,11 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Value\PhoneNumber;
 
+use Stringable;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\Exception\InvalidPhoneNumberFormatException;
 
-class InternationalPhoneNumber implements \Stringable
+class InternationalPhoneNumber implements Stringable
 {
     public function __construct(private readonly CountryCode $countryCode, private readonly PhoneNumber $phoneNumber)
     {
@@ -31,7 +32,6 @@ class InternationalPhoneNumber implements \Stringable
 
     /**
      * @param string $string a well formatted "+{CountryCode} (0) {PhoneNumber}" international phone number
-     * @return InternationalPhoneNumber
      */
     public static function fromStringFormat($string): self
     {
@@ -57,16 +57,12 @@ class InternationalPhoneNumber implements \Stringable
      * @see http://en.wikipedia.org/wiki/MSISDN#MSISDN_Format
      * @see https://www.messagebird.com/developers#messaging-send
      *
-     * @return string
      */
     public function toMSISDN(): string
     {
         return $this->countryCode->getCountryCode() . $this->phoneNumber->formatAsMsisdnPart();
     }
 
-    /**
-     * @return bool
-     */
     public function equals(InternationalPhoneNumber $other): bool
     {
         return $this->countryCode->equals($other->countryCode)

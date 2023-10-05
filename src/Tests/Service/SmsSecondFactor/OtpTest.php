@@ -21,7 +21,8 @@ declare(strict_types = 1);
 namespace Surfnet\StepupBundle\Tests\Service\SmsSecondFactor;
 
 use DateInterval;
-use PHPUnit\Framework\TestCase ;
+use PHPUnit\Framework\TestCase;
+use stdClass;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Service\SmsSecondFactor\Otp;
 
@@ -32,7 +33,7 @@ class OtpTest extends TestCase
         return [
             'array'        => [[]],
             'integer'      => [1],
-            'object'       => [new \stdClass()],
+            'object'       => [new stdClass()],
             'null'         => [null],
             'bool'         => [false],
             'resource'     => [fopen('php://memory', 'w')],
@@ -45,7 +46,7 @@ class OtpTest extends TestCase
             'empty string' => [''],
             'array'        => [[]],
             'integer'      => [1],
-            'object'       => [new \stdClass()],
+            'object'       => [new stdClass()],
             'null'         => [null],
             'bool'         => [false],
             'resource'     => [fopen('php://memory', 'w')],

@@ -31,7 +31,7 @@ final class Otp
 
     private ?string $phoneNumber = null;
 
-    private ?\DateInterval $expiryInterval = null;
+    private ?DateInterval $expiryInterval = null;
 
     /**
      * @var CoreDateTime
@@ -41,7 +41,6 @@ final class Otp
     /**
      * @param string $otpString
      * @param string $phoneNumber
-     * @return Otp
      */
     public static function create($otpString, $phoneNumber, DateInterval $expiryInterval): self
     {
@@ -66,7 +65,7 @@ final class Otp
     {
     }
 
-    public function verify($userOtp): \Surfnet\StepupBundle\Service\SmsSecondFactor\OtpVerification
+    public function verify($userOtp): OtpVerification
     {
         if (!is_string($userOtp)) {
             throw InvalidArgumentException::invalidType('string', 'userOtp', $userOtp);
@@ -88,7 +87,6 @@ final class Otp
 
     /**
      * @param string $phoneNumber
-     * @return bool
      */
     public function hasPhoneNumber($phoneNumber): bool
     {

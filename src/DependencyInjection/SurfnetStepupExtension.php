@@ -20,8 +20,6 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\DependencyInjection;
 
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
 use Surfnet\StepupBundle\Form\ChoiceList\LocaleChoiceList;
 use Surfnet\StepupBundle\Http\CookieHelper;
 use Surfnet\StepupBundle\Service\LoaResolutionService;
@@ -101,14 +99,14 @@ class SurfnetStepupExtension extends Extension
     {
         $loaService = $container->getDefinition('surfnet_stepup.service.loa_resolution');
 
-        $loa1 = new Definition(\Surfnet\StepupBundle\Value\Loa::class, [Loa::LOA_1, $loaDefinitions['loa1']]);
-        $loa2 = new Definition(\Surfnet\StepupBundle\Value\Loa::class, [Loa::LOA_2, $loaDefinitions['loa2']]);
-        $loa3 = new Definition(\Surfnet\StepupBundle\Value\Loa::class, [Loa::LOA_3, $loaDefinitions['loa3']]);
+        $loa1 = new Definition(Loa::class, [Loa::LOA_1, $loaDefinitions['loa1']]);
+        $loa2 = new Definition(Loa::class, [Loa::LOA_2, $loaDefinitions['loa2']]);
+        $loa3 = new Definition(Loa::class, [Loa::LOA_3, $loaDefinitions['loa3']]);
 
         $arguments = [$loa1, $loa2, $loa3];
 
         if (array_key_exists('loa_self_asserted', $loaDefinitions)) {
-            $arguments[] = new Definition(\Surfnet\StepupBundle\Value\Loa::class, [Loa::LOA_SELF_VETTED, $loaDefinitions['loa_self_asserted']]);
+            $arguments[] = new Definition(Loa::class, [Loa::LOA_SELF_VETTED, $loaDefinitions['loa_self_asserted']]);
         }
         $loaService->addArgument($arguments);
     }

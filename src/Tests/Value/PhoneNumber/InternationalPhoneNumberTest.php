@@ -21,6 +21,7 @@ declare(strict_types = 1);
 namespace Surfnet\StepupBundle\Tests\Value\PhoneNumber;
 
 use PHPUnit\Framework\TestCase as UnitTest;
+use stdClass;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\Exception\InvalidPhoneNumberFormatException;
 use Surfnet\StepupBundle\Value\PhoneNumber\CountryCode;
@@ -81,7 +82,7 @@ class InternationalPhoneNumberTest extends UnitTest
         return [
             'array'        => [[]],
             'integer'      => [1],
-            'object'       => [new \stdClass()],
+            'object'       => [new stdClass()],
             'null'         => [null],
             'bool'         => [false],
             'resource'     => [fopen('php://memory', 'w')],

@@ -36,6 +36,8 @@ class CountryCodeListing
      * the actual code.
      *
      * When updating, update CountryCodeListing::$countryCodes to match.
+     *
+     * @var string[]
      */
     private static array $countries = [
         'Abkhazia (+7 840)'                                   => '7840',
@@ -281,6 +283,9 @@ class CountryCodeListing
         'Zimbabwe (+263)'                                     => '263',
     ];
 
+    /**
+     * @return string[]
+     */
     public static function asArray(): array
     {
         $countries = [];
@@ -293,9 +298,7 @@ class CountryCodeListing
 
         return array_combine($countryNames, $countries);
     }
-    /**
-     * @return bool
-     */
+
     public static function isPreferredChoice(Country $country): bool
     {
         return $country->getCountryCode()->equals(new CountryCode(self::PREFERRED_CHOICE));
@@ -303,7 +306,6 @@ class CountryCodeListing
 
     /**
      * @param string $countryCode
-     * @return bool
      */
     public static function isValidCountryCode($countryCode): bool
     {

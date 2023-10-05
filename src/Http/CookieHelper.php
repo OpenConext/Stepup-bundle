@@ -27,7 +27,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Read and write a given cookie from HTTP Requests/Responses.
  */
-final readonly class CookieHelper
+final class CookieHelper
 {
     public function __construct(private Cookie $cookieSettings)
     {
@@ -37,9 +37,8 @@ final readonly class CookieHelper
      * Write a new value for the current cookie to a given Response.
      *
      * @param string $value
-     * @return Cookie
      */
-    public function write(Response $response, $value): \Symfony\Component\HttpFoundation\Cookie
+    public function write(Response $response, $value): Cookie
     {
         $cookie = $this->createCookieWithValue($value);
         $response->headers->setCookie($cookie);
@@ -51,9 +50,8 @@ final readonly class CookieHelper
      *
      * Note that we only read the value, we ignore the other settings.
      *
-     * @return null|Cookie
      */
-    public function read(Request $request): ?\Symfony\Component\HttpFoundation\Cookie
+    public function read(Request $request): ?Cookie
     {
         if (!$request->cookies->has($this->cookieSettings->getName())) {
             return null;
@@ -67,10 +65,8 @@ final readonly class CookieHelper
     /**
      * Create a new cookie from the current (template) cookie with a new value.
      *
-     * @param $value
-     * @return Cookie
      */
-    private function createCookieWithValue($value): \Symfony\Component\HttpFoundation\Cookie
+    private function createCookieWithValue($value): Cookie
     {
         return new Cookie(
             $this->cookieSettings->getName(),

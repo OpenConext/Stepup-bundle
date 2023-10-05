@@ -24,7 +24,6 @@ use Error;
 use PHPUnit\Framework\TestCase as UnitTest;
 use stdClass;
 use Surfnet\StepupBundle\Exception\DomainException;
-use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\Loa;
 
 class LoaTest extends UnitTest

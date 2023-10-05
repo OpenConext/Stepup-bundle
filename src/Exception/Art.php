@@ -25,18 +25,11 @@ use Symfony\Component\Debug\Exception\FlattenException;
 
 class Art
 {
-    /**
-     * @return string
-     */
     public static function forException(Exception $exception): string
     {
         return self::calculateArt($exception::class, $exception->getMessage());
     }
 
-    /**
-     * @param string $message
-     * @return string
-     */
     private static function calculateArt(string $className, string $message): string
     {
         $message = self::stripVariableArgumentsFromMessage($message);
@@ -56,8 +49,6 @@ class Art
      * because it relies on sprintf arguments to always be quoted inside the
      * message.
      *
-     * @param $message
-     * @return string
      */
     private static function stripVariableArgumentsFromMessage($message): ?string
     {

@@ -41,7 +41,6 @@ class YubikeyOtp
 
     /**
      * @param string $string
-     * @return YubikeyOtp
      * @throws InvalidArgumentException Thrown when the given string is not an OTP.
      */
     public static function fromString($string): self
@@ -72,7 +71,6 @@ class YubikeyOtp
 
     /**
      * @param string $string
-     * @return bool
      */
     public static function isValid($string): bool
     {

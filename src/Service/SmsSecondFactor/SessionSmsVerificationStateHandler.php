@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class SessionSmsVerificationStateHandler implements SmsVerificationStateHandler
 {
-    private readonly \DateInterval $otpExpiryInterval;
+    private readonly DateInterval $otpExpiryInterval;
 
     public function __construct(
         private readonly SessionInterface $session,

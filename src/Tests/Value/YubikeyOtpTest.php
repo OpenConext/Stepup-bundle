@@ -21,6 +21,7 @@ declare(strict_types = 1);
 namespace Surfnet\StepupBundle\Tests\Value;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\YubikeyOtp;
 
@@ -113,16 +114,13 @@ class YubikeyOtpTest extends TestCase
         YubikeyOtp::fromString($nonString);
     }
 
-    /**
-     * @return array
-     */
     public function nonStrings(): array
     {
         return [
             'integer' => [1],
             'float' => [1.1],
             'array' => [[]],
-            'object' => [new \stdClass],
+            'object' => [new stdClass],
             'null' => [null],
             'boolean' => [false],
         ];

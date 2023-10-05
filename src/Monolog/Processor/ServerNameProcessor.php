@@ -20,6 +20,7 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Monolog\Processor;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ServerNameProcessor
@@ -35,7 +36,7 @@ class ServerNameProcessor
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        if (!$request instanceof \Symfony\Component\HttpFoundation\Request) {
+        if (!$request instanceof Request) {
             return $record;
         }
 

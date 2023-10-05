@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -19,6 +21,7 @@
 namespace Surfnet\StepupBundle\Exception;
 
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+
 final class MissingRequiredAttributeException extends AuthenticationException
 {
 }

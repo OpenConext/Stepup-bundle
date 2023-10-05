@@ -89,7 +89,7 @@ class RegistrationExpirationHelperTest extends UnitTest
         $this->buildHelper(null, 'D41P');
     }
 
-    private function buildHelper(DateTime $date = null, string $window = 'P14D'): \Surfnet\StepupBundle\DateTime\RegistrationExpirationHelper
+    private function buildHelper(DateTime $date = null, string $window = 'P14D'): RegistrationExpirationHelper
     {
         return new RegistrationExpirationHelper($date, $window);
     }

@@ -21,9 +21,7 @@ declare(strict_types = 1);
 namespace Surfnet\StepupBundle\Service;
 
 use Surfnet\StepupBundle\Command\SendRecoveryTokenSmsChallengeCommand;
-use Surfnet\StepupBundle\Command\SendSmsChallengeCommand;
 use Surfnet\StepupBundle\Command\SendSmsCommand;
-use Surfnet\StepupBundle\Command\VerifyPossessionOfPhoneCommand;
 use Surfnet\StepupBundle\Command\VerifyPossessionOfPhoneForRecoveryTokenCommand;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Service\SmsSecondFactor\OtpVerification;

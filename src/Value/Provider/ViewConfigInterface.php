@@ -26,4 +26,5 @@ namespace Surfnet\StepupBundle\Value\Provider;
  */
 interface ViewConfigInterface
 {
+    public function getTitle(): string;
 }

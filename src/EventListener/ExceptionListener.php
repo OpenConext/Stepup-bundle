@@ -20,13 +20,16 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\EventListener;
 
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\EventListener\ExceptionListener as CoreExceptionListener;
+use Symfony\Component\HttpKernel\EventListener\ErrorListener;
+use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
+use Throwable;
 
 /**
  * Prepare the generic error page with detailed information for the user.
  */
-class ExceptionListener extends CoreExceptionListener
+class ExceptionListener extends ErrorListener
 {
     public $controller;
     public $logger;
@@ -34,15 +37,15 @@ class ExceptionListener extends CoreExceptionListener
      * Clones the request for the exception.
      *
      * Stepup-specific override: pass the original exception instead of the
-     * FlattenException so we can show very speficic user messages in the
+     * FlattenException so we can show very specific user messages in the
      * ExceptionController.
      *
-     * @param \Exception $exception The thrown exception
+     * @param Exception $exception The thrown exception
      * @param Request    $request   The original request
      *
      * @return Request $request The cloned request
      */
-    protected function duplicateRequest(\Exception $exception, Request $request)
+    protected function duplicateRequest(Throwable $exception, Request $request): Request
     {
         $attributes = [
             '_controller' => $this->controller,

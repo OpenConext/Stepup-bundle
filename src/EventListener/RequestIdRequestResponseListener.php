@@ -21,8 +21,8 @@ declare(strict_types = 1);
 namespace Surfnet\StepupBundle\EventListener;
 
 use Surfnet\StepupBundle\Request\RequestId;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 /**
  * When receiving a kernel request, reads the request ID from the X-Stepup-Request-Id header, if present, and sets it on
@@ -39,9 +39,8 @@ class RequestIdRequestResponseListener
     /**
      * If present, reads the request ID from the appropriate header and sets it on a RequestId instance.
      *
-     * @param GetResponseEvent $event
      */
-    public function onKernelRequest(GetResponseEvent $event): void
+    public function onKernelRequest(RequestEvent $event): void
     {
         $headers = $event->getRequest()->headers;
 
@@ -49,15 +48,14 @@ class RequestIdRequestResponseListener
             return;
         }
 
-        $this->requestId->set($headers->get(self::HEADER_NAME, null, true), true);
+        $this->requestId->set($headers->get(self::HEADER_NAME), true);
     }
 
     /**
      * If enabled, sets the request ID on the appropriate response header.
      *
-     * @param FilterResponseEvent $event
      */
-    public function onKernelResponse(FilterResponseEvent $event): void
+    public function onKernelResponse(ResponseEvent $event): void
     {
         $event->getResponse()->headers->set(self::HEADER_NAME, $this->requestId->get());
     }

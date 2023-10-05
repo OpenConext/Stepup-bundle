@@ -20,13 +20,14 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Value;
 
+use Stringable;
 use Surfnet\StepupBundle\Exception\DomainException;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
 /**
  * Value object representing the different LOAs that can be configured
  */
-class Loa implements \Stringable
+class Loa implements Stringable
 {
     /**
      * The different levels

@@ -21,7 +21,6 @@ declare(strict_types = 1);
 namespace Surfnet\StepupBundle\Form\ChoiceList;
 
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 final class LocaleChoiceList
 {
@@ -33,7 +32,7 @@ final class LocaleChoiceList
     /**
      * @param string[] $locales
      */
-    public function __construct(array $locales, private readonly RequestStack $requestStack)
+    public function __construct(array $locales)
     {
         foreach ($locales as $index => $locale) {
             if (!is_string($locale)) {

@@ -55,32 +55,21 @@ final class OtpVerification
     {
     }
 
-    /**
-     * @return bool
-     */
     public function wasSuccessful(): bool
     {
         return $this->status === self::STATUS_FOUND_MATCH;
     }
 
-    /**
-     * @return bool
-     */
     public function didOtpMatch(): bool
     {
         return $this->status === self::STATUS_FOUND_MATCH || $this->status === self::STATUS_MATCH_EXPIRED;
     }
-    /**
-     * @return bool
-     */
+
     public function didOtpExpire(): bool
     {
         return $this->status === self::STATUS_MATCH_EXPIRED;
     }
 
-    /**
-     * @return bool
-     */
     public function wasAttemptedTooManyTimes(): bool
     {
         return $this->status === self::STATUS_TOO_MANY_ATTEMPTS;

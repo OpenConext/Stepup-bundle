@@ -137,7 +137,7 @@ class Configuration implements ConfigurationInterface
                             ->info('The URL to the Gateway application (e.g. https://gateway.tld)')
                             ->isRequired()
                             ->validate()
-                                ->ifTrue(fn($value): bool => !is_string($value) || $value === '' || !preg_match('~/$~', $value))
+                                ->ifTrue(fn($value): bool => !is_string($value) || $value === '' || !str_ends_with($value, '/'))
                                 ->thenInvalid(
                                     'Invalid Gateway URL specified: "%s". Must be string ending in forward slash'
                                 )

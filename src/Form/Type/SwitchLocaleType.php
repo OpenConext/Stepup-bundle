@@ -20,11 +20,13 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Form\Type;
 
+use Surfnet\StepupBundle\Command\SwitchLocaleCommand;
 use Surfnet\StepupBundle\Form\ChoiceList\LocaleChoiceList;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -38,7 +40,7 @@ final class SwitchLocaleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->setAction($this->urlGenerator->generate($options['route'], $options['route_parameters']));
-        $builder->setMethod(\Symfony\Component\HttpFoundation\Request::METHOD_POST);
+        $builder->setMethod(Request::METHOD_POST);
         $builder->add('locale', ChoiceType::class, [
             'label' => /** @Ignore */ false,
             'required' => true,
@@ -56,7 +58,7 @@ final class SwitchLocaleType extends AbstractType
         $resolver->setDefaults([
             'route'            => null,
             'route_parameters' => [],
-            'data_class'       => \Surfnet\StepupBundle\Command\SwitchLocaleCommand::class,
+            'data_class'       => SwitchLocaleCommand::class,
         ]);
 
         $resolver->setRequired(['route']);

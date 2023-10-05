@@ -20,9 +20,10 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Value;
 
+use Stringable;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
-final class YubikeyPublicId implements \Stringable
+final class YubikeyPublicId implements Stringable
 {
     private readonly string $value;
 
@@ -34,12 +35,8 @@ final class YubikeyPublicId implements \Stringable
         return new self(sprintf('%08s', gmp_strval($gmpId, 10)));
     }
 
-    public function __construct($value)
+    public function __construct(string $value)
     {
-        if (!is_string($value)) {
-            throw InvalidArgumentException::invalidType('string', 'value', $value);
-        }
-
         // Numeric IDs must be left-padded with zeroes until eight characters. Longer IDs may not be padded.
         if (!preg_match('~^\d+$~', $value)) {
             throw new InvalidArgumentException('Given Yubikey public ID is not a string of digits');

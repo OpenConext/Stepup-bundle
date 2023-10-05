@@ -20,11 +20,12 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Value\PhoneNumber;
 
+use Stringable;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\Exception\InvalidCountryCodeFormatException;
 use Surfnet\StepupBundle\Value\Exception\UnknownCountryCodeException;
 
-class CountryCode implements \Stringable
+class CountryCode implements Stringable
 {
     private readonly string $countryCode;
 
@@ -48,17 +49,11 @@ class CountryCode implements \Stringable
         $this->countryCode = $countyCode;
     }
 
-    /**
-     * @return string
-     */
     public function getCountryCode(): string
     {
         return $this->countryCode;
     }
 
-    /**
-     * @return bool
-     */
     public function equals(CountryCode $other): bool
     {
         return $this->countryCode === $other->countryCode;

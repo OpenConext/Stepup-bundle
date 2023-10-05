@@ -27,12 +27,12 @@ class DateTime
     /**
      * @var CoreDateTime|null
      */
-    private static $now;
+    private static ?CoreDateTime $now = null;
 
     /**
      * @return CoreDateTime
      */
-    public static function now()
+    public static function now(): CoreDateTime
     {
         return self::$now ?: new CoreDateTime;
     }

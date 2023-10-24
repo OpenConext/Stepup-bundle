@@ -22,6 +22,7 @@ namespace Surfnet\StepupBundle\EventListener;
 
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Controller\ErrorController;
 use Symfony\Component\HttpKernel\EventListener\ErrorListener;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 use Throwable;
@@ -31,6 +32,10 @@ use Throwable;
  */
 class ExceptionListener extends ErrorListener
 {
+    /**
+     * See src/Resources/config/services.yml 'surfnet_stepup.listener.exception'
+     * @var ErrorController
+     */
     public $controller;
     public $logger;
     /**

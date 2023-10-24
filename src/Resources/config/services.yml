@@ -170,7 +170,7 @@ services:
     surfnet_stepup.listener.exception:
         class: Surfnet\StepupBundle\EventListener\ExceptionListener
         arguments:
-            - '%twig.exception_listener.controller%'
+            - '@error_controller'
             - '@logger'
         tags:
             # It is very important this listener has a priority higher than the default exception listener,

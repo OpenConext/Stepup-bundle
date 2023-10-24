@@ -21,18 +21,23 @@ declare(strict_types = 1);
 namespace Surfnet\StepupBundle\Service\SmsSecondFactor;
 
 use DateInterval;
+use http\Env\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class SessionSmsVerificationStateHandler implements SmsVerificationStateHandler
 {
     private readonly DateInterval $otpExpiryInterval;
 
+    private SessionInterface $session;
+
     public function __construct(
-        private readonly SessionInterface $session,
+        private readonly RequestStack $requestStack,
         private readonly string $sessionKey,
         int $otpExpiryInterval,
         private readonly int $otpRequestMaximum
     ) {
+        $this->session = $this->requestStack->getSession();
         $this->otpExpiryInterval = new DateInterval(sprintf('PT%dS', $otpExpiryInterval));
     }
 

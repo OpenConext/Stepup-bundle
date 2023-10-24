@@ -114,7 +114,7 @@ services:
         public: false
         class: Surfnet\StepupBundle\Service\SmsSecondFactor\SessionSmsVerificationStateHandler
         arguments:
-            - "@session"
+            - "@request_stack"
             - "Surfnet/Stepup/SecondFactor/Sms:challenge"
             - {} # OTP expiry interval
             - 0  # Maximum OTP requests

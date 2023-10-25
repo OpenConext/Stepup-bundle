@@ -20,6 +20,7 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Monolog\Processor;
 
+use Monolog\LogRecord;
 use Surfnet\StepupBundle\Request\RequestId;
 
 class RequestIdProcessor
@@ -32,9 +33,9 @@ class RequestIdProcessor
      * Adds the request ID onto the record's extra data.
      *
      */
-    public function __invoke(array $record): array
+    public function __invoke(LogRecord $record): LogRecord
     {
-        $record['extra']['request_id'] = $this->requestId->get();
+        $record->extra['request_id'] = $this->requestId->get();
 
         return $record;
     }

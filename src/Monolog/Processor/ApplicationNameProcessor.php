@@ -21,6 +21,7 @@ declare(strict_types = 1);
 namespace Surfnet\StepupBundle\Monolog\Processor;
 
 use InvalidArgumentException;
+use Monolog\LogRecord;
 
 class ApplicationNameProcessor
 {
@@ -38,9 +39,9 @@ class ApplicationNameProcessor
         $this->applicationName = $applicationName;
     }
 
-    public function __invoke(array $record): array
+    public function __invoke(LogRecord $record): LogRecord
     {
-        $record['extra']['application'] = $this->applicationName;
+        $record->extra['application'] = $this->applicationName;
 
         return $record;
     }

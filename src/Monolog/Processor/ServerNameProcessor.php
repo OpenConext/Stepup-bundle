@@ -20,6 +20,7 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Monolog\Processor;
 
+use Monolog\LogRecord;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -32,7 +33,7 @@ class ServerNameProcessor
     /**
      * @return array
      */
-    public function __invoke(array $record)
+    public function __invoke(LogRecord $record): LogRecord
     {
         $request = $this->requestStack->getCurrentRequest();
 
@@ -46,7 +47,7 @@ class ServerNameProcessor
             return $record;
         }
 
-        $record['extra']['server'] = $serverName;
+        $record->extra['server'] = $serverName;
 
         return $record;
     }

@@ -14,7 +14,7 @@
         }
     },
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "ext-gmp": "*",
         "ext-json": "*",
         "ext-openssl": "*",

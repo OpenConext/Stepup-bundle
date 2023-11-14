@@ -66,16 +66,6 @@ parameters:
 			path: ../../src/EventListener/BadJsonRequestExceptionListener.php
 
 		-
-			message: "#^Property Surfnet\\\\StepupBundle\\\\EventListener\\\\ExceptionListener\\:\\:\\$controller has no type specified\\.$#"
-			count: 1
-			path: ../../src/EventListener/ExceptionListener.php
-
-		-
-			message: "#^Property Surfnet\\\\StepupBundle\\\\EventListener\\\\ExceptionListener\\:\\:\\$logger has no type specified\\.$#"
-			count: 1
-			path: ../../src/EventListener/ExceptionListener.php
-
-		-
 			message: "#^Parameter \\#1 \\$requestId of method Surfnet\\\\StepupBundle\\\\Request\\\\RequestId\\:\\:set\\(\\) expects string, string\\|null given\\.$#"
 			count: 1
 			path: ../../src/EventListener/RequestIdRequestResponseListener.php

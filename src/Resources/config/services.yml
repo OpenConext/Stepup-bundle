@@ -169,16 +169,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
-    surfnet_stepup.listener.exception:
-        class: Surfnet\StepupBundle\EventListener\ExceptionListener
-        arguments:
-            - '@error_controller'
-            - '@logger'
-        tags:
-            # It is very important this listener has a priority higher than the default exception listener,
-            # and ideally lower than the profiler listener (so exceptions show up in the toolbar).
-            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: -128 }
-
     surfnet_stepup.locale_cookie_helper:
         class: Surfnet\StepupBundle\Http\CookieHelper
         arguments:

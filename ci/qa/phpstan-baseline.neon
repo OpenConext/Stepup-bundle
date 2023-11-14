@@ -146,42 +146,7 @@ parameters:
 			path: ../../src/Monolog/Handler/PrimaryLogHandler.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Monolog\\\\Processor\\\\ApplicationNameProcessor\\:\\:__invoke\\(\\) has parameter \\$record with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Monolog/Processor/ApplicationNameProcessor.php
-
-		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Monolog\\\\Processor\\\\ApplicationNameProcessor\\:\\:__invoke\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Monolog/Processor/ApplicationNameProcessor.php
-
-		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Monolog\\\\Processor\\\\ArtProcessor\\:\\:__invoke\\(\\) has parameter \\$record with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Monolog/Processor/ArtProcessor.php
-
-		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Monolog\\\\Processor\\\\ArtProcessor\\:\\:__invoke\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Monolog/Processor/ArtProcessor.php
-
-		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Monolog\\\\Processor\\\\RequestIdProcessor\\:\\:__invoke\\(\\) has parameter \\$record with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Monolog/Processor/RequestIdProcessor.php
-
-		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Monolog\\\\Processor\\\\RequestIdProcessor\\:\\:__invoke\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Monolog/Processor/RequestIdProcessor.php
-
-		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Monolog\\\\Processor\\\\ServerNameProcessor\\:\\:__invoke\\(\\) has parameter \\$record with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../../src/Monolog/Processor/ServerNameProcessor.php
-
-		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Monolog\\\\Processor\\\\ServerNameProcessor\\:\\:__invoke\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^PHPDoc tag @return with type array is incompatible with native type Monolog\\\\LogRecord\\.$#"
 			count: 1
 			path: ../../src/Monolog/Processor/ServerNameProcessor.php
 

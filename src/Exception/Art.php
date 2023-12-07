@@ -20,12 +20,11 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Exception;
 
-use Exception;
-use Symfony\Component\Debug\Exception\FlattenException;
+use Throwable;
 
 class Art
 {
-    public static function forException(Exception $exception): string
+    public static function forException(Throwable $exception): string
     {
         return self::calculateArt($exception::class, $exception->getMessage());
     }

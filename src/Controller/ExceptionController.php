@@ -22,7 +22,6 @@ namespace Surfnet\StepupBundle\Controller;
 
 use DateTime;
 use DateTimeInterface;
-use Exception;
 use SAML2\Response\Exception\InvalidResponseException;
 use SAML2\Response\Exception\PreconditionNotMetException;
 use Surfnet\SamlBundle\Http\Exception\AuthnFailedSamlResponseException;
@@ -40,6 +39,7 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Throwable;
 
 /**
  * @package Surfnet\StepupBundle\Controller
@@ -55,7 +55,7 @@ class ExceptionController extends FrameworkController
     ) {
     }
 
-    public function show(Request $request, Exception $exception): Response
+    public function show(Request $request, Throwable $exception): Response
     {
         $statusCode = $this->getStatusCode($exception);
 
@@ -91,7 +91,7 @@ class ExceptionController extends FrameworkController
     /**
      * @return int HTTP status code
      */
-    protected function getStatusCode(Exception $exception): int
+    protected function getStatusCode(Throwable $exception): int
     {
         if ($exception instanceof PreconditionNotMetException || $exception instanceof AccessDeniedException) {
             return Response::HTTP_FORBIDDEN;
@@ -113,7 +113,7 @@ class ExceptionController extends FrameworkController
      * @return array View parameters 'title' and 'description'
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function getPageTitleAndDescription(Exception $exception): array
+    protected function getPageTitleAndDescription(Throwable $exception): array
     {
         $translator = $this->getTranslator();
 

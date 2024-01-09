@@ -45,6 +45,11 @@ class JsonConvertibleResolver implements ValueResolverInterface
         $snakeCasedName = $this->camelCaseToSnakeCase($name);
         $class = $argument->getType();
 
+        // Test if this parameter can/should be converted
+        if (is_null($class) || !$this->isJsonParameterConversionSupported($class)) {
+            return [];
+        }
+
         $json = $request->getContent();
         $object = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
@@ -93,5 +98,10 @@ class JsonConvertibleResolver implements ValueResolverInterface
         }
 
         return $snakeCase;
+    }
+
+    private function isJsonParameterConversionSupported(string $class): bool
+    {
+        return is_subclass_of($class, JsonConvertible::class);
     }
 }

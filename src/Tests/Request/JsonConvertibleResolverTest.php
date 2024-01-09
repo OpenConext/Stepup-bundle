@@ -46,7 +46,7 @@ class JsonConvertibleResolverTest extends TestCase
         $validator = m::mock(ValidatorInterface::class);
 
         $paramResolver = new JsonConvertibleResolver($validator);
-        $paramResolver->resolve($request, new ArgumentMetadata('parameter', 'Irrelevant', false, false, null));
+        $paramResolver->resolve($request, new ArgumentMetadata('parameter', Foo::class, false, false, null));
     }
 
     public function testItThrowsABadJsonRequestExceptionWhenUnknownPropertiesAreSent(): void

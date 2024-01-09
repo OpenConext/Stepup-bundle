@@ -20,7 +20,9 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Tests\Request;
 
-class Foo
+use Surfnet\StepupBundle\Request\JsonConvertible;
+
+class Foo implements JsonConvertible
 {
     public $bar;
     public $camelCased;

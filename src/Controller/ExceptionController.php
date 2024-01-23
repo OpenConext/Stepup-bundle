@@ -49,9 +49,9 @@ use Throwable;
 class ExceptionController extends FrameworkController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator,
+        protected readonly TranslatorInterface $translator,
         // Service: surfnet_stepup.request.request_id
-        private RequestId $requestId
+        protected RequestId $requestId
     ) {
     }
 

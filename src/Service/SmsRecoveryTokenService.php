@@ -27,13 +27,10 @@ use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Service\SmsSecondFactor\OtpVerification;
 use Surfnet\StepupBundle\Service\SmsSecondFactor\SmsVerificationStateHandler;
 
-class SmsRecoveryTokenService
+class SmsRecoveryTokenService implements SmsRecoveryTokenServiceInterface
 {
     private string $originator;
 
-    /**
-     * @param string                      $originator
-     */
     public function __construct(
         private readonly SmsService $smsService,
         private readonly SmsVerificationStateHandler $smsVerificationStateHandler,

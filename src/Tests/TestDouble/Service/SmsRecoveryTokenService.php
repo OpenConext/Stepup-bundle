@@ -21,6 +21,8 @@ declare(strict_types = 1);
 namespace Surfnet\StepupBundle\Tests\TestDouble\Service;
 
 use Surfnet\StepupBundle\Command\SendRecoveryTokenSmsChallengeCommand;
+use Surfnet\StepupBundle\Command\SendSmsChallengeCommandInterface;
+use Surfnet\StepupBundle\Command\VerifyPossessionOfPhoneCommandInterface;
 use Surfnet\StepupBundle\Command\VerifyPossessionOfPhoneForRecoveryTokenCommand;
 use Surfnet\StepupBundle\Service\SmsRecoveryTokenServiceInterface;
 use Surfnet\StepupBundle\Service\SmsSecondFactor\OtpVerification;
@@ -47,12 +49,12 @@ class SmsRecoveryTokenService implements SmsRecoveryTokenServiceInterface
         // NOOP
     }
 
-    public function sendChallenge(SendRecoveryTokenSmsChallengeCommand $command): bool
+    public function sendChallenge(SendSmsChallengeCommandInterface $command): bool
     {
         return true;
     }
 
-    public function verifyPossession(VerifyPossessionOfPhoneForRecoveryTokenCommand $command): OtpVerification
+    public function verifyPossession(VerifyPossessionOfPhoneCommandInterface $command): OtpVerification
     {
         return OtpVerification::foundMatch('+31 (0) 612345678');
     }

@@ -3,7 +3,7 @@
 declare(strict_types = 1);
 
 /**
- * Copyright 2014 SURFnet bv
+ * Copyright 2024 SURFnet bv
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,21 +20,6 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Command;
 
-use Symfony\Component\Validator\Constraints as Assert;
-
-class VerifyPossessionOfPhoneCommand implements VerifyPossessionOfPhoneCommandInterface
+interface SendSmsChallengeCommandInterface
 {
-    /**
-     * @Assert\NotBlank(message="stepup.verify_possession_of_phone_command.challenge.may_not_be_empty")
-     * @Assert\Type(type="string", message="stepup.verify_possession_of_phone_command.challenge.must_be_string")
-     *
-     * @var string
-     */
-    public $challenge;
-
-    /**
-     * @Assert\Type(type="string", message="stepup.verify_possession_of_phone_command.second_factor_id.must_be_string")
-     * @var string
-     */
-    public $secondFactorId;
 }

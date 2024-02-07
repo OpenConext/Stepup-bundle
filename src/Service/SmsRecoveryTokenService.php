@@ -21,7 +21,9 @@ declare(strict_types = 1);
 namespace Surfnet\StepupBundle\Service;
 
 use Surfnet\StepupBundle\Command\SendRecoveryTokenSmsChallengeCommand;
+use Surfnet\StepupBundle\Command\SendSmsChallengeCommandInterface;
 use Surfnet\StepupBundle\Command\SendSmsCommand;
+use Surfnet\StepupBundle\Command\VerifyPossessionOfPhoneCommandInterface;
 use Surfnet\StepupBundle\Command\VerifyPossessionOfPhoneForRecoveryTokenCommand;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Service\SmsSecondFactor\OtpVerification;
@@ -68,7 +70,7 @@ class SmsRecoveryTokenService implements SmsRecoveryTokenServiceInterface
         $this->smsVerificationStateHandler->clearState($recoveryTokenId);
     }
 
-    public function sendChallenge(SendRecoveryTokenSmsChallengeCommand $command): bool
+    public function sendChallenge(SendSmsChallengeCommandInterface $command): bool
     {
         $challenge = $this->smsVerificationStateHandler->requestNewOtp(
             (string) $command->phoneNumber,
@@ -86,7 +88,7 @@ class SmsRecoveryTokenService implements SmsRecoveryTokenServiceInterface
         return $this->smsService->sendSms($smsCommand);
     }
 
-    public function verifyPossession(VerifyPossessionOfPhoneForRecoveryTokenCommand $command): OtpVerification
+    public function verifyPossession(VerifyPossessionOfPhoneCommandInterface $command): OtpVerification
     {
         return $this->smsVerificationStateHandler->verify($command->challenge, $command->recoveryTokenId);
     }

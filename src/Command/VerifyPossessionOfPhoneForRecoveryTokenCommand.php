@@ -22,7 +22,7 @@ namespace Surfnet\StepupBundle\Command;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class VerifyPossessionOfPhoneForRecoveryTokenCommand
+class VerifyPossessionOfPhoneForRecoveryTokenCommand implements VerifyPossessionOfPhoneCommandInterface
 {
     /**
      * @Assert\NotBlank(message="stepup.verify_possession_of_phone_command.challenge.may_not_be_empty")

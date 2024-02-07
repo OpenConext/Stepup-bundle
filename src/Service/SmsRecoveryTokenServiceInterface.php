@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace Surfnet\StepupBundle\Service;
 
-use Surfnet\StepupBundle\Command\SendRecoveryTokenSmsChallengeCommand;
-use Surfnet\StepupBundle\Command\VerifyPossessionOfPhoneForRecoveryTokenCommand;
+use Surfnet\StepupBundle\Command\SendSmsChallengeCommandInterface;
+use Surfnet\StepupBundle\Command\VerifyPossessionOfPhoneCommandInterface;
 use Surfnet\StepupBundle\Service\SmsSecondFactor\OtpVerification;
 
 interface SmsRecoveryTokenServiceInterface
@@ -34,7 +34,7 @@ interface SmsRecoveryTokenServiceInterface
 
     public function clearSmsVerificationState(string $recoveryTokenId): void;
 
-    public function sendChallenge(SendRecoveryTokenSmsChallengeCommand $command): bool;
+    public function sendChallenge(SendSmsChallengeCommandInterface $command): bool;
 
-    public function verifyPossession(VerifyPossessionOfPhoneForRecoveryTokenCommand $command): OtpVerification;
+    public function verifyPossession(VerifyPossessionOfPhoneCommandInterface $command): OtpVerification;
 }

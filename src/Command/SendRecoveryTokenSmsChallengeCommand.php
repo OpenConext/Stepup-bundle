@@ -22,7 +22,7 @@ namespace Surfnet\StepupBundle\Command;
 
 use Surfnet\StepupBundle\Value\PhoneNumber\InternationalPhoneNumber;
 
-class SendRecoveryTokenSmsChallengeCommand
+class SendRecoveryTokenSmsChallengeCommand implements SendSmsChallengeCommandInterface
 {
     /**
      * @var InternationalPhoneNumber

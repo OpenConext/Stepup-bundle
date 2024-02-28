@@ -23,6 +23,7 @@ namespace Surfnet\StepupBundle\Twig;
 use Surfnet\StepupBundle\Command\SwitchLocaleCommand;
 use Surfnet\StepupBundle\Form\Type\SwitchLocaleType;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormView;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -32,14 +33,14 @@ final class LocaleExtension extends AbstractExtension
     {
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('stepup_locale_switcher', $this->getLocalePreferenceForm(...)),
         ];
     }
 
-    public function getLocalePreferenceForm($currentLocale, $route, array $routeParameters = [])
+    public function getLocalePreferenceForm($currentLocale, $route, array $routeParameters = []): FormView
     {
         $command = new SwitchLocaleCommand();
         $command->locale = $currentLocale;

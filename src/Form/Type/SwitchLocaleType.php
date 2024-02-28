@@ -67,7 +67,7 @@ final class SwitchLocaleType extends AbstractType
         $resolver->setAllowedTypes('route_parameters', 'array');
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'stepup_switch_locale';
     }

@@ -31,7 +31,7 @@ class Configuration implements ConfigurationInterface
 {
     final public const DEFAULT_SMS_SERVICE = 'surfnet_stepup.service.gateway_api_sms';
 
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('surfnet_bundle');
 

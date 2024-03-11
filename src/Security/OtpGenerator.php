@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -18,6 +20,7 @@
 
 namespace Surfnet\StepupBundle\Security;
 
+use Exception;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Security\Exception\OtpGenerationRuntimeException;
 
@@ -30,22 +33,21 @@ final class OtpGenerator
      * The characters used in the OTP. Must be a power of two characters long to ensure all characters have equal chance
      * of being included.
      */
-    const CHARACTER_SET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    public const CHARACTER_SET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
     /**
      * The 32 possible characters in the Base32 alphabet can be represented in exactly 5 bits
      */
-    const BITS_PER_CHARACTER = 5;
+    public const BITS_PER_CHARACTER = 5;
 
     /**
      * Securely generate an arbitrary length OTP containing only characters from the OtpGenerator::CHARACTER_SET constant.
      * Based on https://gist.github.com/pmeulen/3dff8bab3227ed340dd1
      *
      * @param int $length The length of the OTP to generate
-     * @return string
      * @throws OtpGenerationRuntimeException
      */
-    public static function generate($length)
+    public static function generate($length): string
     {
         if (!is_int($length)) {
             throw InvalidArgumentException::invalidType('int', 'length', $length);
@@ -58,14 +60,13 @@ final class OtpGenerator
         $bitsPerValue = self::BITS_PER_CHARACTER;
         $randomBytesRequired = (int) ceil($length * $bitsPerValue / 8);
         $cryptoStrong = false;
-        $randomBytes = openssl_random_pseudo_bytes($randomBytesRequired, $cryptoStrong); // Generate random bytes
-
+        try {
+            $randomBytes = openssl_random_pseudo_bytes($randomBytesRequired, $cryptoStrong); // Generate random bytes
+        } catch (Exception $e) {
+            throw new OtpGenerationRuntimeException('openssl_random_pseudo_bytes() failed', 0, $e);
+        }
         if ($cryptoStrong === false) {
             throw new OtpGenerationRuntimeException('openssl_random_pseudo_bytes() is not cryptographically strong');
-        }
-
-        if ($randomBytes === false) {
-            throw new OtpGenerationRuntimeException('openssl_random_pseudo_bytes() failed');
         }
 
         // Transform each byte $random_bytes into $random_bits where each byte

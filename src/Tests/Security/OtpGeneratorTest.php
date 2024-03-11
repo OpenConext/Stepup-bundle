@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -18,7 +20,8 @@
 
 namespace Surfnet\StepupBundle\Security;
 
-use PHPUnit\Framework\TestCase ;
+use PHPUnit\Framework\TestCase;
+use stdClass;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
 final class OtpGeneratorTest extends TestCase
@@ -27,7 +30,7 @@ final class OtpGeneratorTest extends TestCase
      * @test
      * @group security
      */
-    public function it_generates_eight_character_otp_strings()
+    public function it_generates_eight_character_otp_strings(): void
     {
         $otp = OtpGenerator::generate(8);
 
@@ -35,14 +38,14 @@ final class OtpGeneratorTest extends TestCase
         $this->assertSame(8, strlen($otp), 'OTP is not eight characters long');
     }
 
-    public function nonPositiveIntegers()
+    public function nonPositiveIntegers(): array
     {
         return [
             'null' => [null],
             'false' => [false],
             'true' => [true],
             'string' => ['8'],
-            'object' => [new \stdClass()],
+            'object' => [new stdClass()],
             'array' => [['foo', 'bar']],
             'negative integer' => [-1],
             'zero' => [0],
@@ -53,10 +56,8 @@ final class OtpGeneratorTest extends TestCase
      * @test
      * @group security
      * @dataProvider nonPositiveIntegers
-     *
-     * @param mixed $length
      */
-    public function it_cannot_generate_otp_strings_of_negative_or_non_integer_length($length)
+    public function it_cannot_generate_otp_strings_of_negative_or_non_integer_length(mixed $length): void
     {
         $this->expectException(InvalidArgumentException::class);
 

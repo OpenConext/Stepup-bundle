@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -22,8 +24,8 @@ use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
 class YubikeyOtp
 {
-    const OTP_REGEXP_QWERTY = '/^((.*):)?(([cbdefghijklnrtuv]{0,16})([cbdefghijklnrtuv]{32}))$/i';
-    const OTP_REGEXP_DVORAK = '/^((.*):)?(([jxe\.uidchtnbpygk]{0,16})([jxe\.uidchtnbpygk]{32}))$/i';
+    final public const OTP_REGEXP_QWERTY = '/^((.*):)?(([cbdefghijklnrtuv]{0,16})([cbdefghijklnrtuv]{32}))$/i';
+    final public const OTP_REGEXP_DVORAK = '/^((.*):)?(([jxe\.uidchtnbpygk]{0,16})([jxe\.uidchtnbpygk]{32}))$/i';
 
     /** @var string */
     public $otp;
@@ -39,10 +41,9 @@ class YubikeyOtp
 
     /**
      * @param string $string
-     * @return YubikeyOtp
      * @throws InvalidArgumentException Thrown when the given string is not an OTP.
      */
-    public static function fromString($string)
+    public static function fromString($string): self
     {
         $otp = new self;
 
@@ -70,9 +71,8 @@ class YubikeyOtp
 
     /**
      * @param string $string
-     * @return bool
      */
-    public static function isValid($string)
+    public static function isValid($string): bool
     {
         $matches = [];
         return preg_match(self::OTP_REGEXP_QWERTY, $string, $matches)

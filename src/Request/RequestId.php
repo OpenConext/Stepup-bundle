@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -27,21 +29,12 @@ use LogicException;
 class RequestId
 {
     /**
-     * @var RequestIdGenerator
-     */
-    private $generator;
-
-    /**
      * @var string|null
      */
     private $requestId;
 
-    /**
-     * @param RequestIdGenerator $generator
-     */
-    public function __construct(RequestIdGenerator $generator)
+    public function __construct(private readonly RequestIdGenerator $generator)
     {
-        $this->generator = $generator;
     }
 
     /**
@@ -69,7 +62,7 @@ class RequestId
      * @param string $requestId
      * @param bool   $allowOverwrite
      */
-    public function set($requestId, $allowOverwrite = false)
+    public function set($requestId, $allowOverwrite = false): void
     {
         if ($this->requestId !== null && !$allowOverwrite) {
             throw new LogicException('May not overwrite request ID.');

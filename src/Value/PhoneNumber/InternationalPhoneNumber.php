@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -18,32 +20,20 @@
 
 namespace Surfnet\StepupBundle\Value\PhoneNumber;
 
+use Stringable;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\Exception\InvalidPhoneNumberFormatException;
 
-class InternationalPhoneNumber
+class InternationalPhoneNumber implements Stringable
 {
-    /**
-     * @var CountryCode
-     */
-    private $countryCode;
-
-    /**
-     * @var PhoneNumber
-     */
-    private $phoneNumber;
-
-    public function __construct(CountryCode $countryCode, PhoneNumber $number)
+    public function __construct(private readonly CountryCode $countryCode, private readonly PhoneNumber $phoneNumber)
     {
-        $this->countryCode = $countryCode;
-        $this->phoneNumber = $number;
     }
 
     /**
      * @param string $string a well formatted "+{CountryCode} (0) {PhoneNumber}" international phone number
-     * @return InternationalPhoneNumber
      */
-    public static function fromStringFormat($string)
+    public static function fromStringFormat($string): self
     {
         if (!is_string($string)) {
             throw InvalidArgumentException::invalidType('string', 'string', $string);
@@ -67,24 +57,19 @@ class InternationalPhoneNumber
      * @see http://en.wikipedia.org/wiki/MSISDN#MSISDN_Format
      * @see https://www.messagebird.com/developers#messaging-send
      *
-     * @return string
      */
-    public function toMSISDN()
+    public function toMSISDN(): string
     {
         return $this->countryCode->getCountryCode() . $this->phoneNumber->formatAsMsisdnPart();
     }
 
-    /**
-     * @param InternationalPhoneNumber $other
-     * @return bool
-     */
-    public function equals(InternationalPhoneNumber $other)
+    public function equals(InternationalPhoneNumber $other): bool
     {
         return $this->countryCode->equals($other->countryCode)
                 && $this->phoneNumber->equals($other->phoneNumber);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->countryCode . ' ' . $this->phoneNumber;
     }

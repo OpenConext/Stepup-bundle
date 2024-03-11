@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -19,14 +21,12 @@
 namespace Surfnet\StepupBundle\Value;
 
 use JsonSerializable;
+use Stringable;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
-final class SecondFactorType implements JsonSerializable
+final class SecondFactorType implements JsonSerializable, Stringable
 {
-    /**
-     * @var string
-     */
-    private $type;
+    private readonly string $type;
 
     /**
      * @param string $type
@@ -39,57 +39,40 @@ final class SecondFactorType implements JsonSerializable
         $this->type = $type;
     }
 
-    /**
-     * @param self $other
-     * @return bool
-     */
-    public function equals(self $other)
+    public function equals(self $other): bool
     {
         return $this->type === $other->type;
     }
 
-    /**
-     * @return bool
-     */
-    public function isSms()
+    public function isSms(): bool
     {
         return $this->type === 'sms';
     }
 
-    /**
-     * @return bool
-     */
-    public function isYubikey()
+    public function isYubikey(): bool
     {
         return $this->type === 'yubikey';
     }
 
     /**
-     * @return bool
      * @deprecated u2f support is removed from StepUp in favour of the WebAuthn GSSP
      */
-    public function isU2f()
+    public function isU2f(): bool
     {
         return $this->type === 'u2f';
     }
 
-    /**
-     * @return string
-     */
-    public function getSecondFactorType()
+    public function getSecondFactorType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->type;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->type;
     }

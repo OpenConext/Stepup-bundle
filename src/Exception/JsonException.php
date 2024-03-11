@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2017 SURFnet B.V.
  *
@@ -20,7 +22,7 @@ namespace Surfnet\StepupBundle\Exception;
 
 final class JsonException extends RuntimeException
 {
-    public static function withMessage($errorMessage)
+    public static function withMessage($errorMessage): self
     {
         return new self(sprintf('Unable to parse JSON data: %s', $errorMessage));
     }

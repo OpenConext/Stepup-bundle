@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -18,32 +20,24 @@
 
 namespace Surfnet\StepupBundle\Monolog\Processor;
 
+use Monolog\LogRecord;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ServerNameProcessor
 {
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
-
-    /**
-     * @param RequestStack $requestStack
-     */
-    public function __construct(RequestStack $requestStack)
+    public function __construct(private readonly RequestStack $requestStack)
     {
-        $this->requestStack = $requestStack;
     }
 
     /**
-     * @param array $record
      * @return array
      */
-    public function __invoke(array $record)
+    public function __invoke(LogRecord $record): LogRecord
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        if ($request === null) {
+        if (!$request instanceof Request) {
             return $record;
         }
 
@@ -53,7 +47,7 @@ class ServerNameProcessor
             return $record;
         }
 
-        $record['extra']['server'] = $serverName;
+        $record->extra['server'] = $serverName;
 
         return $record;
     }

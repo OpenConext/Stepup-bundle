@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2022 SURFnet bv
  *
@@ -27,17 +29,17 @@ final class VettingType
     public const TYPE_SELF_ASSERTED_REGISTRATION = 'self-asserted-registration';
     public const TYPE_UNKNOWN = 'unknown';
 
-    private static $allowedTypes = [
+    /**
+     * @var string[]
+     */
+    private static array $allowedTypes = [
         self::TYPE_ON_PREMISE,
         self::TYPE_SELF_ASSERTED_REGISTRATION,
         self::TYPE_SELF_VET,
         self::TYPE_UNKNOWN
     ];
 
-    /**
-     * @var string
-     */
-    private $type;
+    private readonly string $type;
 
     public function __construct(string $type)
     {

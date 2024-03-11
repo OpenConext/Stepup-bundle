@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -18,13 +20,13 @@
 
 namespace Surfnet\StepupBundle\Tests\Value;
 
-use PHPUnit\Framework\TestCase ;
+use PHPUnit\Framework\TestCase;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\SecondFactorType;
 
 final class SecondFactorTypeTest extends TestCase
 {
-    public function validTypes()
+    public function validTypes(): array
     {
         return [
             'sms' => ['sms'],
@@ -38,10 +40,8 @@ final class SecondFactorTypeTest extends TestCase
      * @test
      * @group value
      * @dataProvider validTypes
-     *
-     * @param string $type
      */
-    public function it_can_be_constructed($type)
+    public function it_can_be_constructed(string $type): void
     {
         $secondFactorType = new SecondFactorType($type);
 
@@ -52,7 +52,7 @@ final class SecondFactorTypeTest extends TestCase
      * @test
      * @group value
      */
-    public function it_doesnt_accept_integers()
+    public function it_doesnt_accept_integers(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -62,7 +62,7 @@ final class SecondFactorTypeTest extends TestCase
     /**
      * @test
      */
-    public function its_equality_is_determined_by_its_type()
+    public function its_equality_is_determined_by_its_type(): void
     {
         $this->assertTrue((new SecondFactorType('sms'))->equals(new SecondFactorType('sms')));
     }
@@ -70,7 +70,7 @@ final class SecondFactorTypeTest extends TestCase
     /**
      * @test
      */
-    public function its_type_can_be_verified()
+    public function its_type_can_be_verified(): void
     {
         $this->assertTrue((new SecondFactorType('sms'))->isSms());
         $this->assertTrue((new SecondFactorType('yubikey'))->isYubikey());

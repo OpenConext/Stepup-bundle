@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -25,15 +27,15 @@ use Surfnet\StepupBundle\Value\Loa;
 class LoaResolutionServiceTest extends UnitTest
 {
     /**
-     * @var \Surfnet\StepupBundle\Value\Loa[]
+     * @var Loa[]
      */
-    private $loas;
+    private ?array $loas = null;
 
     public function setUp(): void
     {
         $providedLoas = $this->loaProvider();
         foreach ($providedLoas as $definition) {
-            list($level, $identifier) = $definition;
+            [$level, $identifier] = $definition;
             $this->loas[] = new Loa($level, $identifier);
         }
     }
@@ -42,11 +44,8 @@ class LoaResolutionServiceTest extends UnitTest
      * @test
      * @group service
      * @dataProvider loaProvider
-     *
-     * @param int    $level
-     * @param string $identifier
      */
-    public function it_allows_to_get_the_correct_loa_by_identifier($level, $identifier)
+    public function it_allows_to_get_the_correct_loa_by_identifier(float $level, string $identifier): void
     {
         $expectedLoa = new Loa($level, $identifier);
         $loaResolutionService = new LoaResolutionService($this->loas);
@@ -58,7 +57,7 @@ class LoaResolutionServiceTest extends UnitTest
      * @test
      * @group service
      */
-    public function if_the_loa_definition_does_not_exist_null_is_returned()
+    public function if_the_loa_definition_does_not_exist_null_is_returned(): void
     {
         $loaResolutionService = new LoaResolutionService($this->loas);
 
@@ -69,11 +68,8 @@ class LoaResolutionServiceTest extends UnitTest
      * @test
      * @group service
      * @dataProvider loaProvider
-     *
-     * @param int    $level
-     * @param string $identifier
      */
-    public function it_allows_to_get_the_correct_loa_by_the_loa_level($level, $identifier)
+    public function it_allows_to_get_the_correct_loa_by_the_loa_level(float $level, string $identifier): void
     {
         $expectedLoa = new Loa($level, $identifier);
         $loaResoltionService = new LoaResolutionService($this->loas);
@@ -85,14 +81,14 @@ class LoaResolutionServiceTest extends UnitTest
      * @test
      * @group service
      */
-    public function if_the_loa_level_does_not_exist_null_is_returned()
+    public function if_the_loa_level_does_not_exist_null_is_returned(): void
     {
         $loaResolutionService = new LoaResolutionService($this->loas);
 
         $this->assertNull($loaResolutionService->getLoaByLevel(999));
     }
 
-    public function loaProvider()
+    public function loaProvider(): array
     {
         return [
             'Loa of Level 1' => [Loa::LOA_1, 'http://some.url.tld/authentication/loa1'],

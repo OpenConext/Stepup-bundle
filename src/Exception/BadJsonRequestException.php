@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -18,6 +20,8 @@
 
 namespace Surfnet\StepupBundle\Exception;
 
+use Exception;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 /**
@@ -26,23 +30,16 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 class BadJsonRequestException extends \RuntimeException
 {
     /**
-     * @var string[]
-     */
-    private $errors;
-
-    /**
-     * @param ConstraintViolationListInterface $violations
      * @param string $violationsRoot The name of the object that was validated.
      * @param string[] $errors
      * @param string $message
-     * @return self
      */
     public static function createForViolationsAndErrors(
         ConstraintViolationListInterface $violations,
         $violationsRoot,
         array $errors,
         $message = 'JSON could not be reconstituted into valid object.'
-    ) {
+    ): self {
         $allErrors = array_merge(self::mapViolationsToErrorStrings($violations, $violationsRoot), $errors);
 
         return new self($allErrors, $message);
@@ -52,33 +49,29 @@ class BadJsonRequestException extends \RuntimeException
      * @param string[] $errors
      * @param string $message
      * @param int $code
-     * @param \Exception|null $previous
+     * @param Exception|null $previous
      */
     public function __construct(
-        array $errors,
+        private readonly array $errors,
         $message = 'JSON could not be reconstituted into valid object.',
         $code = 0,
-        \Exception $previous = null
+        Exception $previous = null
     ) {
         parent::__construct($message, $code, $previous);
-
-        $this->errors = $errors;
     }
 
     /**
      * @return string[]
      */
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->errors;
     }
 
     /**
-     * @param ConstraintViolationListInterface $violations
      * @param string $root
-     * @return array
      */
-    private static function mapViolationsToErrorStrings(ConstraintViolationListInterface $violations, $root)
+    private static function mapViolationsToErrorStrings(ConstraintViolationListInterface $violations, $root): array
     {
         $errors = [];
 

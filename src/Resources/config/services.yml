@@ -1,20 +1,20 @@
 services:
     # Remove the public: true default once DI is implemented throughout the StepUp applications. See Pivotal #138225085
     _defaults:
-        public: true
+        public: false
+        autowire: true
+        autoconfigure: true
 
     logger:
         alias: 'monolog.logger'
         public: true
 
-    surfnet_stepup.json_convertible_param_converter:
-        class: Surfnet\StepupBundle\Request\JsonConvertibleParamConverter
+    Surfnet\StepupBundle\Request\JsonConvertibleResolver:
+        class: Surfnet\StepupBundle\Request\JsonConvertibleResolver
         arguments:
             - "@validator"
         tags:
-            - { name: request.param_converter, priority: -1, converter: surfnet_stepup.json_convertible }
-    Surfnet\StepupBundle\Request\JsonConvertibleParamConverter:
-        alias: surfnet_stepup.json_convertible_param_converter
+            - { name: controller.argument_value_resolver, priority: -1, converter: surfnet_stepup.json_convertible }
 
     surfnet_stepup.listener.bad_json_request_exception_listener:
         class: Surfnet\StepupBundle\EventListener\BadJsonRequestExceptionListener
@@ -116,7 +116,7 @@ services:
         public: false
         class: Surfnet\StepupBundle\Service\SmsSecondFactor\SessionSmsVerificationStateHandler
         arguments:
-            - "@session"
+            - "@request_stack"
             - "Surfnet/Stepup/SecondFactor/Sms:challenge"
             - {} # OTP expiry interval
             - 0  # Maximum OTP requests
@@ -146,7 +146,7 @@ services:
         class: Surfnet\StepupBundle\Form\ChoiceList\LocaleChoiceList
         arguments:
             - [] # See Extension
-            - "@request_stack"
+
     Surfnet\StepupBundle\Form\ChoiceList\LocaleChoiceList:
         alias: surfnet_stepup.form.choice_list.locales
 
@@ -168,16 +168,6 @@ services:
         class: Surfnet\StepupBundle\EventListener\CacheControlHeaderResponseListener
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
-
-    surfnet_stepup.listener.exception:
-        class: Surfnet\StepupBundle\EventListener\ExceptionListener
-        arguments:
-            - '%twig.exception_listener.controller%'
-            - '@logger'
-        tags:
-            # It is very important this listener has a priority higher than the default exception listener,
-            # and ideally lower than the profiler listener (so exceptions show up in the toolbar).
-            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: -128 }
 
     surfnet_stepup.locale_cookie_helper:
         class: Surfnet\StepupBundle\Http\CookieHelper

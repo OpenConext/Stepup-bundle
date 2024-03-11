@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -22,7 +24,7 @@ use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
 class UnknownCountryCodeException extends InvalidArgumentException
 {
-    public static function unknownCountryCode($code)
+    public static function unknownCountryCode($code): self
     {
         return new self(sprintf('Unknown CountryCode "%s"', $code));
     }

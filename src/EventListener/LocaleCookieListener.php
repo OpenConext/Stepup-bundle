@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -21,42 +23,21 @@ namespace Surfnet\StepupBundle\EventListener;
 use Psr\Log\LoggerInterface;
 use Surfnet\StepupBundle\Http\CookieHelper;
 use Surfnet\StepupBundle\Service\LocaleProviderService;
-use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 final class LocaleCookieListener
 {
-    /**
-     * @var Cookie
-     */
-    private $cookieHelper;
-
-    /**
-     * @var LocaleProviderService
-     */
-    private $localeProvider;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
     public function __construct(
-        CookieHelper $cookieHelper,
-        LocaleProviderService $localeProvider,
-        LoggerInterface $logger
+        private CookieHelper $cookieHelper,
+        private LocaleProviderService $localeProvider,
+        private LoggerInterface $logger
     ) {
-        $this->cookieHelper = $cookieHelper;
-        $this->localeProvider = $localeProvider;
-        $this->logger = $logger;
     }
 
     /**
      * If there is a logged in user with a preferred language, set it as a cookie.
-     *
-     * @param FilterResponseEvent $event
      */
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $event): void
     {
         $locale = $this->localeProvider->determinePreferredLocale();
 

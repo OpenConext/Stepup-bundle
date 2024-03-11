@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -24,9 +26,9 @@ use Surfnet\StepupBundle\Value\Loa;
 class LoaResolutionService
 {
     /**
-     * @var \Surfnet\StepupBundle\Value\Loa[]
+     * @var Loa[]
      */
-    private $loas = [];
+    private array $loas = [];
 
     public function __construct(array $loaDefinitions)
     {
@@ -37,9 +39,8 @@ class LoaResolutionService
 
     /**
      * @param string $loaIdentifier
-     * @return bool
      */
-    public function hasLoa($loaIdentifier)
+    public function hasLoa($loaIdentifier): bool
     {
         foreach ($this->loas as $loa) {
             if ($loa->isIdentifiedBy($loaIdentifier)) {
@@ -80,10 +81,7 @@ class LoaResolutionService
         return null;
     }
 
-    /**
-     * @param Loa $loa
-     */
-    private function addLoaDefinition(Loa $loa)
+    private function addLoaDefinition(Loa $loa): void
     {
         foreach ($this->loas as $existingLoa) {
             if ($existingLoa->equals($loa)) {

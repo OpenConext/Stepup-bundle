@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -18,58 +20,38 @@
 
 namespace Surfnet\StepupBundle\Value\PhoneNumber;
 
-final class Country
+use Stringable;
+use Surfnet\StepupBundle\Exception\InvalidArgumentException;
+
+final class Country implements Stringable
 {
-    /**
-     * @var CountryCode
-     */
-    private $countryCode;
+    public string $name;
+    private readonly string $countryName;
 
     /**
-     * @var string
-     */
-    private $countryName;
-
-    /**
-     * @param CountryCode $countryCode
      * @param string $countryName
      */
-    public function __construct(CountryCode $countryCode, $countryName)
+    public function __construct(private readonly CountryCode $countryCode, string $countryName)
     {
-        if (!is_string($countryName)) {
-            throw InvalidArgumentException::invalidType('string', 'countryName', $countryName);
-        }
-
-        $this->countryCode = $countryCode;
         $this->countryName = $countryName;
     }
 
-    /**
-     * @return CountryCode
-     */
-    public function getCountryCode()
+    public function getCountryCode(): CountryCode
     {
         return $this->countryCode;
     }
 
-    /**
-     * @return string
-     */
-    public function getCountryName()
+    public function getCountryName(): string
     {
         return $this->countryName;
     }
 
-    /**
-     * @param self $other
-     * @return bool
-     */
-    public function equals(self $other)
+    public function equals(self $other): bool
     {
         return $this->countryName === $other->name && $this->countryCode->equals($other->countryCode);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf('%s (%s)', $this->countryName, $this->countryCode);
     }

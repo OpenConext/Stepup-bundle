@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2018 SURFnet bv
  *
@@ -25,7 +27,7 @@ use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
 class RegistrationExpirationHelperTest extends UnitTest
 {
-    public function test_expires_at_is_fourteen_days_in_future()
+    public function test_expires_at_is_fourteen_days_in_future(): void
     {
         $requestedAt = new DateTime('2000-01-01');
 
@@ -42,7 +44,7 @@ class RegistrationExpirationHelperTest extends UnitTest
         );
     }
 
-    public function test_expires_at_is_configurable()
+    public function test_expires_at_is_configurable(): void
     {
         $requestedAt = new DateTime('2000-01-01');
 
@@ -59,7 +61,7 @@ class RegistrationExpirationHelperTest extends UnitTest
         );
     }
 
-    public function test_has_expired()
+    public function test_has_expired(): void
     {
         $requestedAt = new DateTime('2000-01-01');
         $now = new DateTime('2018-04-12');
@@ -69,7 +71,7 @@ class RegistrationExpirationHelperTest extends UnitTest
         $this->assertTrue($helper->hasExpired($requestedAt));
     }
 
-    public function test_has_not_expired()
+    public function test_has_not_expired(): void
     {
         $requestedAt = new DateTime('2000-01-01 00:00:00');
         $now = new DateTime('2000-01-14 23:59:59');
@@ -79,7 +81,7 @@ class RegistrationExpirationHelperTest extends UnitTest
         $this->assertFalse($helper->hasExpired($requestedAt));
     }
 
-    public function test_invalid_interval_is_rejected()
+    public function test_invalid_interval_is_rejected(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The provided DateInterval interval specification ("D41P") is invalid');
@@ -87,7 +89,7 @@ class RegistrationExpirationHelperTest extends UnitTest
         $this->buildHelper(null, 'D41P');
     }
 
-    private function buildHelper(DateTime $date = null, $window = 'P14D')
+    private function buildHelper(DateTime $date = null, string $window = 'P14D'): RegistrationExpirationHelper
     {
         return new RegistrationExpirationHelper($date, $window);
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2022 SURFnet bv
  *
@@ -19,39 +21,21 @@
 namespace Surfnet\StepupBundle\Service;
 
 use Surfnet\StepupBundle\Command\SendRecoveryTokenSmsChallengeCommand;
-use Surfnet\StepupBundle\Command\SendSmsChallengeCommand;
+use Surfnet\StepupBundle\Command\SendSmsChallengeCommandInterface;
 use Surfnet\StepupBundle\Command\SendSmsCommand;
-use Surfnet\StepupBundle\Command\VerifyPossessionOfPhoneCommand;
+use Surfnet\StepupBundle\Command\VerifyPossessionOfPhoneCommandInterface;
 use Surfnet\StepupBundle\Command\VerifyPossessionOfPhoneForRecoveryTokenCommand;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Service\SmsSecondFactor\OtpVerification;
 use Surfnet\StepupBundle\Service\SmsSecondFactor\SmsVerificationStateHandler;
 
-class SmsRecoveryTokenService
+class SmsRecoveryTokenService implements SmsRecoveryTokenServiceInterface
 {
-    /**
-     * @var \Surfnet\StepupBundle\Service\SmsService
-     */
-    private $smsService;
+    private string $originator;
 
-    /**
-     * @var \Surfnet\StepupBundle\Service\SmsSecondFactor\SmsVerificationStateHandler
-     */
-    private $smsVerificationStateHandler;
-
-    /**
-     * @var string
-     */
-    private $originator;
-
-    /**
-     * @param SmsService                  $smsService
-     * @param SmsVerificationStateHandler $smsVerificationStateHandler
-     * @param string                      $originator
-     */
     public function __construct(
-        SmsService $smsService,
-        SmsVerificationStateHandler $smsVerificationStateHandler,
+        private readonly SmsService $smsService,
+        private readonly SmsVerificationStateHandler $smsVerificationStateHandler,
         $originator
     ) {
         if (!is_string($originator)) {
@@ -63,9 +47,6 @@ class SmsRecoveryTokenService
                 'Invalid SMS originator given: may only contain alphanumerical characters.'
             );
         }
-
-        $this->smsService = $smsService;
-        $this->smsVerificationStateHandler = $smsVerificationStateHandler;
         $this->originator = $originator;
     }
 
@@ -84,16 +65,17 @@ class SmsRecoveryTokenService
         return $this->smsVerificationStateHandler->hasState($recoveryTokenId);
     }
 
-    public function clearSmsVerificationState(string $recoveryTokenId)
+    public function clearSmsVerificationState(string $recoveryTokenId): void
     {
         $this->smsVerificationStateHandler->clearState($recoveryTokenId);
     }
 
-    public function sendChallenge(SendRecoveryTokenSmsChallengeCommand $command): bool
+    public function sendChallenge(SendSmsChallengeCommandInterface $command): bool
     {
         $challenge = $this->smsVerificationStateHandler->requestNewOtp(
             (string) $command->phoneNumber,
-            $command->recoveryTokenId)
+            $command->recoveryTokenId
+        )
         ;
 
         $smsCommand = new SendSmsCommand();
@@ -106,7 +88,7 @@ class SmsRecoveryTokenService
         return $this->smsService->sendSms($smsCommand);
     }
 
-    public function verifyPossession(VerifyPossessionOfPhoneForRecoveryTokenCommand $command): OtpVerification
+    public function verifyPossession(VerifyPossessionOfPhoneCommandInterface $command): OtpVerification
     {
         return $this->smsVerificationStateHandler->verify($command->challenge, $command->recoveryTokenId);
     }

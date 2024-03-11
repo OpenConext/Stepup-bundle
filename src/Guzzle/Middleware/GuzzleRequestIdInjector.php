@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2017 SURFnet B.V.
  *
@@ -27,17 +29,8 @@ use Surfnet\StepupBundle\Request\RequestId;
  */
 class GuzzleRequestIdInjector
 {
-    /**
-     * @var RequestId
-     */
-    private $requestId;
-
-    /**
-     * @param RequestId $requestId
-     */
-    public function __construct(RequestId $requestId)
+    public function __construct(private readonly RequestId $requestId)
     {
-        $this->requestId = $requestId;
     }
 
     public function __invoke(callable $handler)

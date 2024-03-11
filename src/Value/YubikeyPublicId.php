@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -18,16 +20,14 @@
 
 namespace Surfnet\StepupBundle\Value;
 
+use Stringable;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
-final class YubikeyPublicId
+final class YubikeyPublicId implements Stringable
 {
-    /**
-     * @var string
-     */
-    private $value;
+    private readonly string $value;
 
-    public static function fromOtp(YubikeyOtp $otp)
+    public static function fromOtp(YubikeyOtp $otp): self
     {
         $hexadecimalId = strtr($otp->publicId, 'cbdefghijklnrtuv', '0123456789abcdef');
         $gmpId = gmp_init($hexadecimalId, 16);
@@ -35,12 +35,8 @@ final class YubikeyPublicId
         return new self(sprintf('%08s', gmp_strval($gmpId, 10)));
     }
 
-    public function __construct($value)
+    public function __construct(string $value)
     {
-        if (!is_string($value)) {
-            throw InvalidArgumentException::invalidType('string', 'value', $value);
-        }
-
         // Numeric IDs must be left-padded with zeroes until eight characters. Longer IDs may not be padded.
         if (!preg_match('~^\d+$~', $value)) {
             throw new InvalidArgumentException('Given Yubikey public ID is not a string of digits');
@@ -60,22 +56,22 @@ final class YubikeyPublicId
         $this->value = $value;
     }
 
-    public function getYubikeyPublicId()
+    public function getYubikeyPublicId(): string
     {
         return $this->value;
     }
 
-    public function equals(YubikeyPublicId $other)
+    public function equals(YubikeyPublicId $other): bool
     {
         return $this->value === $other->value;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return $this->value;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->value;
     }

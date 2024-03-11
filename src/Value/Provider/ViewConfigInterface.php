@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2018 SURFnet bv
  *
@@ -24,4 +26,5 @@ namespace Surfnet\StepupBundle\Value\Provider;
  */
 interface ViewConfigInterface
 {
+    public function getTitle(): string;
 }

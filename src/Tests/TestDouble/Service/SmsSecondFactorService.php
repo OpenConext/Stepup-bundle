@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2018 SURFnet bv
  *
@@ -26,14 +28,8 @@ use Surfnet\StepupBundle\Service\SmsSecondFactorServiceInterface;
 
 class SmsSecondFactorService implements SmsSecondFactorServiceInterface
 {
-    /**
-     * @var \Surfnet\StepupBundle\Service\SmsSecondFactor\SmsVerificationStateHandler
-     */
-    private $smsVerificationStateHandler;
-
-    public function __construct(SmsVerificationStateHandler $smsVerificationStateHandler)
+    public function __construct(private readonly SmsVerificationStateHandler $smsVerificationStateHandler)
     {
-        $this->smsVerificationStateHandler = $smsVerificationStateHandler;
     }
 
     public function getOtpRequestsRemainingCount(string $secondFactorId): int
@@ -51,7 +47,7 @@ class SmsSecondFactorService implements SmsSecondFactorServiceInterface
         return false;
     }
 
-    public function clearSmsVerificationState(string $secondFactorId)
+    public function clearSmsVerificationState(string $secondFactorId): void
     {
         // NOOP
     }

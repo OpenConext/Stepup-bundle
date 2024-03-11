@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -23,7 +25,7 @@ class CountryCodeListing
     /**
      * The preferred choice to display on forms. Currently The Netherlands (+31).
      */
-    const PREFERRED_CHOICE = '31';
+    final public const PREFERRED_CHOICE = '31';
 
     /**
      * List of currently (2015-03-16) known and used country codes as per
@@ -35,9 +37,9 @@ class CountryCodeListing
      *
      * When updating, update CountryCodeListing::$countryCodes to match.
      *
-     * @var array
+     * @var string[]
      */
-    private static $countries = [
+    private static array $countries = [
         'Abkhazia (+7 840)'                                   => '7840',
         'Abkhazia (+7 940)'                                   => '7940',
         'Afghanistan (+93)'                                   => '93',
@@ -281,7 +283,10 @@ class CountryCodeListing
         'Zimbabwe (+263)'                                     => '263',
     ];
 
-    public static function asArray()
+    /**
+     * @return string[]
+     */
+    public static function asArray(): array
     {
         $countries = [];
 
@@ -293,20 +298,16 @@ class CountryCodeListing
 
         return array_combine($countryNames, $countries);
     }
-    /**
-     * @param Country $country
-     * @return bool
-     */
-    public static function isPreferredChoice(Country $country)
+
+    public static function isPreferredChoice(Country $country): bool
     {
         return $country->getCountryCode()->equals(new CountryCode(self::PREFERRED_CHOICE));
     }
 
     /**
      * @param string $countryCode
-     * @return bool
      */
-    public static function isValidCountryCode($countryCode)
+    public static function isValidCountryCode($countryCode): bool
     {
         return in_array($countryCode, self::$countries);
     }

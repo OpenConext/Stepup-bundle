@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -18,15 +20,13 @@
 
 namespace Surfnet\StepupBundle\Value\PhoneNumber;
 
+use Stringable;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\Exception\InvalidPhoneNumberFormatException;
 
-class PhoneNumber
+class PhoneNumber implements Stringable
 {
-    /**
-     * @var string
-     */
-    private $number;
+    private string $number;
 
     /**
      * @param string $number
@@ -48,37 +48,29 @@ class PhoneNumber
      * Returns the part of the MSISN formatted as representing the [NDC|NPA] + SN part
      * @see http://en.wikipedia.org/wiki/MSISDN#MSISDN_Format
      *
-     * @return string
      */
-    public function formatAsMsisdnPart()
+    public function formatAsMsisdnPart(): string
     {
         $number = $this->number;
         // we may only strip a single leading zero
-        if (strpos($number, '0') === 0) {
+        if (str_starts_with($number, '0')) {
             $number = substr($number, 1);
         }
 
         return $number;
     }
 
-    /**
-     * @return string
-     */
-    public function getNumber()
+    public function getNumber(): string
     {
         return $this->number;
     }
 
-    /**
-     * @param PhoneNumber $other
-     * @return bool
-     */
-    public function equals(PhoneNumber $other)
+    public function equals(PhoneNumber $other): bool
     {
         return $this->formatAsMsisdnPart() === $other->formatAsMsisdnPart();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return '(0) ' . $this->formatAsMsisdnPart();
     }

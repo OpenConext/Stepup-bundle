@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -28,7 +30,7 @@ class RequestIdTest extends TestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    public function testItCanSetARequestId()
+    public function testItCanSetARequestId(): void
     {
         $generator = m::mock(RequestIdGenerator::class);
 
@@ -38,7 +40,7 @@ class RequestIdTest extends TestCase
         $this->assertInstanceOf(RequestId::class, $requestId);
     }
 
-    public function testItDoesNotAllowOverwritingTheRequestIdByDefault()
+    public function testItDoesNotAllowOverwritingTheRequestIdByDefault(): void
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('not overwrite');
@@ -50,7 +52,7 @@ class RequestIdTest extends TestCase
         $requestId->set('abcdef');
     }
 
-    public function testOverwritingTheRequestIdAfterSettingItIsAllowedIfForced()
+    public function testOverwritingTheRequestIdAfterSettingItIsAllowedIfForced(): void
     {
         $generator = m::mock(RequestIdGenerator::class);
 
@@ -62,7 +64,7 @@ class RequestIdTest extends TestCase
         $this->assertEquals('abcde', $requestId->get());
     }
 
-    public function testOverwritingTheRequestIdAfterHavingItGeneratedIsAllowedIfForced()
+    public function testOverwritingTheRequestIdAfterHavingItGeneratedIsAllowedIfForced(): void
     {
         $generator = m::mock(RequestIdGenerator::class)
             ->shouldReceive('generateRequestId')->once()->andReturn('12345')
@@ -76,7 +78,7 @@ class RequestIdTest extends TestCase
         $this->assertEquals('abcde', $requestId->get());
     }
 
-    public function testItGeneratesARequestIdIfItIsNotSet()
+    public function testItGeneratesARequestIdIfItIsNotSet(): void
     {
         $generator = m::mock(RequestIdGenerator::class)
             ->shouldReceive('generateRequestId')->once()->andReturn('abcdef')

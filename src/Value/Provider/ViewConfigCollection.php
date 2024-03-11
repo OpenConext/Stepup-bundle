@@ -54,7 +54,7 @@ class ViewConfigCollection
         );
     }
 
-    public function isGssp(string $identifier): bool
+    public function isGssp(?string $identifier): bool
     {
         return isset($this->collection[$identifier]);
     }

@@ -37,10 +37,7 @@ class LoaResolutionService
         }
     }
 
-    /**
-     * @param string $loaIdentifier
-     */
-    public function hasLoa($loaIdentifier): bool
+    public function hasLoa(string $loaIdentifier): bool
     {
         foreach ($this->loas as $loa) {
             if ($loa->isIdentifiedBy($loaIdentifier)) {
@@ -51,11 +48,7 @@ class LoaResolutionService
         return false;
     }
 
-    /**
-     * @param string $loaIdentifier
-     * @return null|Loa
-     */
-    public function getLoa($loaIdentifier)
+    public function getLoa(string $loaIdentifier): ?Loa
     {
         foreach ($this->loas as $loa) {
             if ($loa->isIdentifiedBy($loaIdentifier)) {
@@ -66,11 +59,7 @@ class LoaResolutionService
         return null;
     }
 
-    /**
-     * @param int $loaLevel
-     * @return null|Loa
-     */
-    public function getLoaByLevel($loaLevel)
+    public function getLoaByLevel(int $loaLevel): ?Loa
     {
         foreach ($this->loas as $loa) {
             if ($loa->isOfLevel($loaLevel)) {

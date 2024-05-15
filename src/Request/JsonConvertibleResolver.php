@@ -81,7 +81,7 @@ class JsonConvertibleResolver implements ValueResolverInterface
         }
 
         $request->attributes->set($name, $convertedObject);
-        return (array) $convertedObject;
+        yield $convertedObject;
     }
 
     private function camelCaseToSnakeCase(string $camelCase): string

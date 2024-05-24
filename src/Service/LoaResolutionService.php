@@ -59,7 +59,7 @@ class LoaResolutionService
         return null;
     }
 
-    public function getLoaByLevel(int $loaLevel): ?Loa
+    public function getLoaByLevel(float $loaLevel): ?Loa
     {
         foreach ($this->loas as $loa) {
             if ($loa->isOfLevel($loaLevel)) {

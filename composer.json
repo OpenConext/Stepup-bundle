@@ -44,12 +44,12 @@
     "scripts": {
         "check": [
             "@composer-validate",
+            "@test",
             "@phplint",
             "@phpcpd",
             "@phpcs",
             "@phpmd",
-            "@phpstan",
-            "@test"
+            "@phpstan"
         ],
         "composer-validate": "./ci/qa/validate",
         "phplint": "./ci/qa/phplint",

@@ -186,6 +186,46 @@ parameters:
 			path: ../../src/Service/SecondFactorTypeService.php
 
 		-
+			message: "#^Access to an undefined property Surfnet\\\\StepupBundle\\\\Command\\\\SendSmsChallengeCommandInterface\\:\\:\\$body\\.$#"
+			count: 1
+			path: ../../src/Service/SmsRecoveryTokenService.php
+
+		-
+			message: "#^Access to an undefined property Surfnet\\\\StepupBundle\\\\Command\\\\SendSmsChallengeCommandInterface\\:\\:\\$identity\\.$#"
+			count: 1
+			path: ../../src/Service/SmsRecoveryTokenService.php
+
+		-
+			message: "#^Access to an undefined property Surfnet\\\\StepupBundle\\\\Command\\\\SendSmsChallengeCommandInterface\\:\\:\\$institution\\.$#"
+			count: 1
+			path: ../../src/Service/SmsRecoveryTokenService.php
+
+		-
+			message: "#^Access to an undefined property Surfnet\\\\StepupBundle\\\\Command\\\\SendSmsChallengeCommandInterface\\:\\:\\$phoneNumber\\.$#"
+			count: 2
+			path: ../../src/Service/SmsRecoveryTokenService.php
+
+		-
+			message: "#^Access to an undefined property Surfnet\\\\StepupBundle\\\\Command\\\\SendSmsChallengeCommandInterface\\:\\:\\$recoveryTokenId\\.$#"
+			count: 1
+			path: ../../src/Service/SmsRecoveryTokenService.php
+
+		-
+			message: "#^Access to an undefined property Surfnet\\\\StepupBundle\\\\Command\\\\VerifyPossessionOfPhoneCommandInterface\\:\\:\\$challenge\\.$#"
+			count: 1
+			path: ../../src/Service/SmsRecoveryTokenService.php
+
+		-
+			message: "#^Access to an undefined property Surfnet\\\\StepupBundle\\\\Command\\\\VerifyPossessionOfPhoneCommandInterface\\:\\:\\$recoveryTokenId\\.$#"
+			count: 1
+			path: ../../src/Service/SmsRecoveryTokenService.php
+
+		-
+			message: "#^Method Surfnet\\\\StepupBundle\\\\Service\\\\SmsRecoveryTokenService\\:\\:__construct\\(\\) has parameter \\$originator with no type specified\\.$#"
+			count: 1
+			path: ../../src/Service/SmsRecoveryTokenService.php
+
+		-
 			message: "#^Method Surfnet\\\\StepupBundle\\\\Service\\\\SmsSecondFactor\\\\Otp\\:\\:verify\\(\\) has parameter \\$userOtp with no type specified\\.$#"
 			count: 1
 			path: ../../src/Service/SmsSecondFactor/Otp.php
@@ -209,11 +249,6 @@ parameters:
 			message: "#^Method Surfnet\\\\StepupBundle\\\\Service\\\\SmsSecondFactor\\\\SmsVerificationStateHandler\\:\\:clearState\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: ../../src/Service/SmsSecondFactor/SmsVerificationStateHandler.php
-
-		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Twig\\\\LocaleExtension\\:\\:getLocalePreferenceForm\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: ../../src/Twig/LocaleExtension.php
 
 		-
 			message: "#^Method Surfnet\\\\StepupBundle\\\\Twig\\\\LocaleExtension\\:\\:getLocalePreferenceForm\\(\\) has parameter \\$currentLocale with no type specified\\.$#"

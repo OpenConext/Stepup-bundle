@@ -46,7 +46,11 @@ class JsonConvertibleResolverTest extends TestCase
         $validator = m::mock(ValidatorInterface::class);
 
         $paramResolver = new JsonConvertibleResolver($validator);
-        $paramResolver->resolve($request, new ArgumentMetadata('parameter', Foo::class, false, false, null));
+
+        // The paramResolver->resolve() method returns an iterable,
+        // so we need to call current() on it to trigger the exception.
+        $result = $paramResolver->resolve($request, new ArgumentMetadata('parameter', Foo::class, false, false, null));
+        $result->current();
     }
 
     public function testItThrowsABadJsonRequestExceptionWhenUnknownPropertiesAreSent(): void
@@ -61,7 +65,8 @@ class JsonConvertibleResolverTest extends TestCase
         $request = $this->createJsonRequest((object) ['foo' => ['unknown' => 'prop']]);
 
         $paramResolver = new JsonConvertibleResolver($validator);
-        $paramResolver->resolve($request, new ArgumentMetadata('parameter', Foo::class, false, false, null));
+        $result = $paramResolver->resolve($request, new ArgumentMetadata('parameter', Foo::class, false, false, null));
+        $result->current();
     }
 
     public function testItThrowsABadJsonRequestExceptionWithErrorsWhenTheConvertedObjectDoesntValidate(): void
@@ -83,7 +88,8 @@ class JsonConvertibleResolverTest extends TestCase
         $configuration = new ArgumentMetadata('foo', Foo::class, false, false, null);
 
         $paramResolver = new JsonConvertibleResolver($validator);
-        $paramResolver->resolve($request, $configuration);
+        $result = $paramResolver->resolve($request, $configuration);
+        $result->current();
     }
 
     public function testItConvertsAParameter(): void
@@ -105,12 +111,13 @@ class JsonConvertibleResolverTest extends TestCase
 
         $configuration = new ArgumentMetadata('foo', Foo::class, false, false, null);
         $result = $paramResolver->resolve($request, $configuration);
+
         self::assertEquals(
             [
                 'bar' => 'baz',
                 'camelCased' => 'yeah'
             ],
-            $result
+            get_object_vars($result->current())
         );
     }
 
@@ -139,7 +146,7 @@ class JsonConvertibleResolverTest extends TestCase
                 'bar' => 'baz',
                 'camelCased' => 'yeah'
             ],
-            $result
+            get_object_vars($result->current())
         );
     }
 

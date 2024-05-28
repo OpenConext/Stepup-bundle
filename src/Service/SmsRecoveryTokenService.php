@@ -81,7 +81,7 @@ class SmsRecoveryTokenService implements SmsRecoveryTokenServiceInterface
         $smsCommand = new SendSmsCommand();
         $smsCommand->recipient = $command->phoneNumber->toMSISDN();
         $smsCommand->originator = $this->originator;
-        $smsCommand->body = str_replace('%challenge%', $challenge, $command->body);
+        $smsCommand->body = str_replace('{challenge}', $challenge, $command->body);
         $smsCommand->identity = $command->identity;
         $smsCommand->institution = $command->institution;
 

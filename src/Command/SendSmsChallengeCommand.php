@@ -35,7 +35,7 @@ class SendSmsChallengeCommand implements SendSmsChallengeCommandInterface
     public $secondFactorId;
 
     /**
-     * @var string The SMS contents. '%challenge%' will be replaced with the generated OTP.
+     * @var string The SMS contents. '{challenge}' will be replaced with the generated OTP.
      */
     public $body;
 

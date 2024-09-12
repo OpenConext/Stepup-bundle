@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -23,7 +25,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class AttachRequestIdInjectorToGuzzleClientsPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $configs = $container->getExtensionConfig('surfnet_stepup');
         $config = $configs[0];

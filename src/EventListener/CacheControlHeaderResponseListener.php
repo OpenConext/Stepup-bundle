@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -18,17 +20,17 @@
 
 namespace Surfnet\StepupBundle\EventListener;
 
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 class CacheControlHeaderResponseListener
 {
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $event): void
     {
         $responseHeaders = $event->getResponse()->headers;
 
-        $responseHeaders->addCacheControlDirective('max-age', 0);
-        $responseHeaders->addCacheControlDirective('private', true);
-        $responseHeaders->addCacheControlDirective('no-cache', true);
-        $responseHeaders->addCacheControlDirective('no-store', true);
+        $responseHeaders->addCacheControlDirective('max-age', '0');
+        $responseHeaders->addCacheControlDirective('private');
+        $responseHeaders->addCacheControlDirective('no-cache');
+        $responseHeaders->addCacheControlDirective('no-store');
     }
 }

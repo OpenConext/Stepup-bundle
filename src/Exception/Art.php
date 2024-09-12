@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -18,30 +20,20 @@
 
 namespace Surfnet\StepupBundle\Exception;
 
-use Exception;
-use Symfony\Component\Debug\Exception\FlattenException;
+use Throwable;
 
 class Art
 {
-    /**
-     * @param Exception $exception
-     * @return string
-     */
-    public static function forException(Exception $exception)
+    public static function forException(Throwable $exception): string
     {
-        return self::calculateArt(get_class($exception), $exception->getMessage());
+        return self::calculateArt($exception::class, $exception->getMessage());
     }
 
-    /**
-     * @param string $className
-     * @param string $message
-     * @return string
-     */
-    private static function calculateArt($className, $message)
+    private static function calculateArt(string $className, string $message): string
     {
         $message = self::stripVariableArgumentsFromMessage($message);
 
-        return substr(abs(crc32(md5($className . $message))), 0, 5);
+        return substr((string)abs(crc32(md5($className . $message))), 0, 5);
     }
 
     /**
@@ -56,11 +48,9 @@ class Art
      * because it relies on sprintf arguments to always be quoted inside the
      * message.
      *
-     * @param $message
-     * @return string
      */
-    private static function stripVariableArgumentsFromMessage($message)
+    private static function stripVariableArgumentsFromMessage($message): ?string
     {
-        return preg_replace('#".*"|\'.*\'#', '', $message);
+        return preg_replace('#".*"|\'.*\'#', '', (string) $message);
     }
 }

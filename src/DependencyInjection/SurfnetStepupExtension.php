@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -18,8 +20,6 @@
 
 namespace Surfnet\StepupBundle\DependencyInjection;
 
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
 use Surfnet\StepupBundle\Form\ChoiceList\LocaleChoiceList;
 use Surfnet\StepupBundle\Http\CookieHelper;
 use Surfnet\StepupBundle\Service\LoaResolutionService;
@@ -42,7 +42,7 @@ use function array_key_exists;
  */
 class SurfnetStepupExtension extends Extension
 {
-    public function load(array $config, ContainerBuilder $container)
+    public function load(array $config, ContainerBuilder $container): void
     {
         $processor = new Processor();
         $config = $processor->processConfiguration(new Configuration(), $config);
@@ -64,8 +64,9 @@ class SurfnetStepupExtension extends Extension
 
         if ($config['sms']['enabled'] === false) {
             $container->removeDefinition('surfnet_stepup.service.sms_second_factor');
-            $container->removeAlias(SmsSecondFactorService::class);
             $container->removeDefinition('surfnet_stepup.service.challenge_handler');
+            $container->removeAlias(SmsSecondFactorService::class);
+            $container->removeAlias(SmsRecoveryTokenService::class);
         } else {
             $this->configureSmsSecondFactorServices($config, $container);
             if (!$config['gateway_api']['enabled'] && $config['sms']['service'] === Configuration::DEFAULT_SMS_SERVICE) {
@@ -95,27 +96,23 @@ class SurfnetStepupExtension extends Extension
         $this->configureSecondFactorTypeService($config, $container);
     }
 
-    private function defineLoas(array $loaDefinitions, ContainerBuilder $container)
+    private function defineLoas(array $loaDefinitions, ContainerBuilder $container): void
     {
         $loaService = $container->getDefinition('surfnet_stepup.service.loa_resolution');
 
-        $loa1 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_1, $loaDefinitions['loa1']]);
-        $loa2 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_2, $loaDefinitions['loa2']]);
-        $loa3 = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_3, $loaDefinitions['loa3']]);
+        $loa1 = new Definition(Loa::class, [Loa::LOA_1, $loaDefinitions['loa1']]);
+        $loa2 = new Definition(Loa::class, [Loa::LOA_2, $loaDefinitions['loa2']]);
+        $loa3 = new Definition(Loa::class, [Loa::LOA_3, $loaDefinitions['loa3']]);
 
         $arguments = [$loa1, $loa2, $loa3];
 
         if (array_key_exists('loa_self_asserted', $loaDefinitions)) {
-            $arguments[] = new Definition('Surfnet\StepupBundle\Value\Loa', [Loa::LOA_SELF_VETTED, $loaDefinitions['loa_self_asserted']]);
+            $arguments[] = new Definition(Loa::class, [Loa::LOA_SELF_VETTED, $loaDefinitions['loa_self_asserted']]);
         }
         $loaService->addArgument($arguments);
     }
 
-    /**
-     * @param array            $config
-     * @param ContainerBuilder $container
-     */
-    private function configureLocaleCookieSettings(array $config, ContainerBuilder $container)
+    private function configureLocaleCookieSettings(array $config, ContainerBuilder $container): void
     {
         $container->getDefinition('surfnet_stepup.locale_cookie_settings')
             ->setArguments(
@@ -131,11 +128,7 @@ class SurfnetStepupExtension extends Extension
             );
     }
 
-    /**
-     * @param array            $config
-     * @param ContainerBuilder $container
-     */
-    private function configureGatewayApiClient(array $config, ContainerBuilder $container)
+    private function configureGatewayApiClient(array $config, ContainerBuilder $container): void
     {
         $handlerStack = $container->getDefinition('surfnet_stepup.guzzle.handler_stack');
 
@@ -158,11 +151,7 @@ class SurfnetStepupExtension extends Extension
         $gatewayGuzzle->replaceArgument(0, $gatewayGuzzleOptions);
     }
 
-    /**
-     * @param array            $config
-     * @param ContainerBuilder $container
-     */
-    private function configureSmsSecondFactorServices(array $config, ContainerBuilder $container)
+    private function configureSmsSecondFactorServices(array $config, ContainerBuilder $container): void
     {
         $smsSecondFactorService = $container->getDefinition('surfnet_stepup.service.sms_second_factor');
         $smsSecondFactorService->replaceArgument(0, new Reference($config['sms']['service']));
@@ -170,16 +159,16 @@ class SurfnetStepupExtension extends Extension
 
         $recoveryTokenService = $container->getDefinition(SmsRecoveryTokenService::class);
         $recoveryTokenService->replaceArgument(0, new Reference($config['sms']['service']));
+        $recoveryTokenService->replaceArgument(1, $container->getDefinition('surfnet_stepup.service.challenge_handler'));
         $recoveryTokenService->replaceArgument(2, $config['sms']['originator']);
 
         $container
             ->getDefinition('surfnet_stepup.service.challenge_handler')
             ->replaceArgument(2, $config['sms']['otp_expiry_interval'])
             ->replaceArgument(3, $config['sms']['maximum_otp_requests']);
-
     }
 
-    private function configureLocaleSelectionWidget(array $loaDefinitions, ContainerBuilder $container)
+    private function configureLocaleSelectionWidget(array $loaDefinitions, ContainerBuilder $container): void
     {
         if ($container->hasParameter('locales')) {
             $container->getDefinition('surfnet_stepup.form.choice_list.locales')
@@ -191,7 +180,7 @@ class SurfnetStepupExtension extends Extension
         }
     }
 
-    private function configureSecondFactorTypeService(array $loaDefinitions, ContainerBuilder $container)
+    private function configureSecondFactorTypeService(array $loaDefinitions, ContainerBuilder $container): void
     {
         if (!$container->hasParameter('enabled_generic_second_factors')) {
             $container->removeDefinition('surfnet_stepup.service.second_factor_type');

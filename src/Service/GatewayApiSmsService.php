@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -20,6 +22,7 @@ namespace Surfnet\StepupBundle\Service;
 
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Surfnet\StepupBundle\Command\SendSmsCommand;
 use Surfnet\StepupBundle\Http\JsonHelper;
 
@@ -29,26 +32,13 @@ use Surfnet\StepupBundle\Http\JsonHelper;
 class GatewayApiSmsService implements SmsService
 {
     /**
-     * @var Client
-     */
-    private $guzzleClient;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
      * @param Client $guzzleClient A Guzzle client configured with the SMS API base URL and authentication.
-     * @param LoggerInterface $logger
      */
-    public function __construct(Client $guzzleClient, LoggerInterface $logger)
+    public function __construct(private readonly Client $guzzleClient, private readonly LoggerInterface $logger)
     {
-        $this->guzzleClient = $guzzleClient;
-        $this->logger = $logger;
     }
 
-    public function sendSms(SendSmsCommand $command)
+    public function sendSms(SendSmsCommand $command): bool
     {
         $this->logger->info('Requesting Gateway to send SMS');
 
@@ -66,7 +56,7 @@ class GatewayApiSmsService implements SmsService
         if ($statusCode != 200) {
             $this->logger->error(
                 sprintf('SMS sending failed, error: [%s] %s', $response->getStatusCode(), $response->getReasonPhrase()),
-                ['http-body' => $response->getBody() ? $response->getBody()->getContents() : '',]
+                ['http-body' => ($response->getBody()->getSize() ? $response->getBody()->getContents() : ''),]
             );
 
             return false;
@@ -74,7 +64,7 @@ class GatewayApiSmsService implements SmsService
 
         try {
             $result = JsonHelper::decode((string) $response->getBody());
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException) {
             $this->logger->error('SMS sending failed; server responded with malformed JSON.');
 
             return false;

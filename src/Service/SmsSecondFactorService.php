@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -27,29 +29,14 @@ use Surfnet\StepupBundle\Service\SmsSecondFactor\SmsVerificationStateHandler;
 
 class SmsSecondFactorService implements SmsSecondFactorServiceInterface
 {
-    /**
-     * @var \Surfnet\StepupBundle\Service\SmsService
-     */
-    private $smsService;
+    private string $originator;
 
     /**
-     * @var \Surfnet\StepupBundle\Service\SmsSecondFactor\SmsVerificationStateHandler
-     */
-    private $smsVerificationStateHandler;
-
-    /**
-     * @var string
-     */
-    private $originator;
-
-    /**
-     * @param SmsService                  $smsService
-     * @param SmsVerificationStateHandler $smsVerificationStateHandler
      * @param string                      $originator
      */
     public function __construct(
-        SmsService $smsService,
-        SmsVerificationStateHandler $smsVerificationStateHandler,
+        private readonly SmsService $smsService,
+        private readonly SmsVerificationStateHandler $smsVerificationStateHandler,
         $originator
     ) {
         if (!is_string($originator)) {
@@ -61,9 +48,6 @@ class SmsSecondFactorService implements SmsSecondFactorServiceInterface
                 'Invalid SMS originator given: may only contain alphanumerical characters.'
             );
         }
-
-        $this->smsService = $smsService;
-        $this->smsVerificationStateHandler = $smsVerificationStateHandler;
         $this->originator = $originator;
     }
 
@@ -82,7 +66,7 @@ class SmsSecondFactorService implements SmsSecondFactorServiceInterface
         return $this->smsVerificationStateHandler->hasState($secondFactorId);
     }
 
-    public function clearSmsVerificationState(string $secondFactorId)
+    public function clearSmsVerificationState(string $secondFactorId): void
     {
         $this->smsVerificationStateHandler->clearState($secondFactorId);
     }
@@ -91,7 +75,8 @@ class SmsSecondFactorService implements SmsSecondFactorServiceInterface
     {
         $challenge = $this->smsVerificationStateHandler->requestNewOtp(
             (string) $command->phoneNumber,
-            $command->secondFactorId)
+            $command->secondFactorId
+        )
         ;
 
         $smsCommand = new SendSmsCommand();

@@ -1,3 +1,17 @@
+# 6.0.0
+Allow for Symfony 6 packages and drop PHP7 support
+
+Note that the `JsonConvertibleParamConverter` was replaced by the `JsonConvertibleResolver` marking classes that need
+camel case conversion with the `JsonConvertible` interface should remain working. So this should be a NOOP in your 
+project. But if you use this Converter in a different manner you might need to convert to the use of the argument 
+resolver. See symfony docs for more details: `https://symfony.com/doc/current/controller/value_resolver.html`
+
+Other changes include:
+- GHA was put into place, Travis was laid to rest.
+- For test-integration and nightly sec-checks 
+- Ant task runner was replaced by Composer scripts to run the QA tests
+- By increasing type safety, some tests were removed that tested input validation
+
 # 5.0.2
 Allow for symfony 5 packages (as the package already advertised)
 

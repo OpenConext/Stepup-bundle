@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -18,16 +20,14 @@
 
 namespace Surfnet\StepupBundle\Value\PhoneNumber;
 
+use Stringable;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\Exception\InvalidCountryCodeFormatException;
 use Surfnet\StepupBundle\Value\Exception\UnknownCountryCodeException;
 
-class CountryCode
+class CountryCode implements Stringable
 {
-    /**
-     * @var string
-     */
-    private $countryCode;
+    private readonly string $countryCode;
 
     /**
      * @param string $countyCode
@@ -49,24 +49,17 @@ class CountryCode
         $this->countryCode = $countyCode;
     }
 
-    /**
-     * @return string
-     */
-    public function getCountryCode()
+    public function getCountryCode(): string
     {
         return $this->countryCode;
     }
 
-    /**
-     * @param CountryCode $other
-     * @return bool
-     */
-    public function equals(CountryCode $other)
+    public function equals(CountryCode $other): bool
     {
         return $this->countryCode === $other->countryCode;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         $countryCode = $this->getCountryCode();
 

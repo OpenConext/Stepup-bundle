@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2022 SURFnet bv
  *
@@ -20,7 +22,7 @@ namespace Surfnet\StepupBundle\Command;
 
 use Surfnet\StepupBundle\Value\PhoneNumber\InternationalPhoneNumber;
 
-class SendRecoveryTokenSmsChallengeCommand
+class SendRecoveryTokenSmsChallengeCommand implements SendSmsChallengeCommandInterface
 {
     /**
      * @var InternationalPhoneNumber

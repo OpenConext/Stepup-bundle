@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -18,10 +20,10 @@
 
 namespace Surfnet\StepupBundle\Request;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Surfnet\StepupBundle\Exception\BadJsonRequestException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
+use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -31,29 +33,25 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * @SuppressWarnings(PHPMD.MissingImport)
  * @see JsonConvertible
  */
-class JsonConvertibleParamConverter implements ParamConverterInterface
+class JsonConvertibleResolver implements ValueResolverInterface
 {
-    /**
-     * @var ValidatorInterface
-     */
-    private $validator;
-
-    public function __construct(ValidatorInterface $validator)
+    public function __construct(private readonly ValidatorInterface $validator)
     {
-        $this->validator = $validator;
     }
 
-    /**
-     * @SuppressWarnings(PHPMD.MissingImport) - Unable to import the dynamic class creation at line 63
-     */
-    public function apply(Request $request, ParamConverter $configuration)
+    public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        $name = $configuration->getName();
+        $name = $argument->getName();
         $snakeCasedName = $this->camelCaseToSnakeCase($name);
-        $class = $configuration->getClass();
+        $class = $argument->getType();
+
+        // Test if this parameter can/should be converted
+        if (is_null($class) || !$this->isJsonParameterConversionSupported($class)) {
+            return [];
+        }
 
         $json = $request->getContent();
-        $object = json_decode($json, true);
+        $object = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
         if (!isset($object[$snakeCasedName]) || !is_array($object[$snakeCasedName])) {
             throw new BadJsonRequestException([sprintf("Missing parameter '%s'", $name)]);
@@ -83,25 +81,10 @@ class JsonConvertibleParamConverter implements ParamConverterInterface
         }
 
         $request->attributes->set($name, $convertedObject);
+        yield $convertedObject;
     }
 
-    public function supports(ParamConverter $configuration)
-    {
-        $class = $configuration->getClass();
-
-        if (!is_string($class)) {
-            return null;
-        }
-
-        return is_subclass_of($class, 'Surfnet\StepupBundle\Request\JsonConvertible');
-    }
-
-    /**
-     * @param string $camelCase
-     * @return string
-     * @see \Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
-     */
-    private function camelCaseToSnakeCase($camelCase)
+    private function camelCaseToSnakeCase(string $camelCase): string
     {
         $snakeCase = '';
 
@@ -115,5 +98,10 @@ class JsonConvertibleParamConverter implements ParamConverterInterface
         }
 
         return $snakeCase;
+    }
+
+    private function isJsonParameterConversionSupported(string $class): bool
+    {
+        return is_subclass_of($class, JsonConvertible::class);
     }
 }

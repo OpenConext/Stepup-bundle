@@ -14,7 +14,9 @@
         }, 0);
     });
 
-    $(document).on('change', 'select[name="stepup_switch_locale[locale]"]',
+    $(document).on(
+        'change',
+        'select[name="stepup_switch_locale[locale]"]',
         function (e) {
             $(this).parents('form').first().submit();
         }

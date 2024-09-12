@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Surfnet\Stepup\Tests\Helper;
 
-use PHPUnit\Framework\TestCase ;
+use PHPUnit\Framework\TestCase;
+use StdClass;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Exception\JsonException;
 use Surfnet\StepupBundle\Http\JsonHelper;
@@ -14,9 +17,8 @@ class JsonHelperTest extends TestCase
      * @group json
      *
      * @dataProvider nonStringProvider
-     * @param $nonString
      */
-    public function jsonHelperCanOnlyDecodeStrings($nonString)
+    public function jsonHelperCanOnlyDecodeStrings(null|bool|array|int|float|StdClass $nonString): void
     {
         $this->expectException(InvalidArgumentException::class);
         JsonHelper::decode($nonString);
@@ -26,7 +28,7 @@ class JsonHelperTest extends TestCase
      * @test
      * @group json
      */
-    public function jsonHelperDecodesStringsToArrays()
+    public function jsonHelperDecodesStringsToArrays(): void
     {
         $expectedDecodedResult = ['hello' => 'world'];
         $json                  = '{ "hello" : "world" }';
@@ -38,14 +40,14 @@ class JsonHelperTest extends TestCase
      * @test
      * @group json
      */
-    public function jsonHelperThrowsAnExceptionWhenThereIsASyntaxError()
+    public function jsonHelperThrowsAnExceptionWhenThereIsASyntaxError(): void
     {
-        $this->expectException(JsonException::class, 'Syntax error');
+        $this->expectException(JsonException::class);
         $jsonWithMissingDoubleQuotes = '{ hello : world }';
         JsonHelper::decode($jsonWithMissingDoubleQuotes);
     }
 
-    public function nonStringProvider()
+    public function nonStringProvider(): array
     {
         return [
             'null'    => [null],
@@ -53,7 +55,7 @@ class JsonHelperTest extends TestCase
             'array'   => [[]],
             'integer' => [1],
             'float'   => [1.2],
-            'object'  => [new \StdClass()],
+            'object'  => [new StdClass()],
         ];
     }
 }

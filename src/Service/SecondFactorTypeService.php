@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2017 SURFnet bv
  *
@@ -18,7 +20,6 @@
 
 namespace Surfnet\StepupBundle\Service;
 
-
 use Surfnet\StepupBundle\Exception\DomainException;
 use Surfnet\StepupBundle\Value\GssfConfig;
 use Surfnet\StepupBundle\Value\Loa;
@@ -29,10 +30,7 @@ use function in_array;
 
 class SecondFactorTypeService
 {
-    /**
-     * @var array
-     */
-    private $loaLevelTypeMap = [
+    private array $loaLevelTypeMap = [
         'sms' => Loa::LOA_2,
         'yubikey' => Loa::LOA_3,
     ];
@@ -45,21 +43,13 @@ class SecondFactorTypeService
      * for the vetting type. An on-premise vetting action gives a high level of
      * authenticity, where a self-asserted registration tells us far less about the
      * Identity.
-     *
-     * @var array
      */
-    private $vettingTypeSubtractions = [
+    private array $vettingTypeSubtractions = [
         VettingType::TYPE_SELF_ASSERTED_REGISTRATION => Loa::LOA_SELF_VETTED
     ];
 
-    /**
-     * @var GssfConfig
-     */
-    private $gssfConfig;
+    private readonly GssfConfig $gssfConfig;
 
-    /**
-     * @param array $gssfConfig
-     */
     public function __construct(array $gssfConfig)
     {
         $this->gssfConfig = new GssfConfig($gssfConfig);
@@ -68,7 +58,7 @@ class SecondFactorTypeService
     /**
      * @return string[]
      */
-    public function getAvailableSecondFactorTypes()
+    public function getAvailableSecondFactorTypes(): array
     {
         return array_merge(
             $this->getAvailableGssfSecondFactorTypes(),
@@ -79,7 +69,7 @@ class SecondFactorTypeService
     /**
      * @return string[]
      */
-    private function getAvailableGssfSecondFactorTypes()
+    private function getAvailableGssfSecondFactorTypes(): array
     {
         return $this->gssfConfig->getSecondFactorTypes();
     }
@@ -136,7 +126,7 @@ class SecondFactorTypeService
         );
     }
 
-    public function isGssf(SecondFactorType $secondFactorType)
+    public function isGssf(SecondFactorType $secondFactorType): bool
     {
         return in_array($secondFactorType->__toString(), $this->getAvailableGssfSecondFactorTypes());
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -19,25 +21,18 @@
 namespace Surfnet\StepupBundle\Form\ChoiceList;
 
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 final class LocaleChoiceList
 {
     /**
      * @var string[]
      */
-    private $locales;
-
-    /**
-     * @var \Symfony\Component\HttpFoundation\RequestStack
-     */
-    private $requestStack;
+    private readonly array $locales;
 
     /**
      * @param string[] $locales
-     * @param RequestStack $requestStack
      */
-    public function __construct(array $locales, RequestStack $requestStack)
+    public function __construct(array $locales)
     {
         foreach ($locales as $index => $locale) {
             if (!is_string($locale)) {
@@ -46,13 +41,12 @@ final class LocaleChoiceList
         }
 
         $this->locales = $locales;
-        $this->requestStack = $requestStack;
     }
 
-    public function create()
+    public function create(): array
     {
         return array_combine(
-            array_map(function ($locale) { return 'locale.' . $locale; }, $this->locales),
+            array_map(fn($locale): string => 'locale.' . $locale, $this->locales),
             $this->locales
         );
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -19,13 +21,11 @@
 namespace Surfnet\StepupBundle\Monolog\Processor;
 
 use InvalidArgumentException;
+use Monolog\LogRecord;
 
 class ApplicationNameProcessor
 {
-    /**
-     * @var string
-     */
-    private $applicationName;
+    private string $applicationName;
 
     /**
      * @param string $applicationName
@@ -39,13 +39,9 @@ class ApplicationNameProcessor
         $this->applicationName = $applicationName;
     }
 
-    /**
-     * @param array $record
-     * @return array
-     */
-    public function __invoke(array $record)
+    public function __invoke(LogRecord $record): LogRecord
     {
-        $record['extra']['application'] = $this->applicationName;
+        $record->extra['application'] = $this->applicationName;
 
         return $record;
     }

@@ -5,7 +5,6 @@
         By default it is less stringent about long lines than other coding standards
     </description>
 
-    <exclude-pattern></exclude-pattern>
 
     <!-- This is the rule we inherit from. If you want to exlude some specific rules, see the docs on how to do that -->
     <rule ref="PSR2"/>
@@ -17,4 +16,6 @@
             <property name="absoluteLineLimit" value="150"/>
         </properties>
     </rule>
+
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/DeclareStrictTypesSniff.php" />
 </ruleset>

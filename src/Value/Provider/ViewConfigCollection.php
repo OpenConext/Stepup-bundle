@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2018 SURFnet bv
  *
@@ -29,23 +31,17 @@ class ViewConfigCollection
     /**
      * @var ViewConfigInterface[]
      */
-    private $collection = [];
+    private array $collection = [];
 
-    /**
-     * @param ViewConfigInterface $viewConfig
-     * @param $identifier
-     */
-    public function addViewConfig(ViewConfigInterface $viewConfig, $identifier)
+    public function addViewConfig(ViewConfigInterface $viewConfig, string $identifier): void
     {
         $this->collection[$identifier] = $viewConfig;
     }
 
     /**
-     * @param $identifier
-     * @return ViewConfigInterface
      * @throws InvalidArgumentException
      */
-    public function getByIdentifier($identifier)
+    public function getByIdentifier(string $identifier): ViewConfigInterface
     {
         if (isset($this->collection[$identifier])) {
             return $this->collection[$identifier];
@@ -58,11 +54,7 @@ class ViewConfigCollection
         );
     }
 
-    /**
-     * @param $identifier
-     * @return bool
-     */
-    public function isGssp($identifier)
+    public function isGssp(?string $identifier): bool
     {
         return isset($this->collection[$identifier]);
     }

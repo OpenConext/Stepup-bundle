@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2017 SURFnet bv
  *
@@ -18,34 +20,28 @@
 
 namespace Surfnet\StepupBundle\Value;
 
-
 class GssfConfig
 {
     /**
-     * @var array
-     */
-    private $config;
-
-    /**
      * @param array $config
      */
-    public function __construct(array $config = [])
+    public function __construct(private readonly array $config = [])
     {
-        $this->config = $config;
     }
 
     /**
      * @return array
      */
-    public function getSecondFactorTypes()
+    public function getSecondFactorTypes(): array
     {
         return array_keys($this->config);
     }
 
     /**
      * Flattens the config and returns key value pairs where the key is the SF type and the value is the LOA level
+     * @return array
      */
-    public function getLoaMap()
+    public function getLoaMap(): array
     {
         $loaMap = [];
         foreach ($this->config as $key => $config) {

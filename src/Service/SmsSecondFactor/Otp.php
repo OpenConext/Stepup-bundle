@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -25,20 +27,11 @@ use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
 final class Otp
 {
-    /**
-     * @var string
-     */
-    private $otp;
+    private ?string $otp = null;
 
-    /**
-     * @var string
-     */
-    private $phoneNumber;
+    private ?string $phoneNumber = null;
 
-    /**
-     * @var DateInterval
-     */
-    private $expiryInterval;
+    private ?DateInterval $expiryInterval = null;
 
     /**
      * @var CoreDateTime
@@ -48,16 +41,14 @@ final class Otp
     /**
      * @param string $otpString
      * @param string $phoneNumber
-     * @param DateInterval $expiryInterval
-     * @return Otp
      */
-    public static function create($otpString, $phoneNumber, DateInterval $expiryInterval)
+    public static function create($otpString, $phoneNumber, DateInterval $expiryInterval): self
     {
-        if (!is_string($otpString) || empty($otpString)) {
+        if (!is_string($otpString) || $otpString === '') {
             throw InvalidArgumentException::invalidType('string', 'otpString', $otpString);
         }
 
-        if (!is_string($phoneNumber) || empty($phoneNumber)) {
+        if (!is_string($phoneNumber) || $phoneNumber === '') {
             throw InvalidArgumentException::invalidType('string', 'phoneNumber', $phoneNumber);
         }
 
@@ -74,7 +65,7 @@ final class Otp
     {
     }
 
-    public function verify($userOtp)
+    public function verify($userOtp): OtpVerification
     {
         if (!is_string($userOtp)) {
             throw InvalidArgumentException::invalidType('string', 'userOtp', $userOtp);
@@ -96,9 +87,8 @@ final class Otp
 
     /**
      * @param string $phoneNumber
-     * @return bool
      */
-    public function hasPhoneNumber($phoneNumber)
+    public function hasPhoneNumber($phoneNumber): bool
     {
         return $this->phoneNumber === $phoneNumber;
     }

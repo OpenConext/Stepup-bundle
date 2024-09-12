@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -18,37 +20,27 @@
 
 namespace Surfnet\StepupBundle\Form\Type;
 
+use Surfnet\StepupBundle\Command\SwitchLocaleCommand;
 use Surfnet\StepupBundle\Form\ChoiceList\LocaleChoiceList;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class SwitchLocaleType extends AbstractType
 {
-    /**
-     * @var \Surfnet\StepupBundle\Form\ChoiceList\LocaleChoiceList
-     */
-    private $localeChoiceList;
-
-    /**
-     * @var \Symfony\Component\Routing\Generator\UrlGeneratorInterface
-     */
-    private $urlGenerator;
-
-    public function __construct(LocaleChoiceList $localeChoiceList, UrlGeneratorInterface $urlGenerator)
+    public function __construct(private readonly LocaleChoiceList $localeChoiceList, private readonly UrlGeneratorInterface $urlGenerator)
     {
-        $this->localeChoiceList = $localeChoiceList;
-        $this->urlGenerator = $urlGenerator;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->setAction($this->urlGenerator->generate($options['route'], $options['route_parameters']));
-        $builder->setMethod('POST');
+        $builder->setMethod(Request::METHOD_POST);
         $builder->add('locale', ChoiceType::class, [
             'label' => /** @Ignore */ false,
             'required' => true,
@@ -61,12 +53,12 @@ final class SwitchLocaleType extends AbstractType
         ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'route'            => null,
             'route_parameters' => [],
-            'data_class'       => 'Surfnet\StepupBundle\Command\SwitchLocaleCommand',
+            'data_class'       => SwitchLocaleCommand::class,
         ]);
 
         $resolver->setRequired(['route']);
@@ -75,7 +67,7 @@ final class SwitchLocaleType extends AbstractType
         $resolver->setAllowedTypes('route_parameters', 'array');
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'stepup_switch_locale';
     }

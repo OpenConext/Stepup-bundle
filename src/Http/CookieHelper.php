@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -27,23 +29,16 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class CookieHelper
 {
-    /**
-     * @var Cookie
-     */
-    private $cookieSettings;
-
-    public function __construct(Cookie $cookieSettings)
+    public function __construct(private Cookie $cookieSettings)
     {
-        $this->cookieSettings = $cookieSettings;
     }
 
     /**
      * Write a new value for the current cookie to a given Response.
      *
      * @param string $value
-     * @return Cookie
      */
-    public function write(Response $response, $value)
+    public function write(Response $response, $value): Cookie
     {
         $cookie = $this->createCookieWithValue($value);
         $response->headers->setCookie($cookie);
@@ -55,10 +50,8 @@ final class CookieHelper
      *
      * Note that we only read the value, we ignore the other settings.
      *
-     * @param Request $request
-     * @return null|Cookie
      */
-    public function read(Request $request)
+    public function read(Request $request): ?Cookie
     {
         if (!$request->cookies->has($this->cookieSettings->getName())) {
             return null;
@@ -72,10 +65,8 @@ final class CookieHelper
     /**
      * Create a new cookie from the current (template) cookie with a new value.
      *
-     * @param $value
-     * @return Cookie
      */
-    private function createCookieWithValue($value)
+    private function createCookieWithValue($value): Cookie
     {
         return new Cookie(
             $this->cookieSettings->getName(),

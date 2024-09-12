@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -18,7 +20,9 @@
 
 namespace Surfnet\StepupBundle\Monolog\Formatter;
 
+use DateTimeImmutable;
 use Monolog\Formatter\JsonFormatter as MonologJsonFormatter;
+use Monolog\LogRecord;
 
 /**
  * Formats incoming records into a one-line JSON string. Includes only the channel. level, message, context and extra
@@ -26,31 +30,30 @@ use Monolog\Formatter\JsonFormatter as MonologJsonFormatter;
  */
 class JsonFormatter extends MonologJsonFormatter
 {
-    public function format(array $record)
+    public function format(LogRecord $record): string
     {
         return parent::format($this->mapRecord($record));
     }
 
-    public function formatBatch(array $records)
+    public function formatBatch(array $records): string
     {
         return parent::formatBatch(
             array_map(
-                function (array $record) {
-                    return $this->mapRecord($record);
-                },
+                fn(LogRecord $record): LogRecord => $this->mapRecord($record),
                 $records
             )
         );
     }
 
-    private function mapRecord(array $record)
+    private function mapRecord(LogRecord $record): LogRecord
     {
-        return [
-            'channel' => $record['channel'],
-            'level'   => $record['level_name'],
-            'message' => $record['message'],
-            'context' => $record['context'],
-            'extra'   => $record['extra'],
-        ];
+        return new LogRecord(
+            new DateTimeImmutable(),
+            $record->channel,
+            $record->level,
+            $record->message,
+            $record->context,
+            $record->extra
+        );
     }
 }

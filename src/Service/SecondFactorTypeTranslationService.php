@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2018 SURFnet bv
  *
@@ -19,7 +21,7 @@
 namespace Surfnet\StepupBundle\Service;
 
 use Surfnet\StepupBundle\Value\Provider\ViewConfigCollection;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Provide translations for second factor types like yubikey, tiqr, sms,..
@@ -32,21 +34,12 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class SecondFactorTypeTranslationService
 {
-    /**
-     * @var ViewConfigCollection
-     */
-    private $gsspConfigCollection;
-
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
+    private TranslatorInterface $translator;
 
     public function __construct(
-        ViewConfigCollection $gsspConfigCollection,
+        private readonly ViewConfigCollection $gsspConfigCollection,
         TranslatorInterface $translator
     ) {
-        $this->gsspConfigCollection = $gsspConfigCollection;
         $this->translator = $translator;
     }
 

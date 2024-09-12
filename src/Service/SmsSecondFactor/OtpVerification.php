@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -20,37 +22,27 @@ namespace Surfnet\StepupBundle\Service\SmsSecondFactor;
 
 final class OtpVerification
 {
-    const STATUS_NO_MATCH = 0;
-    const STATUS_MATCH_EXPIRED = 1;
-    const STATUS_FOUND_MATCH = 2;
-    const STATUS_TOO_MANY_ATTEMPTS = 3;
+    public const STATUS_NO_MATCH = 0;
+    public const STATUS_MATCH_EXPIRED = 1;
+    public const STATUS_FOUND_MATCH = 2;
+    public const STATUS_TOO_MANY_ATTEMPTS = 3;
 
-    /**
-     * @var int
-     */
-    private $status;
-
-    /**
-     * @var null|string
-     */
-    private $phoneNumber;
-
-    public static function noMatch()
+    public static function noMatch(): self
     {
         return new self(self::STATUS_NO_MATCH);
     }
 
-    public static function matchExpired()
+    public static function matchExpired(): self
     {
         return new self(self::STATUS_MATCH_EXPIRED);
     }
 
-    public static function foundMatch($phoneNumber)
+    public static function foundMatch($phoneNumber): self
     {
         return new self(self::STATUS_FOUND_MATCH, $phoneNumber);
     }
 
-    public static function tooManyAttempts()
+    public static function tooManyAttempts(): self
     {
         return new self(self::STATUS_TOO_MANY_ATTEMPTS);
     }
@@ -59,39 +51,26 @@ final class OtpVerification
      * @param int $status
      * @param string|null $phoneNumber
      */
-    private function __construct($status, $phoneNumber = null)
+    private function __construct(private $status, private $phoneNumber = null)
     {
-        $this->status = $status;
-        $this->phoneNumber = $phoneNumber;
     }
 
-    /**
-     * @return bool
-     */
-    public function wasSuccessful()
+    public function wasSuccessful(): bool
     {
         return $this->status === self::STATUS_FOUND_MATCH;
     }
 
-    /**
-     * @return bool
-     */
-    public function didOtpMatch()
+    public function didOtpMatch(): bool
     {
         return $this->status === self::STATUS_FOUND_MATCH || $this->status === self::STATUS_MATCH_EXPIRED;
     }
-    /**
-     * @return bool
-     */
-    public function didOtpExpire()
+
+    public function didOtpExpire(): bool
     {
         return $this->status === self::STATUS_MATCH_EXPIRED;
     }
 
-    /**
-     * @return bool
-     */
-    public function wasAttemptedTooManyTimes()
+    public function wasAttemptedTooManyTimes(): bool
     {
         return $this->status === self::STATUS_TOO_MANY_ATTEMPTS;
     }

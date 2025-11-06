@@ -44,7 +44,7 @@ use Throwable;
 /**
  * @package Surfnet\StepupBundle\Controller
  *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects) Contains extensive mapping for exceptions
+ * @SuppressWarnings("PHPMD.CouplingBetweenObjects") Contains extensive mapping for exceptions
  */
 class ExceptionController extends FrameworkController
 {
@@ -111,7 +111,7 @@ class ExceptionController extends FrameworkController
 
     /**
      * @return array View parameters 'title' and 'description'
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings("PHPMD.CyclomaticComplexity")
      */
     protected function getPageTitleAndDescription(Throwable $exception): array
     {

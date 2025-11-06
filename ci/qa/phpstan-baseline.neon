@@ -1,301 +1,421 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Controller\\\\ExceptionController\\:\\:getPageTitleAndDescription\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Controller\\ExceptionController\:\:getPageTitleAndDescription\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/Controller/ExceptionController.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\DateTime\\\\RegistrationExpirationHelper\\:\\:__construct\\(\\) has parameter \\$expirationWindow with no type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\DateTime\\RegistrationExpirationHelper\:\:__construct\(\) has parameter \$expirationWindow with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../../src/DateTime/RegistrationExpirationHelper.php
 
 		-
-			message: "#^Parameter \\#1 \\$interval of method DateTime\\:\\:add\\(\\) expects DateInterval, DateInterval\\|null given\\.$#"
+			message: '#^Parameter \#1 \$interval of method DateTime\:\:add\(\) expects DateInterval, DateInterval\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../../src/DateTime/RegistrationExpirationHelper.php
 
 		-
-			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
 			count: 1
 			path: ../../src/DependencyInjection/Compiler/AttachRequestIdInjectorToGuzzleClientsPass.php
 
 		-
-			message: "#^Parameter \\#1 \\$id of method Symfony\\\\Component\\\\DependencyInjection\\\\ContainerBuilder\\:\\:getDefinition\\(\\) expects string, mixed given\\.$#"
+			message: '#^Parameter \#1 \$id of method Symfony\\Component\\DependencyInjection\\ContainerBuilder\:\:getDefinition\(\) expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../../src/DependencyInjection/Compiler/AttachRequestIdInjectorToGuzzleClientsPass.php
 
 		-
-			message: "#^Cannot call method push\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method push\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../../src/DependencyInjection/Configurator/GuzzleClientRequestIdConfigurator.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\DependencyInjection\\\\SurfnetStepupExtension\\:\\:configureGatewayApiClient\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\DependencyInjection\\SurfnetStepupExtension\:\:configureGatewayApiClient\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/DependencyInjection/SurfnetStepupExtension.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\DependencyInjection\\\\SurfnetStepupExtension\\:\\:configureLocaleCookieSettings\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\DependencyInjection\\SurfnetStepupExtension\:\:configureLocaleCookieSettings\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/DependencyInjection/SurfnetStepupExtension.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\DependencyInjection\\\\SurfnetStepupExtension\\:\\:configureLocaleSelectionWidget\\(\\) has parameter \\$loaDefinitions with no value type specified in iterable type array\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\DependencyInjection\\SurfnetStepupExtension\:\:configureLocaleSelectionWidget\(\) has parameter \$loaDefinitions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/DependencyInjection/SurfnetStepupExtension.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\DependencyInjection\\\\SurfnetStepupExtension\\:\\:configureSecondFactorTypeService\\(\\) has parameter \\$loaDefinitions with no value type specified in iterable type array\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\DependencyInjection\\SurfnetStepupExtension\:\:configureSecondFactorTypeService\(\) has parameter \$loaDefinitions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/DependencyInjection/SurfnetStepupExtension.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\DependencyInjection\\\\SurfnetStepupExtension\\:\\:configureSmsSecondFactorServices\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\DependencyInjection\\SurfnetStepupExtension\:\:configureSmsSecondFactorServices\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/DependencyInjection/SurfnetStepupExtension.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\DependencyInjection\\\\SurfnetStepupExtension\\:\\:defineLoas\\(\\) has parameter \\$loaDefinitions with no value type specified in iterable type array\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\DependencyInjection\\SurfnetStepupExtension\:\:defineLoas\(\) has parameter \$loaDefinitions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/DependencyInjection/SurfnetStepupExtension.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\EventListener\\\\BadJsonRequestExceptionListener\\:\\:onKernelException\\(\\) has no return type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\EventListener\\BadJsonRequestExceptionListener\:\:onKernelException\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: ../../src/EventListener/BadJsonRequestExceptionListener.php
 
 		-
-			message: "#^Parameter \\#1 \\$requestId of method Surfnet\\\\StepupBundle\\\\Request\\\\RequestId\\:\\:set\\(\\) expects string, string\\|null given\\.$#"
+			message: '#^Parameter \#1 \$requestId of method Surfnet\\StepupBundle\\Request\\RequestId\:\:set\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../../src/EventListener/RequestIdRequestResponseListener.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Exception\\\\Art\\:\\:stripVariableArgumentsFromMessage\\(\\) has parameter \\$message with no type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Exception\\Art\:\:stripVariableArgumentsFromMessage\(\) has parameter \$message with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../../src/Exception/Art.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Exception\\\\BadJsonRequestException\\:\\:mapViolationsToErrorStrings\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Exception\\BadJsonRequestException\:\:mapViolationsToErrorStrings\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/Exception/BadJsonRequestException.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Exception\\\\InvalidArgumentException\\:\\:invalidType\\(\\) has parameter \\$expectedType with no type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Exception\\InvalidArgumentException\:\:invalidType\(\) has parameter \$expectedType with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../../src/Exception/InvalidArgumentException.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Exception\\\\InvalidArgumentException\\:\\:invalidType\\(\\) has parameter \\$parameter with no type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Exception\\InvalidArgumentException\:\:invalidType\(\) has parameter \$parameter with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../../src/Exception/InvalidArgumentException.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Exception\\\\InvalidArgumentException\\:\\:invalidType\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Exception\\InvalidArgumentException\:\:invalidType\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../../src/Exception/InvalidArgumentException.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Exception\\\\JsonException\\:\\:withMessage\\(\\) has parameter \\$errorMessage with no type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Exception\\JsonException\:\:withMessage\(\) has parameter \$errorMessage with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../../src/Exception/JsonException.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Form\\\\ChoiceList\\\\LocaleChoiceList\\:\\:create\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
 			count: 1
 			path: ../../src/Form/ChoiceList/LocaleChoiceList.php
 
 		-
-			message: "#^Parameter \\#1 \\$name of method Symfony\\\\Component\\\\Routing\\\\Generator\\\\UrlGeneratorInterface\\:\\:generate\\(\\) expects string, mixed given\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Form\\ChoiceList\\LocaleChoiceList\:\:create\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../src/Form/ChoiceList/LocaleChoiceList.php
+
+		-
+			message: '#^Parameter \#1 \$name of method Symfony\\Component\\Routing\\Generator\\UrlGeneratorInterface\:\:generate\(\) expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../../src/Form/Type/SwitchLocaleType.php
 
 		-
-			message: "#^Parameter \\#2 \\$parameters of method Symfony\\\\Component\\\\Routing\\\\Generator\\\\UrlGeneratorInterface\\:\\:generate\\(\\) expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \$parameters of method Symfony\\Component\\Routing\\Generator\\UrlGeneratorInterface\:\:generate\(\) expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../../src/Form/Type/SwitchLocaleType.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Guzzle\\\\Middleware\\\\GuzzleRequestIdInjector\\:\\:__invoke\\(\\) has no return type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Guzzle\\Middleware\\GuzzleRequestIdInjector\:\:__invoke\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: ../../src/Guzzle/Middleware/GuzzleRequestIdInjector.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Http\\\\CookieHelper\\:\\:createCookieWithValue\\(\\) has parameter \\$value with no type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Http\\CookieHelper\:\:createCookieWithValue\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../../src/Http/CookieHelper.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Http\\\\JsonHelper\\:\\:decode\\(\\) has no return type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Http\\JsonHelper\:\:decode\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: ../../src/Http/JsonHelper.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Http\\\\JsonHelper\\:\\:decode\\(\\) has parameter \\$json with no type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Http\\JsonHelper\:\:decode\(\) has parameter \$json with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../../src/Http/JsonHelper.php
 
 		-
-			message: "#^Property Surfnet\\\\StepupBundle\\\\Http\\\\JsonHelper\\:\\:\\$jsonErrors type has no value type specified in iterable type array\\.$#"
+			message: '#^Property Surfnet\\StepupBundle\\Http\\JsonHelper\:\:\$jsonErrors type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/Http/JsonHelper.php
 
 		-
-			message: "#^Property Surfnet\\\\StepupBundle\\\\Monolog\\\\Handler\\\\PrimaryLogHandler\\:\\:\\$streamHandler is never written, only read\\.$#"
+			message: '#^Property Surfnet\\StepupBundle\\Monolog\\Handler\\PrimaryLogHandler\:\:\$streamHandler is never written, only read\.$#'
+			identifier: property.onlyRead
 			count: 1
 			path: ../../src/Monolog/Handler/PrimaryLogHandler.php
 
 		-
-			message: "#^PHPDoc tag @return with type array is incompatible with native type Monolog\\\\LogRecord\\.$#"
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: ../../src/Monolog/Processor/ApplicationNameProcessor.php
+
+		-
+			message: '#^PHPDoc tag @return with type array is incompatible with native type Monolog\\LogRecord\.$#'
+			identifier: return.phpDocType
 			count: 1
 			path: ../../src/Monolog/Processor/ServerNameProcessor.php
 
 		-
-			message: "#^Cannot access offset string on mixed\\.$#"
+			message: '#^Cannot access offset string on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../../src/Request/JsonConvertibleResolver.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Request\\\\JsonConvertibleResolver\\:\\:resolve\\(\\) return type has no value type specified in iterable type iterable\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Request\\JsonConvertibleResolver\:\:resolve\(\) return type has no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/Request/JsonConvertibleResolver.php
 
 		-
-			message: "#^Parameter \\#2 \\$offset of function substr expects int, float\\|int given\\.$#"
+			message: '#^Call to function is_int\(\) with int will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
 			count: 1
 			path: ../../src/Security/OtpGenerator.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Service\\\\LoaResolutionService\\:\\:__construct\\(\\) has parameter \\$loaDefinitions with no value type specified in iterable type array\\.$#"
+			message: '#^Parameter \#2 \$offset of function substr expects int, float\|int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../../src/Security/OtpGenerator.php
+
+		-
+			message: '#^Method Surfnet\\StepupBundle\\Service\\LoaResolutionService\:\:__construct\(\) has parameter \$loaDefinitions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/Service/LoaResolutionService.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Service\\\\SecondFactorTypeService\\:\\:__construct\\(\\) has parameter \\$gssfConfig with no value type specified in iterable type array\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Service\\SecondFactorTypeService\:\:__construct\(\) has parameter \$gssfConfig with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/Service/SecondFactorTypeService.php
 
 		-
-			message: "#^Property Surfnet\\\\StepupBundle\\\\Service\\\\SecondFactorTypeService\\:\\:\\$loaLevelTypeMap type has no value type specified in iterable type array\\.$#"
+			message: '#^Property Surfnet\\StepupBundle\\Service\\SecondFactorTypeService\:\:\$loaLevelTypeMap type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/Service/SecondFactorTypeService.php
 
 		-
-			message: "#^Property Surfnet\\\\StepupBundle\\\\Service\\\\SecondFactorTypeService\\:\\:\\$vettingTypeSubtractions type has no value type specified in iterable type array\\.$#"
+			message: '#^Property Surfnet\\StepupBundle\\Service\\SecondFactorTypeService\:\:\$vettingTypeSubtractions type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/Service/SecondFactorTypeService.php
 
 		-
-			message: "#^Access to an undefined property Surfnet\\\\StepupBundle\\\\Command\\\\SendSmsChallengeCommandInterface\\:\\:\\$body\\.$#"
+			message: '#^Access to an undefined property Surfnet\\StepupBundle\\Command\\SendSmsChallengeCommandInterface\:\:\$body\.$#'
+			identifier: property.notFound
 			count: 1
 			path: ../../src/Service/SmsRecoveryTokenService.php
 
 		-
-			message: "#^Access to an undefined property Surfnet\\\\StepupBundle\\\\Command\\\\SendSmsChallengeCommandInterface\\:\\:\\$identity\\.$#"
+			message: '#^Access to an undefined property Surfnet\\StepupBundle\\Command\\SendSmsChallengeCommandInterface\:\:\$identity\.$#'
+			identifier: property.notFound
 			count: 1
 			path: ../../src/Service/SmsRecoveryTokenService.php
 
 		-
-			message: "#^Access to an undefined property Surfnet\\\\StepupBundle\\\\Command\\\\SendSmsChallengeCommandInterface\\:\\:\\$institution\\.$#"
+			message: '#^Access to an undefined property Surfnet\\StepupBundle\\Command\\SendSmsChallengeCommandInterface\:\:\$institution\.$#'
+			identifier: property.notFound
 			count: 1
 			path: ../../src/Service/SmsRecoveryTokenService.php
 
 		-
-			message: "#^Access to an undefined property Surfnet\\\\StepupBundle\\\\Command\\\\SendSmsChallengeCommandInterface\\:\\:\\$phoneNumber\\.$#"
+			message: '#^Access to an undefined property Surfnet\\StepupBundle\\Command\\SendSmsChallengeCommandInterface\:\:\$phoneNumber\.$#'
+			identifier: property.notFound
 			count: 2
 			path: ../../src/Service/SmsRecoveryTokenService.php
 
 		-
-			message: "#^Access to an undefined property Surfnet\\\\StepupBundle\\\\Command\\\\SendSmsChallengeCommandInterface\\:\\:\\$recoveryTokenId\\.$#"
+			message: '#^Access to an undefined property Surfnet\\StepupBundle\\Command\\SendSmsChallengeCommandInterface\:\:\$recoveryTokenId\.$#'
+			identifier: property.notFound
 			count: 1
 			path: ../../src/Service/SmsRecoveryTokenService.php
 
 		-
-			message: "#^Access to an undefined property Surfnet\\\\StepupBundle\\\\Command\\\\VerifyPossessionOfPhoneCommandInterface\\:\\:\\$challenge\\.$#"
+			message: '#^Access to an undefined property Surfnet\\StepupBundle\\Command\\VerifyPossessionOfPhoneCommandInterface\:\:\$challenge\.$#'
+			identifier: property.notFound
 			count: 1
 			path: ../../src/Service/SmsRecoveryTokenService.php
 
 		-
-			message: "#^Access to an undefined property Surfnet\\\\StepupBundle\\\\Command\\\\VerifyPossessionOfPhoneCommandInterface\\:\\:\\$recoveryTokenId\\.$#"
+			message: '#^Access to an undefined property Surfnet\\StepupBundle\\Command\\VerifyPossessionOfPhoneCommandInterface\:\:\$recoveryTokenId\.$#'
+			identifier: property.notFound
 			count: 1
 			path: ../../src/Service/SmsRecoveryTokenService.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Service\\\\SmsRecoveryTokenService\\:\\:__construct\\(\\) has parameter \\$originator with no type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Service\\SmsRecoveryTokenService\:\:__construct\(\) has parameter \$originator with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../../src/Service/SmsRecoveryTokenService.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Service\\\\SmsSecondFactor\\\\Otp\\:\\:verify\\(\\) has parameter \\$userOtp with no type specified\\.$#"
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 2
+			path: ../../src/Service/SmsSecondFactor/Otp.php
+
+		-
+			message: '#^Method Surfnet\\StepupBundle\\Service\\SmsSecondFactor\\Otp\:\:verify\(\) has parameter \$userOtp with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../../src/Service/SmsSecondFactor/Otp.php
 
 		-
-			message: "#^Parameter \\#1 \\$interval of method DateTime\\:\\:add\\(\\) expects DateInterval, DateInterval\\|null given\\.$#"
+			message: '#^Parameter \#1 \$interval of method DateTime\:\:add\(\) expects DateInterval, DateInterval\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../../src/Service/SmsSecondFactor/Otp.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function strtoupper expects string, string\\|null given\\.$#"
+			message: '#^Parameter \#1 \$string of function strtoupper expects string, string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../../src/Service/SmsSecondFactor/Otp.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Service\\\\SmsSecondFactor\\\\OtpVerification\\:\\:foundMatch\\(\\) has parameter \\$phoneNumber with no type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Service\\SmsSecondFactor\\OtpVerification\:\:foundMatch\(\) has parameter \$phoneNumber with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../../src/Service/SmsSecondFactor/OtpVerification.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Service\\\\SmsSecondFactor\\\\SmsVerificationStateHandler\\:\\:clearState\\(\\) has no return type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Service\\SmsSecondFactor\\SmsVerificationStateHandler\:\:clearState\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: ../../src/Service/SmsSecondFactor/SmsVerificationStateHandler.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Twig\\\\LocaleExtension\\:\\:getLocalePreferenceForm\\(\\) has parameter \\$currentLocale with no type specified\\.$#"
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: ../../src/Service/SmsSecondFactorService.php
+
+		-
+			message: '#^Method Surfnet\\StepupBundle\\Twig\\LocaleExtension\:\:getLocalePreferenceForm\(\) has parameter \$currentLocale with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../../src/Twig/LocaleExtension.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Twig\\\\LocaleExtension\\:\\:getLocalePreferenceForm\\(\\) has parameter \\$route with no type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Twig\\LocaleExtension\:\:getLocalePreferenceForm\(\) has parameter \$route with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../../src/Twig/LocaleExtension.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Twig\\\\LocaleExtension\\:\\:getLocalePreferenceForm\\(\\) has parameter \\$routeParameters with no value type specified in iterable type array\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Twig\\LocaleExtension\:\:getLocalePreferenceForm\(\) has parameter \$routeParameters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/Twig/LocaleExtension.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Value\\\\Exception\\\\InvalidCountryCodeFormatException\\:\\:__construct\\(\\) has parameter \\$invalidCode with no type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Value\\Exception\\InvalidCountryCodeFormatException\:\:__construct\(\) has parameter \$invalidCode with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../../src/Value/Exception/InvalidCountryCodeFormatException.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Value\\\\Exception\\\\InvalidPhoneNumberFormatException\\:\\:__construct\\(\\) has parameter \\$invalidFormat with no type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Value\\Exception\\InvalidPhoneNumberFormatException\:\:__construct\(\) has parameter \$invalidFormat with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../../src/Value/Exception/InvalidPhoneNumberFormatException.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Value\\\\Exception\\\\UnknownCountryCodeException\\:\\:unknownCountryCode\\(\\) has parameter \\$code with no type specified\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Value\\Exception\\UnknownCountryCodeException\:\:unknownCountryCode\(\) has parameter \$code with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../../src/Value/Exception/UnknownCountryCodeException.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Value\\\\GssfConfig\\:\\:__construct\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Value\\GssfConfig\:\:__construct\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/Value/GssfConfig.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Value\\\\GssfConfig\\:\\:getLoaMap\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Value\\GssfConfig\:\:getLoaMap\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/Value/GssfConfig.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Value\\\\GssfConfig\\:\\:getSecondFactorTypes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Surfnet\\StepupBundle\\Value\\GssfConfig\:\:getSecondFactorTypes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../../src/Value/GssfConfig.php
 
 		-
-			message: "#^Method Surfnet\\\\StepupBundle\\\\Value\\\\PhoneNumber\\\\CountryCodeListing\\:\\:asArray\\(\\) should return array\\<string\\> but returns array\\<Surfnet\\\\StepupBundle\\\\Value\\\\PhoneNumber\\\\Country\\>\\.$#"
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: ../../src/Value/PhoneNumber/CountryCode.php
+
+		-
+			message: '#^Method Surfnet\\StepupBundle\\Value\\PhoneNumber\\CountryCodeListing\:\:asArray\(\) should return array\<string\> but returns array\<Surfnet\\StepupBundle\\Value\\PhoneNumber\\Country\>\.$#'
+			identifier: return.type
 			count: 1
 			path: ../../src/Value/PhoneNumber/CountryCodeListing.php
+
+		-
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: ../../src/Value/PhoneNumber/InternationalPhoneNumber.php
+
+		-
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: ../../src/Value/PhoneNumber/PhoneNumber.php
+
+		-
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: ../../src/Value/SecondFactorType.php
+
+		-
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: ../../src/Value/YubikeyOtp.php

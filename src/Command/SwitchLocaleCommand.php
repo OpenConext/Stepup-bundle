@@ -30,10 +30,10 @@ class SwitchLocaleCommand
     public $identityId;
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
      *
      * @var string
      */
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
     public $locale;
 }

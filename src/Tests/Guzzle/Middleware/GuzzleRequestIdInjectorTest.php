@@ -37,9 +37,7 @@ class GuzzleRequestIdInjectorTest extends UnitTest
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    /**
-     * @group Guzzle
-     */
+    #[\PHPUnit\Framework\Attributes\Group('Guzzle')]
     public function testItSetsTheRequestIdAsHeader(): void
     {
         $expectedRequestId = 'my-request-id';

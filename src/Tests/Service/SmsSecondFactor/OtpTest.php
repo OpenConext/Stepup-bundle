@@ -28,7 +28,7 @@ use Surfnet\StepupBundle\Service\SmsSecondFactor\Otp;
 
 class OtpTest extends TestCase
 {
-    public function non_strings(): array
+    public static function non_strings(): array
     {
         return [
             'array'        => [[]],
@@ -40,7 +40,7 @@ class OtpTest extends TestCase
         ];
     }
 
-    public function non_non_empty_strings(): array
+    public static function non_non_empty_strings(): array
     {
         return [
             'empty string' => [''],
@@ -53,10 +53,8 @@ class OtpTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @group sms
-     */
+    #[\PHPUnit\Framework\Attributes\Group('sms')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_be_created(): void
     {
         $otp = Otp::create('ABCDEFG', '123', new DateInterval('PT5M'));
@@ -64,11 +62,9 @@ class OtpTest extends TestCase
         $this->assertInstanceOf(Otp::class, $otp);
     }
 
-    /**
-     * @test
-     * @group sms
-     * @dataProvider non_non_empty_strings
-     */
+    #[\PHPUnit\Framework\Attributes\Group('sms')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('non_non_empty_strings')]
     public function only_accepts_string_otps(mixed $nonString): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -77,11 +73,9 @@ class OtpTest extends TestCase
         Otp::create($nonString, '123', new DateInterval('PT5M'));
     }
 
-    /**
-     * @test
-     * @group sms
-     * @dataProvider non_non_empty_strings
-     */
+    #[\PHPUnit\Framework\Attributes\Group('sms')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('non_non_empty_strings')]
     public function only_accepts_string_phone_numbers(mixed $nonString): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -90,11 +84,9 @@ class OtpTest extends TestCase
         Otp::create('ABCDEFG', $nonString, new DateInterval('PT5M'));
     }
 
-    /**
-     * @test
-     * @group sms
-     * @dataProvider non_strings
-     */
+    #[\PHPUnit\Framework\Attributes\Group('sms')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('non_strings')]
     public function it_verifies_only_string_otps(mixed $nonString): void
     {
         $this->expectException(InvalidArgumentException::class);

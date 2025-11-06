@@ -30,10 +30,8 @@ use Surfnet\StepupBundle\Value\PhoneNumber\PhoneNumber;
 
 class InternationalPhoneNumberTest extends UnitTest
 {
-    /**
-     * @test
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function equality_is_based_on_country_code_and_phone_number_contents(): void
     {
         $base         = new InternationalPhoneNumber(new CountryCode('31'), new PhoneNumber('123'));
@@ -50,10 +48,8 @@ class InternationalPhoneNumberTest extends UnitTest
         $this->assertFalse($base->equals($different), 'Not equal with different Country Code and different number');
     }
 
-    /**
-     * @test
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_be_cast_to_string_and_recreated_equally_from_that_string(): void
     {
         $phoneNumber = new InternationalPhoneNumber(new CountryCode('1808'), new PhoneNumber('0612345678'));
@@ -66,10 +62,8 @@ class InternationalPhoneNumberTest extends UnitTest
         $this->assertTrue($phoneNumber->equals($phoneNumberFromString));
     }
 
-    /**
-     * @test
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function msisdn_representation_is_formatted_correctly_as_a_continuous_string_of_digits(): void
     {
         $phoneNumber = new InternationalPhoneNumber(new CountryCode('31'), new PhoneNumber('0612345678'));
@@ -77,7 +71,7 @@ class InternationalPhoneNumberTest extends UnitTest
         $this->assertEquals('31612345678', $phoneNumber->toMSISDN());
     }
 
-    public function invalid_types(): array
+    public static function invalid_types(): array
     {
         return [
             'array'        => [[]],
@@ -89,11 +83,9 @@ class InternationalPhoneNumberTest extends UnitTest
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider invalid_types
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('invalid_types')]
     public function it_rejects_invalid_types(mixed $invalidType): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -101,7 +93,7 @@ class InternationalPhoneNumberTest extends UnitTest
         InternationalPhoneNumber::fromStringFormat($invalidType);
     }
 
-    public function invalid_phone_numbers(): array
+    public static function invalid_phone_numbers(): array
     {
         return [
             'garbage before phone number' => ['garbage+31 (0) 681819571'],
@@ -111,11 +103,9 @@ class InternationalPhoneNumberTest extends UnitTest
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider invalid_phone_numbers
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('invalid_phone_numbers')]
     public function it_rejects_invalid_phone_numbers(mixed $invalidPhoneNumber): void
     {
         $this->expectException(InvalidPhoneNumberFormatException::class);

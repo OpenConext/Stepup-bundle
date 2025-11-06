@@ -55,7 +55,7 @@ class BadJsonRequestException extends \RuntimeException
         private readonly array $errors,
         $message = 'JSON could not be reconstituted into valid object.',
         $code = 0,
-        Exception $previous = null
+        ?Exception $previous = null
     ) {
         parent::__construct($message, $code, $previous);
     }

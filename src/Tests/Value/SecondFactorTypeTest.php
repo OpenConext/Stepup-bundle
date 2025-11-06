@@ -26,7 +26,7 @@ use Surfnet\StepupBundle\Value\SecondFactorType;
 
 final class SecondFactorTypeTest extends TestCase
 {
-    public function validTypes(): array
+    public static function validTypes(): array
     {
         return [
             'sms' => ['sms'],
@@ -36,11 +36,9 @@ final class SecondFactorTypeTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @group value
-     * @dataProvider validTypes
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('validTypes')]
     public function it_can_be_constructed(string $type): void
     {
         $secondFactorType = new SecondFactorType($type);
@@ -48,10 +46,8 @@ final class SecondFactorTypeTest extends TestCase
         $this->assertInstanceOf(SecondFactorType::class, $secondFactorType);
     }
 
-    /**
-     * @test
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_doesnt_accept_integers(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -59,17 +55,13 @@ final class SecondFactorTypeTest extends TestCase
         new SecondFactorType(9);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function its_equality_is_determined_by_its_type(): void
     {
         $this->assertTrue((new SecondFactorType('sms'))->equals(new SecondFactorType('sms')));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function its_type_can_be_verified(): void
     {
         $this->assertTrue((new SecondFactorType('sms'))->isSms());

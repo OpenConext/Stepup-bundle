@@ -26,10 +26,8 @@ use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 
 final class OtpGeneratorTest extends TestCase
 {
-    /**
-     * @test
-     * @group security
-     */
+    #[\PHPUnit\Framework\Attributes\Group('security')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_generates_eight_character_otp_strings(): void
     {
         $otp = OtpGenerator::generate(8);
@@ -38,7 +36,7 @@ final class OtpGeneratorTest extends TestCase
         $this->assertSame(8, strlen($otp), 'OTP is not eight characters long');
     }
 
-    public function nonPositiveIntegers(): array
+    public static function nonPositiveIntegers(): array
     {
         return [
             'null' => [null],
@@ -52,11 +50,9 @@ final class OtpGeneratorTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @group security
-     * @dataProvider nonPositiveIntegers
-     */
+    #[\PHPUnit\Framework\Attributes\Group('security')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('nonPositiveIntegers')]
     public function it_cannot_generate_otp_strings_of_negative_or_non_integer_length(mixed $length): void
     {
         $this->expectException(InvalidArgumentException::class);

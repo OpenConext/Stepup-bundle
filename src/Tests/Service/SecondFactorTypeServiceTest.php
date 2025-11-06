@@ -39,18 +39,14 @@ class SecondFactorTypeServiceTest extends TestCase
         $this->vettingTypeSelfAsserted = new VettingType(VettingType::TYPE_SELF_ASSERTED_REGISTRATION);
     }
 
-    /**
-     * @group service
-     */
+    #[\PHPUnit\Framework\Attributes\Group('service')]
     public function testItCanBeCreated(): void
     {
         $service = new SecondFactorTypeService([]);
         $this->assertInstanceOf(SecondFactorTypeService::class, $service);
     }
 
-    /**
-     * @group service
-     */
+    #[\PHPUnit\Framework\Attributes\Group('service')]
     public function testItCanBeAskedForEnabledSecondFactorTypes(): void
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
@@ -62,27 +58,21 @@ class SecondFactorTypeServiceTest extends TestCase
         $this->assertContains('yubikey', $types);
     }
 
-    /**
-     * @group service
-     */
+    #[\PHPUnit\Framework\Attributes\Group('service')]
     public function testGetLevel(): void
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
         $this->assertEquals(2, $service->getLevel(new SecondFactorType('sms'), $this->vettingTypeOnPremise));
     }
 
-    /**
-     * @group service
-     */
+    #[\PHPUnit\Framework\Attributes\Group('service')]
     public function testGetLevelSubtractedOnSelfAssertedRegistration(): void
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
         $this->assertEquals(1.5, $service->getLevel(new SecondFactorType('sms'), $this->vettingTypeSelfAsserted));
     }
 
-    /**
-     * @group service
-     */
+    #[\PHPUnit\Framework\Attributes\Group('service')]
     public function testGetLevelCannotGetLevelOfNonExistingSecondFactorType(): void
     {
         $this->expectExceptionMessage("The Loa level of this type: u3f can't be retrieved.");
@@ -92,9 +82,7 @@ class SecondFactorTypeServiceTest extends TestCase
         $service->getLevel(new SecondFactorType('u3f'), $this->vettingTypeOnPremise);
     }
 
-    /**
-     * @group service
-     */
+    #[\PHPUnit\Framework\Attributes\Group('service')]
     public function testItRejectsInvalidVettingType(): void
     {
         $this->expectExceptionMessage('The provided vetting type "self-righteous-registration" is not permitted. Use one of on-premise, self-asserted-registration, self-vet, unknown');
@@ -104,9 +92,7 @@ class SecondFactorTypeServiceTest extends TestCase
         $service->getLevel(new SecondFactorType('yubikey'), new VettingType('self-righteous-registration'));
     }
 
-    /**
-     * @group service
-     */
+    #[\PHPUnit\Framework\Attributes\Group('service')]
     public function testItCanBeAskedForEnabledSecondFactorTypesWhenNoGssfSet(): void
     {
         $service = new SecondFactorTypeService([]);
@@ -117,9 +103,7 @@ class SecondFactorTypeServiceTest extends TestCase
         $this->assertContains('yubikey', $types);
     }
 
-    /**
-     * @group service
-     */
+    #[\PHPUnit\Framework\Attributes\Group('service')]
     public function testItCanTestForSatisfactoryLoaLevel(): void
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
@@ -142,9 +126,7 @@ class SecondFactorTypeServiceTest extends TestCase
         $this->assertFalse($service->canSatisfy($yubikey, $loa2, $this->vettingTypeSelfAsserted));
     }
 
-    /**
-     * @group service
-     */
+    #[\PHPUnit\Framework\Attributes\Group('service')]
     public function testIsSatisfiedBy(): void
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
@@ -168,9 +150,7 @@ class SecondFactorTypeServiceTest extends TestCase
         $this->assertTrue($service->isSatisfiedBy($sms, $loa3, $this->vettingTypeSelfAsserted));
     }
 
-    /**
-     * @group service
-     */
+    #[\PHPUnit\Framework\Attributes\Group('service')]
     public function testHasEqualOrHigherLoaComparedTo(): void
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
@@ -204,9 +184,7 @@ class SecondFactorTypeServiceTest extends TestCase
         $this->assertTrue($service->hasEqualOrHigherLoaComparedTo($sms, $this->vettingTypeSelfAsserted, $sms, $this->vettingTypeSelfAsserted));
     }
 
-    /**
-     * @group service
-     */
+    #[\PHPUnit\Framework\Attributes\Group('service')]
     public function testHasEqualOrLowerLoaComparedTo(): void
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());
@@ -240,9 +218,7 @@ class SecondFactorTypeServiceTest extends TestCase
         $this->assertTrue($service->hasEqualOrLowerLoaComparedTo($sms, $this->vettingTypeSelfAsserted, $sms, $this->vettingTypeSelfAsserted));
     }
 
-    /**
-     * @group service
-     */
+    #[\PHPUnit\Framework\Attributes\Group('service')]
     public function testItCanDetermineSecondFactorTypeIsGssf(): void
     {
         $service = new SecondFactorTypeService($this->getAvailableSecondFactorTypes());

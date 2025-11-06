@@ -12,22 +12,17 @@ use Surfnet\StepupBundle\Http\JsonHelper;
 
 class JsonHelperTest extends TestCase
 {
-    /**
-     * @test
-     * @group json
-     *
-     * @dataProvider nonStringProvider
-     */
+    #[\PHPUnit\Framework\Attributes\Group('json')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('nonStringProvider')]
     public function jsonHelperCanOnlyDecodeStrings(null|bool|array|int|float|StdClass $nonString): void
     {
         $this->expectException(InvalidArgumentException::class);
         JsonHelper::decode($nonString);
     }
 
-    /**
-     * @test
-     * @group json
-     */
+    #[\PHPUnit\Framework\Attributes\Group('json')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function jsonHelperDecodesStringsToArrays(): void
     {
         $expectedDecodedResult = ['hello' => 'world'];
@@ -36,10 +31,8 @@ class JsonHelperTest extends TestCase
         $this->assertSame($expectedDecodedResult, $actualDecodedResult);
     }
 
-    /**
-     * @test
-     * @group json
-     */
+    #[\PHPUnit\Framework\Attributes\Group('json')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function jsonHelperThrowsAnExceptionWhenThereIsASyntaxError(): void
     {
         $this->expectException(JsonException::class);
@@ -47,7 +40,7 @@ class JsonHelperTest extends TestCase
         JsonHelper::decode($jsonWithMissingDoubleQuotes);
     }
 
-    public function nonStringProvider(): array
+    public static function nonStringProvider(): array
     {
         return [
             'null'    => [null],

@@ -28,11 +28,9 @@ use Surfnet\StepupBundle\Value\PhoneNumber\CountryCode;
 
 class CountryCodeTest extends UnitTest
 {
-    /**
-     * @test
-     * @group value
-     * @dataProvider invalidConstructorArgumentProvider
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('invalidConstructorArgumentProvider')]
     public function a_country_code_cannot_be_constructed_with_anything_but_a_string(mixed $invalidArgument): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -40,11 +38,9 @@ class CountryCodeTest extends UnitTest
         new CountryCode($invalidArgument);
     }
 
-    /**
-     * @test
-     * @group        value
-     * @dataProvider invalidStringArgumentProvider
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('invalidStringArgumentProvider')]
     public function a_phone_number_can_only_be_created_if_the_string_contains_digits_only(string $invalidArgument): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -52,10 +48,8 @@ class CountryCodeTest extends UnitTest
         new CountryCode($invalidArgument);
     }
 
-    /**
-     * @test
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function a_country_code_cannot_be_created_with_a_country_code_that_does_not_exist(): void
     {
         $this->expectException(UnknownCountryCodeException::class);
@@ -63,10 +57,8 @@ class CountryCodeTest extends UnitTest
         new CountryCode('99999');
     }
 
-    /**
-     * @test
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function the_country_code_returns_the_country_code_upon_request(): void
     {
         $definition = '1649';
@@ -75,10 +67,8 @@ class CountryCodeTest extends UnitTest
         $this->assertEquals($definition, $countryCode->getCountryCode());
     }
 
-    /**
-     * @test
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function country_codes_are_equal_when_the_given_country_code_is_equal(): void
     {
         $base      = new CountryCode('1787');
@@ -89,18 +79,16 @@ class CountryCodeTest extends UnitTest
         $this->assertFalse($base->equals($different), 'Country codes with a different definition should not be equal');
     }
 
-    /**
-     * @test
-     * @group value
-     * @dataProvider toStringProvider
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('toStringProvider')]
     public function to_string_renders_a_correctly_formattted_string_representation(string $definition, string $stringRepresentation): void
     {
         $countryCode = new CountryCode($definition);
         $this->assertSame($stringRepresentation, $countryCode->__toString());
     }
 
-    public function invalidConstructorArgumentProvider(): array
+    public static function invalidConstructorArgumentProvider(): array
     {
         return [
             'int'           => [0],
@@ -112,7 +100,7 @@ class CountryCodeTest extends UnitTest
         ];
     }
 
-    public function toStringProvider(): array
+    public static function toStringProvider(): array
     {
         return [
             '4 digits'      => ['1787', '+1 787'],
@@ -124,7 +112,7 @@ class CountryCodeTest extends UnitTest
         ];
     }
 
-    public function invalidStringArgumentProvider(): array
+    public static function invalidStringArgumentProvider(): array
     {
         return [
             'with characters'     => ['3AB8'],

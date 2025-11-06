@@ -52,10 +52,6 @@ class Loa implements Stringable
             ));
         }
 
-        if (!is_string($identifier)) {
-            throw InvalidArgumentException::invalidType('string', 'identifier', $identifier);
-        }
-
         $this->level = $level;
         $this->identifier = $identifier;
     }

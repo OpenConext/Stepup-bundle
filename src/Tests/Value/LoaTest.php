@@ -28,11 +28,9 @@ use Surfnet\StepupBundle\Value\Loa;
 
 class LoaTest extends UnitTest
 {
-    /**
-     * @test
-     * @group        value
-     * @dataProvider wrongTypeLevelProvider
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('wrongTypeLevelProvider')]
     public function it_cannot_be_created_with_a_wrong_loa_data_type(mixed $invalidLevel): void
     {
         self::expectException(Error::class);
@@ -40,11 +38,9 @@ class LoaTest extends UnitTest
         new Loa($invalidLevel, 'identifier');
     }
 
-    /**
-     * @test
-     * @group        value
-     * @dataProvider invalidLevelProvider
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('invalidLevelProvider')]
     public function it_cannot_be_created_with_an_invalid_loa_type(mixed $invalidLevel): void
     {
         $this->expectException(DomainException::class);
@@ -52,10 +48,8 @@ class LoaTest extends UnitTest
         new Loa($invalidLevel, 'identifier');
     }
 
-    /**
-     * @test
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_cannot_be_created_when_the_identifier_is_not_a_string(): void
     {
         // Using a data provider causes PHP to type cast certain values. Resulting in false test results
@@ -72,10 +66,8 @@ class LoaTest extends UnitTest
         new Loa(Loa::LOA_1, new stdClass());
     }
 
-    /**
-     * @test
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function the_loa_can_be_asked_whether_or_not_it_has_a_particular_identifier(): void
     {
         $correctIdentifier = 'correct identifier';
@@ -87,10 +79,8 @@ class LoaTest extends UnitTest
         $this->assertFalse($loa->isIdentifiedBy($otherIdentifier));
     }
 
-    /**
-     * @test
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_correctly_compares_lower_or_equal_to_level(): void
     {
         $loa = new Loa(Loa::LOA_2, 'a');
@@ -101,10 +91,8 @@ class LoaTest extends UnitTest
         $this->assertFalse($loa->levelIsLowerOrEqualTo(Loa::LOA_SELF_VETTED), 'Loa 2 !<= Loa 1.5');
     }
 
-    /**
-     * @test
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_correctly_compares_higher_or_equal_to_level(): void
     {
         $loa = new Loa(Loa::LOA_2, 'a');
@@ -115,10 +103,8 @@ class LoaTest extends UnitTest
         $this->assertTrue($loa->levelIsHigherOrEqualTo(Loa::LOA_1), 'Loa 2 >= Loa 1');
     }
 
-    /**
-     * @test
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function in_order_to_be_able_to_satisfy_a_loa_the_loa_must_have_a_level_higher_or_equal_to_the_other_level(): void
     {
         $loa1 = new Loa(Loa::LOA_1, '1');
@@ -132,10 +118,8 @@ class LoaTest extends UnitTest
         $this->assertTrue($loa2->canSatisfyLoa($loa1), 'Loa 2 can satisfy Loa 1');
     }
 
-    /**
-     * @test
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_check_whether_or_not_it_is_of_a_particuler_level(): void
     {
         $loa = new Loa(Loa::LOA_2, '2');
@@ -146,7 +130,7 @@ class LoaTest extends UnitTest
         $this->assertFalse($loa->isOfLevel(Loa::LOA_3), 'Loa 2 is not of level 3');
     }
 
-    public function invalidLevelProvider(): array
+    public static function invalidLevelProvider(): array
     {
         return [
             'unknown level' => [4],
@@ -154,7 +138,7 @@ class LoaTest extends UnitTest
         ];
     }
 
-    public function wrongTypeLevelProvider(): array
+    public static function wrongTypeLevelProvider(): array
     {
         return [
             'string' => ['a'],

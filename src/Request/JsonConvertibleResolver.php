@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * ParamConverter that converts JSON objects with underscore notation mapped to snake-cased, public properties of
  * classes that implement JsonConvertible.
  *
- * @SuppressWarnings(PHPMD.MissingImport)
+ * @SuppressWarnings("PHPMD.MissingImport")
  * @see JsonConvertible
  */
 class JsonConvertibleResolver implements ValueResolverInterface

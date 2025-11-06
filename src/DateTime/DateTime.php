@@ -24,14 +24,8 @@ use DateTime as CoreDateTime;
 
 class DateTime
 {
-    /**
-     * @var CoreDateTime|null
-     */
-    private static ?CoreDateTime $now = null;
+    protected static ?CoreDateTime $now = null;
 
-    /**
-     * @return CoreDateTime
-     */
     public static function now(): CoreDateTime
     {
         return self::$now ?: new CoreDateTime;

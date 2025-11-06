@@ -25,14 +25,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SendSmsCommand
 {
     /**
-     * @Assert\NotBlank(message="stepup.send_sms_command.recipient.may_not_be_empty")
-     * @Assert\Type(type="string", message="stepup.send_sms_command.recipient.must_be_string")
-     * @Assert\Regex(pattern="~^\d+$~", message="stepup.send_sms_command.recipient.must_consist_of_digits")
-     *
-     * The recipient as a string of digits (31612345678 for +31 6 1234 5678).
      *
      * @var string
      */
+    #[Assert\NotBlank(message: 'stepup.send_sms_command.recipient.may_not_be_empty')]
+    #[Assert\Type(type: 'string', message: 'stepup.send_sms_command.recipient.must_be_string')]
+    #[Assert\Regex(pattern: '~^\d+$~', message: 'stepup.send_sms_command.recipient.must_consist_of_digits')]
     public $recipient;
 
     /**

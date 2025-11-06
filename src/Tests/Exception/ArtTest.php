@@ -27,10 +27,8 @@ use Surfnet\StepupBundle\Exception\Art;
 
 class ArtTest extends UnitTest
 {
-    /**
-     * @test
-     * @group art
-     */
+    #[\PHPUnit\Framework\Attributes\Group('art')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function art_code_is_distinct_per_exception_type(): void
     {
         $art1 = new Exception();
@@ -39,10 +37,8 @@ class ArtTest extends UnitTest
         $this->assertNotEquals($art1, $art2, 'Expected different art code for different exception type');
     }
 
-    /**
-     * @test
-     * @group art
-     */
+    #[\PHPUnit\Framework\Attributes\Group('art')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function art_code_is_distinct_per_message(): void
     {
         $art1 = new Exception('one');
@@ -51,11 +47,9 @@ class ArtTest extends UnitTest
         $this->assertNotEquals($art1, $art2, 'Expected different art code for different exception message');
     }
 
-    /**
-     * @test
-     * @group art
-     * @dataProvider artCodeWithStrippedVariables
-     */
+    #[\PHPUnit\Framework\Attributes\Group('art')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('artCodeWithStrippedVariables')]
     public function exception_translates_to_art_code_with_variables_stripped(Exception $exception, string $expectedArtCode): void
     {
         $this->assertEquals(
@@ -64,7 +58,7 @@ class ArtTest extends UnitTest
         );
     }
 
-    public function artCodeWithStrippedVariables(): array
+    public static function artCodeWithStrippedVariables(): array
     {
         $artCode = Art::forException(
             new Exception('This is a \'good\' message')

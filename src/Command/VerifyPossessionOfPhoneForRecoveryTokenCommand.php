@@ -25,16 +25,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 class VerifyPossessionOfPhoneForRecoveryTokenCommand implements VerifyPossessionOfPhoneCommandInterface
 {
     /**
-     * @Assert\NotBlank(message="stepup.verify_possession_of_phone_command.challenge.may_not_be_empty")
-     * @Assert\Type(type="string", message="stepup.verify_possession_of_phone_command.challenge.must_be_string")
      *
      * @var string
      */
+    #[Assert\NotBlank(message: 'stepup.verify_possession_of_phone_command.challenge.may_not_be_empty')]
+    #[Assert\Type(type: 'string', message: 'stepup.verify_possession_of_phone_command.challenge.must_be_string')]
     public $challenge;
 
     /**
-     * @Assert\Type(type="string", message="stepup.verify_possession_of_phone_command.recovery_token_id.must_be_string")
      * @var string
      */
+    #[Assert\Type(type: 'string', message: 'stepup.verify_possession_of_phone_command.recovery_token_id.must_be_string')]
     public $recoveryTokenId;
 }

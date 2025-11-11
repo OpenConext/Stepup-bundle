@@ -20,7 +20,7 @@
         "ext-openssl": "*",
         "guzzlehttp/guzzle": "^7.8",
         "monolog/monolog": "^3",
-        "surfnet/stepup-saml-bundle": "dev-feature/maintenance_nov-25",
+        "surfnet/stepup-saml-bundle": "^7.0",
         "symfony/config": "^6.3|^7.0",
         "symfony/dependency-injection": "^6.3|^7.0",
         "symfony/form": "^6.3|^7.0",
@@ -30,6 +30,8 @@
         "symfony/validator": "^6.3|^7.0"
     },
     "require-dev": {
+        "irstea/phpcpd-shim": "^6.0",
+        "malukenho/docheader": "^1.1",
         "mockery/mockery": "^1.5",
         "overtrue/phplint": "*",
         "phpmd/phpmd": "^2.13",
@@ -43,9 +45,15 @@
     },
     "scripts": {
         "check": [
+          "@check-ci",
+          "@rector"
+        ],
+        "check-ci": [
             "@composer-validate",
+            "@license-headers",
             "@test",
             "@phplint",
+            "@phpcpd",
             "@phpcs",
             "@phpmd",
             "@phpstan"
@@ -53,10 +61,12 @@
         "composer-validate": "./ci/qa/validate",
         "phplint": "./ci/qa/phplint",
         "phpcs": "./ci/qa/phpcs",
+        "phpcpd": "./ci/qa/phpcpd",
         "phpmd": "./ci/qa/phpmd",
         "phpstan": "./ci/qa/phpstan",
         "phpstan-baseline": "./ci/qa/phpstan-update-baseline",
         "test": "./ci/qa/phpunit",
+        "license-headers": "./ci/qa/docheader",
         "phpcbf": "./ci/qa/phpcbf",
         "rector":  "./ci/qa/rector.sh --dry-run",
         "rector-fix":  "./ci/qa/rector.sh"
@@ -72,9 +82,6 @@
             "includes": [
                 "./ci/qa/extension.neon"
             ]
-        },
-        "platform": {
-          "php": "8.2.0"
         },
       "symfony": {
         "allow-contrib": false,

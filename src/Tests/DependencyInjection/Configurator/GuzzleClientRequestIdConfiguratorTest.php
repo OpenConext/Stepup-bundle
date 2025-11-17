@@ -30,10 +30,8 @@ class GuzzleClientRequestIdConfiguratorTest extends UnitTest
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    /**
-     * @group Configurator
-     * @group Guzzle
-     */
+    #[\PHPUnit\Framework\Attributes\Group('Configurator')]
+    #[\PHPUnit\Framework\Attributes\Group('Guzzle')]
     public function testTheRequestIdInjectorIsAttachedToTheGuzzleClient(): void
     {
         $requestIdInjector = m::mock(GuzzleRequestIdInjector::class);

@@ -28,9 +28,11 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * @extends AbstractType<SwitchLocaleCommand>
+ */
 final class SwitchLocaleType extends AbstractType
 {
     public function __construct(private readonly LocaleChoiceList $localeChoiceList, private readonly UrlGeneratorInterface $urlGenerator)

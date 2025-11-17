@@ -1,3 +1,9 @@
+# 7.0.0
+Allow for Symfony 7 packages and drop Symfony 5 support.
+
+Changes include: 
+- Updated dev tooling & QA
+
 # 6.0.0
 Allow for Symfony 6 packages and drop PHP7 support
 

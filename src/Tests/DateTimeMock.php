@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types = 1);
-
 /**
- * Copyright 2014 SURFnet bv
+ * Copyright 2025 SURFnet bv
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,21 +18,14 @@ declare(strict_types = 1);
 
 namespace Surfnet\StepupBundle\Tests;
 
-use DateTime;
-use ReflectionProperty;
-use Surfnet\StepupBundle\DateTime\DateTime as StepupDateTime;
+use DateTimeInterface;
+use Surfnet\StepupBundle\DateTime\DateTime;
 
-class DateTimeHelper
+class DateTimeMock extends DateTime
 {
-    /**
-     * Fixes the `DateTime` returned by `DateTime::now()`.
-     *
-     * @param DateTime|null $now
-     */
-    public static function setCurrentTime(DateTime $now = null): void
+
+    public static function setTime(?DateTimeInterface $date): void
     {
-        $nowProperty = new ReflectionProperty(StepupDateTime::class, 'now');
-        $nowProperty->setAccessible(true);
-        $nowProperty->setValue($now);
+        self::$now = $date;
     }
 }

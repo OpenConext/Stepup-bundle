@@ -21,14 +21,13 @@ declare(strict_types = 1);
 namespace Surfnet\StepupBundle\Tests\Value;
 
 use PHPUnit\Framework\TestCase;
-use stdClass;
 use Surfnet\StepupBundle\Exception\InvalidArgumentException;
 use Surfnet\StepupBundle\Value\YubikeyOtp;
 use Surfnet\StepupBundle\Value\YubikeyPublicId;
 
 final class YubikeyPublicIdTest extends TestCase
 {
-    public function invalidFormatProvider(): array
+    public static function invalidFormatProvider(): array
     {
         return [
             '7-character unpadded ID'           => ['1906381'],
@@ -42,18 +41,16 @@ final class YubikeyPublicIdTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @group value
-     * @dataProvider invalidFormatProvider
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('invalidFormatProvider')]
     public function it_cannot_be_constructed_with_an_invalid_format(mixed $invalidFormat): void
     {
         $this->expectException(InvalidArgumentException::class);
         new YubikeyPublicId($invalidFormat);
     }
 
-    public function validFormatProvider(): array
+    public static function validFormatProvider(): array
     {
         return [
             '8-character ID'  => ['01906381'],
@@ -64,11 +61,9 @@ final class YubikeyPublicIdTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @group value
-     * @dataProvider validFormatProvider
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('validFormatProvider')]
     public function its_value_matches_its_input_value(string $validFormat): void
     {
         $id = new YubikeyPublicId($validFormat);
@@ -76,7 +71,7 @@ final class YubikeyPublicIdTest extends TestCase
         $this->assertEquals($validFormat, $id->getYubikeyPublicId());
     }
 
-    public function otpProvider(): array
+    public static function otpProvider(): array
     {
         return [
             'Maximum value' => ['vvvvvvvvvvvvvvvvbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', '18446744073709551615'],
@@ -85,11 +80,9 @@ final class YubikeyPublicIdTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @group value
-     * @dataProvider otpProvider
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('otpProvider')]
     public function it_accepts_valid_modhex_formats(string $otpString, string $yubikeyPublicId): void
     {
         $otp = YubikeyOtp::fromString($otpString);
@@ -98,10 +91,8 @@ final class YubikeyPublicIdTest extends TestCase
         $this->assertEquals($yubikeyPublicId, $id->getYubikeyPublicId());
     }
 
-    /**
-     * @test
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_check_for_equality(): void
     {
         $id = new YubikeyPublicId('01908382');

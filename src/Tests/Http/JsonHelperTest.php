@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * Copyright 2025 SURFnet bv
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 declare(strict_types = 1);
 
 namespace Surfnet\Stepup\Tests\Helper;
@@ -12,22 +28,17 @@ use Surfnet\StepupBundle\Http\JsonHelper;
 
 class JsonHelperTest extends TestCase
 {
-    /**
-     * @test
-     * @group json
-     *
-     * @dataProvider nonStringProvider
-     */
+    #[\PHPUnit\Framework\Attributes\Group('json')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('nonStringProvider')]
     public function jsonHelperCanOnlyDecodeStrings(null|bool|array|int|float|StdClass $nonString): void
     {
         $this->expectException(InvalidArgumentException::class);
         JsonHelper::decode($nonString);
     }
 
-    /**
-     * @test
-     * @group json
-     */
+    #[\PHPUnit\Framework\Attributes\Group('json')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function jsonHelperDecodesStringsToArrays(): void
     {
         $expectedDecodedResult = ['hello' => 'world'];
@@ -36,10 +47,8 @@ class JsonHelperTest extends TestCase
         $this->assertSame($expectedDecodedResult, $actualDecodedResult);
     }
 
-    /**
-     * @test
-     * @group json
-     */
+    #[\PHPUnit\Framework\Attributes\Group('json')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function jsonHelperThrowsAnExceptionWhenThereIsASyntaxError(): void
     {
         $this->expectException(JsonException::class);
@@ -47,7 +56,7 @@ class JsonHelperTest extends TestCase
         JsonHelper::decode($jsonWithMissingDoubleQuotes);
     }
 
-    public function nonStringProvider(): array
+    public static function nonStringProvider(): array
     {
         return [
             'null'    => [null],

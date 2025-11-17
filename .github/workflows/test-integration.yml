@@ -1,31 +1,31 @@
-name: test-integration
-on: [ push ]
+name: Run QA tests (static analysis, lint and unit tests)
+on: [pull_request]
+
 jobs:
-  build:
+  run-qa-tests:
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.experimental }}
+    timeout-minutes: 15
     strategy:
       matrix:
-        php-versions: [ '8.2' ]
-        experimental: [ false ]
-        include:
-          - php-versions: '8.3'
-            experimental: true
-    timeout-minutes: 30
-    name: PHP ${{ matrix.php-versions }} on Ubuntu latest. Experimental == ${{ matrix.experimental }}
+        php: ['8.2', '8.4']
+
     steps:
-      - name: Install PHP
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
-      - name: Checkout
-        uses: actions/checkout@master
-      - name: Install dependencies
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          coverage: none
+
+      - name: Composer install
         run: composer install
-        continue-on-error: ${{ matrix.experimental }}
-      - name: Run CI tests
-        run: composer check
-        continue-on-error: ${{ matrix.experimental }}
+
+      - name: Run QA tests
+        run: composer check-ci
+
       - name: Output log files on failure
         if: failure()
         run: tail -2000 /var/log/syslog

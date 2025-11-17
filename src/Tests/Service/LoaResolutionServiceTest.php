@@ -40,11 +40,9 @@ class LoaResolutionServiceTest extends UnitTest
         }
     }
 
-    /**
-     * @test
-     * @group service
-     * @dataProvider loaProvider
-     */
+    #[\PHPUnit\Framework\Attributes\Group('service')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('loaProvider')]
     public function it_allows_to_get_the_correct_loa_by_identifier(float $level, string $identifier): void
     {
         $expectedLoa = new Loa($level, $identifier);
@@ -53,10 +51,8 @@ class LoaResolutionServiceTest extends UnitTest
         $this->assertEquals($expectedLoa, $loaResolutionService->getLoa($identifier));
     }
 
-    /**
-     * @test
-     * @group service
-     */
+    #[\PHPUnit\Framework\Attributes\Group('service')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function if_the_loa_definition_does_not_exist_null_is_returned(): void
     {
         $loaResolutionService = new LoaResolutionService($this->loas);
@@ -64,11 +60,9 @@ class LoaResolutionServiceTest extends UnitTest
         $this->assertNull($loaResolutionService->getLoa('An unknown identifier'));
     }
 
-    /**
-     * @test
-     * @group service
-     * @dataProvider loaProvider
-     */
+    #[\PHPUnit\Framework\Attributes\Group('service')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('loaProvider')]
     public function it_allows_to_get_the_correct_loa_by_the_loa_level(float $level, string $identifier): void
     {
         $expectedLoa = new Loa($level, $identifier);
@@ -77,10 +71,8 @@ class LoaResolutionServiceTest extends UnitTest
         $this->assertEquals($expectedLoa, $loaResoltionService->getLoaByLevel($level));
     }
 
-    /**
-     * @test
-     * @group service
-     */
+    #[\PHPUnit\Framework\Attributes\Group('service')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function if_the_loa_level_does_not_exist_null_is_returned(): void
     {
         $loaResolutionService = new LoaResolutionService($this->loas);
@@ -88,7 +80,7 @@ class LoaResolutionServiceTest extends UnitTest
         $this->assertNull($loaResolutionService->getLoaByLevel(999));
     }
 
-    public function loaProvider(): array
+    public static function loaProvider(): array
     {
         return [
             'Loa of Level 1' => [Loa::LOA_1, 'http://some.url.tld/authentication/loa1'],

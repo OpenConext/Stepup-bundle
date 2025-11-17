@@ -27,7 +27,7 @@ use Surfnet\StepupBundle\Value\YubikeyOtp;
 
 class YubikeyOtpTest extends TestCase
 {
-    public function otpStrings(): array
+    public static function otpStrings(): array
     {
         return [
             'Regular OTP' => [
@@ -82,9 +82,7 @@ class YubikeyOtpTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider otpStrings
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('otpStrings')]
     public function testItParsesFromString(string $string, string $otpString, string $password, string $publicId, string $cipherText): void
     {
         $otp = YubikeyOtp::fromString($string);
@@ -95,17 +93,13 @@ class YubikeyOtpTest extends TestCase
         $this->assertSame($cipherText, $otp->cipherText);
     }
 
-    /**
-     * @dataProvider otpStrings
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('otpStrings')]
     public function testItValidatesCorrectOtps(string $string): void
     {
         $this->assertTrue(YubikeyOtp::isValid($string));
     }
 
-    /**
-     * @dataProvider nonStrings
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('nonStrings')]
     public function testItThrowsAnExceptionWhenGivenArgumentIsNotAString(mixed $nonString): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -114,7 +108,7 @@ class YubikeyOtpTest extends TestCase
         YubikeyOtp::fromString($nonString);
     }
 
-    public function nonStrings(): array
+    public static function nonStrings(): array
     {
         return [
             'integer' => [1],
@@ -126,9 +120,7 @@ class YubikeyOtpTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider nonOtpStrings
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('nonOtpStrings')]
     public function testItThrowsAnExceptionWhenGivenStringIsNotAnOtpString(mixed $nonOtpString): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -137,15 +129,13 @@ class YubikeyOtpTest extends TestCase
         YubikeyOtp::fromString($nonOtpString);
     }
 
-    /**
-     * @dataProvider nonOtpStrings
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('nonOtpStrings')]
     public function testItDoesntAcceptInvalidOtps(string $string): void
     {
         $this->assertFalse(YubikeyOtp::isValid($string));
     }
 
-    public function nonOtpStrings(): array
+    public static function nonOtpStrings(): array
     {
         return [
             'Has invalid characters' => ['abcdefghijklmnopqrstuvwxyz123456789'],

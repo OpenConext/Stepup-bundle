@@ -1,9 +1,5 @@
-<?php
-
-declare(strict_types = 1);
-
 /**
- * Copyright 2014 SURFnet bv
+ * Copyright %regexp:\d{4}% SURFnet %regexp:(B.V.|bv)%
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,16 +14,3 @@ declare(strict_types = 1);
  * limitations under the License.
  */
 
-namespace Surfnet\StepupBundle\DateTime;
-
-use DateTime as CoreDateTime;
-
-class DateTime
-{
-    protected static ?CoreDateTime $now = null;
-
-    public static function now(): CoreDateTime
-    {
-        return self::$now ?: new CoreDateTime;
-    }
-}

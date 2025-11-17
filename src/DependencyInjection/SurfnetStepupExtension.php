@@ -38,7 +38,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use function array_key_exists;
 
 /**
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings("PHPMD.CouplingBetweenObjects")
  */
 class SurfnetStepupExtension extends Extension
 {

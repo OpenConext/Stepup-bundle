@@ -28,11 +28,9 @@ use Surfnet\StepupBundle\Value\PhoneNumber\PhoneNumber;
 
 class PhoneNumberTest extends UnitTest
 {
-    /**
-     * @test
-     * @group value
-     * @dataProvider invalidConstructorArgumentProvider
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('invalidConstructorArgumentProvider')]
     public function a_phone_number_cannot_be_created_with_anything_but_a_string(mixed $invalidArgument): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -40,11 +38,9 @@ class PhoneNumberTest extends UnitTest
         new PhoneNumber($invalidArgument);
     }
 
-    /**
-     * @test
-     * @group value
-     * @dataProvider invalidStringArgumentProvider
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('invalidStringArgumentProvider')]
     public function a_phone_number_can_only_be_created_if_the_string_contains_digits_only(string $invalidArgument): void
     {
         $this->expectException(InvalidPhoneNumberFormatException::class);
@@ -52,10 +48,8 @@ class PhoneNumberTest extends UnitTest
         new PhoneNumber($invalidArgument);
     }
 
-    /**
-     * @test
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function the_original_phone_number_is_returned_upon_request(): void
     {
         $original = '0612345678';
@@ -65,11 +59,9 @@ class PhoneNumberTest extends UnitTest
         $this->assertEquals($original, $phoneNumber->getNumber());
     }
 
-    /**
-     * @test
-     * @group value
-     * @dataProvider formatAsMsisdnPartProvider
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('formatAsMsisdnPartProvider')]
     public function format_as_msisdn_part_strips_exactly_one_leading_zero_if_it_has_one(string $given, string $expectedMsisdnPart): void
     {
         $phoneNumber = new PhoneNumber($given);
@@ -77,10 +69,8 @@ class PhoneNumberTest extends UnitTest
         $this->assertEquals($expectedMsisdnPart, $phoneNumber->formatAsMsisdnPart());
     }
 
-    /**
-     * @test
-     * @group value
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function phone_numbers_are_equal_if_the_given_numbers_match_as_msisdn_part(): void
     {
         $base                        = new PhoneNumber('0612345678');
@@ -95,11 +85,9 @@ class PhoneNumberTest extends UnitTest
         $this->assertFalse($base->equals($differentWithoutLeadingZero));
     }
 
-    /**
-     * @test
-     * @group value
-     * @dataProvider toStringProvider
-     */
+    #[\PHPUnit\Framework\Attributes\Group('value')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('toStringProvider')]
     public function as_string_the_phone_number_is_rendered_with_a_replaced_leading_zero_between_brackets(
         string $given,
         string $expected
@@ -109,7 +97,7 @@ class PhoneNumberTest extends UnitTest
         $this->assertEquals($expected, $phoneNumber->__toString());
     }
 
-    public function invalidConstructorArgumentProvider(): array
+    public static function invalidConstructorArgumentProvider(): array
     {
         return [
             'int'           => [0],
@@ -121,7 +109,7 @@ class PhoneNumberTest extends UnitTest
         ];
     }
 
-    public function invalidStringArgumentProvider(): array
+    public static function invalidStringArgumentProvider(): array
     {
         return [
             'with characters'     => ['06123AB78'],
@@ -132,7 +120,7 @@ class PhoneNumberTest extends UnitTest
         ];
     }
 
-    public function formatAsMsisdnPartProvider(): array
+    public static function formatAsMsisdnPartProvider(): array
     {
         return [                    //given,        expected output
             'no leading zero'   => ['612345678',   '612345678'],
@@ -142,7 +130,7 @@ class PhoneNumberTest extends UnitTest
         ];
     }
 
-    public function toStringProvider(): array
+    public static function toStringProvider(): array
     {
         return [                    //given,        expected output
             'no leading zero'   => ['612345678',   '(0) 612345678'],

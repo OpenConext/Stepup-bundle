@@ -13,6 +13,9 @@
             "Surfnet\\StepupBundle\\": "src"
         }
     },
+    "conflict": {
+      "robrichards/xmlseclibs": "<3.1.4"
+    },
     "require": {
         "php": "^8.2",
         "ext-gmp": "*",
